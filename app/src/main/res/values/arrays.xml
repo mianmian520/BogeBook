@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_tabs">
+        <item>书架</item>
+        <item>精选</item>
+        <item>发现</item>
+    </string-array>
+
+</resources>
