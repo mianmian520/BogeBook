@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+// 应用插件
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -43,4 +45,10 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     testCompile 'junit:junit:4.12'
+
+
+    compile 'com.google.dagger:dagger:2.4'
+    apt 'com.google.dagger:dagger-compiler:2.4'
+    compile 'org.glassfish:javax.annotation:10.0-b28'
+
 }
