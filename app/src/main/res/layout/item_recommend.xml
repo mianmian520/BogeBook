@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_txt_icon"
+        android:layout_width="@dimen/book_img_width"
+        android:layout_height="@dimen/book_img_height"
+        android:src="@mipmap/test1"
+        android:scaleType="centerCrop"
+        android:layout_margin="@dimen/item_margin"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/tv_bookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="我的贴身校花"
+            android:padding="@dimen/item_padding"
+            android:textSize="@dimen/large_size"/>
+
+        <TextView
+            android:id="@+id/tv_lastChapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="19小时前:VIP卷 6700做法"
+            android:padding="@dimen/item_padding"
+            android:textSize="@dimen/small_size"/>
+    </LinearLayout>
+</LinearLayout>

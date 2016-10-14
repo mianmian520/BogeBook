@@ -3,4 +3,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="item_marginLeft">8dp</dimen>
+    <dimen name="book_img_width">72dp</dimen>
+    <dimen name="book_img_height">96dp</dimen>
+    <dimen name="item_marginTop">8dp</dimen>
+    <dimen name="item_marginRight">8dp</dimen>
+    <dimen name="item_padding">4dp</dimen>
+    <dimen name="small_size">12sp</dimen>
+    <dimen name="middle_size">14sp</dimen>
+    <dimen name="large_size">16sp</dimen>
+    <dimen name="very_large_size">20sp</dimen>
+    <dimen name="item_margin">8dp</dimen>
 </resources>

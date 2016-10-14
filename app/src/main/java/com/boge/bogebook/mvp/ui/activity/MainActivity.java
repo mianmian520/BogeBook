@@ -1,4 +1,4 @@
-package com.boge.bogebook.ui.activity;
+package com.boge.bogebook.mvp.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,9 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.boge.bogebook.R;
-import com.boge.bogebook.ui.activity.base.BaseActivity;
-import com.boge.bogebook.ui.fragments.BlankFragment;
-import com.boge.bogebook.ui.fragments.BookFragment;
+import com.boge.bogebook.common.Constant;
+import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
+import com.boge.bogebook.mvp.ui.fragments.BlankFragment;
+import com.boge.bogebook.mvp.ui.fragments.BookFragment;
 import com.boge.bogebook.view.Indicator;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity {
         indicator.setTabItemTitles(datas);
 
         fragments = new ArrayList<Fragment>();
-        fragments.add(BookFragment.newInstance("male"));
+        fragments.add(BookFragment.newInstance(Constant.MALE));
         fragments.add(new BlankFragment());
         fragments.add(new BlankFragment());
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));

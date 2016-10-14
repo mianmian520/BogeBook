@@ -39,18 +39,23 @@ public class BookRetrofitManager {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         if(okHttpClient == null){
-            okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(12 , TimeUnit.SECONDS)
-                    .readTimeout(12 , TimeUnit.SECONDS)
-                    .writeTimeout(12 , TimeUnit.SECONDS)
-                    .addInterceptor(interceptor)
-                    .retryOnConnectionFailure(true)//失败重连
-                    .build();
+            synchronized (BookRetrofitManager.class) {
+                okHttpClient = new OkHttpClient.Builder()
+                        .connectTimeout(12, TimeUnit.SECONDS)
+                        .readTimeout(12, TimeUnit.SECONDS)
+                        .writeTimeout(12, TimeUnit.SECONDS)
+                        .addInterceptor(interceptor)
+                        .retryOnConnectionFailure(true)//失败重连
+                        .build();
+            }
         }
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.BASE_URL)
-                .client(okHttpClient).addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
 
         service = retrofit.create(BookApiService.class);
     }

@@ -165,5 +165,24 @@ public class Recommend {
         public void setLastChapter(String lastChapter) {
             this.lastChapter = lastChapter;
         }
+
+        @Override
+        public String toString() {
+            return "RecommendBook{" +
+                    "_id='" + _id + '\'' +
+                    ", author='" + author + '\'' +
+                    ", cover='" + cover + '\'' +
+                    ", shortIntro='" + shortIntro + '\'' +
+                    ", title='" + title + '\'' +
+                    ", hasCp=" + hasCp +
+                    ", latelyFollower=" + latelyFollower +
+                    ", latelyFollowerBase=" + latelyFollowerBase +
+                    ", minRetentionRatio=" + minRetentionRatio +
+                    ", retentionRatio=" + retentionRatio +
+                    ", updated='" + updated + '\'' +
+                    ", chaptersCount=" + chaptersCount +
+                    ", lastChapter='" + lastChapter + '\'' +
+                    '}';
+        }
     }
 }

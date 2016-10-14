@@ -1,4 +1,4 @@
-package com.boge.bogebook.ui.fragments;
+package com.boge.bogebook.mvp.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

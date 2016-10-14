@@ -1,6 +1,7 @@
 package com.boge.bogebook;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.boge.bogebook.component.ApplicationComponent;
 import com.boge.bogebook.component.DaggerApplicationComponent;
@@ -16,10 +17,13 @@ public class BookApplication extends Application {
 
     private ApplicationComponent mApplicationComponent;
 
+    private static Context mContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initApplicationComponent();
+        mContext = this;
     }
 
     private void initApplicationComponent() {
@@ -29,5 +33,9 @@ public class BookApplication extends Application {
 
     public ApplicationComponent getmApplicationComponent() {
         return mApplicationComponent;
+    }
+
+    public static Context getmContext() {
+        return mContext;
     }
 }
