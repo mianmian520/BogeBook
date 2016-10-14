@@ -1,7 +1,7 @@
 package com.boge.bogebook.component;
 
 import com.boge.bogebook.module.ActivityModule;
-import com.boge.bogebook.ui.activity.MainActivity;
+import com.boge.bogebook.mvp.ui.activity.MainActivity;
 
 import dagger.Component;
 
@@ -11,9 +11,13 @@ import dagger.Component;
  * @date 2016/10/13
  */
 
-@Component(dependencies = ApplicationComponent.class , modules = ActivityModule.class)
+@Component(
+        dependencies = ApplicationComponent.class,
+        modules = ActivityModule.class
+)
 public interface ActivityComponent {
 
     void inject(MainActivity activity);
+
 
 }
