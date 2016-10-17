@@ -12,6 +12,7 @@
     <dimen name="small_size">12sp</dimen>
     <dimen name="middle_size">14sp</dimen>
     <dimen name="large_size">16sp</dimen>
+    <dimen name="x_large_size">18sp</dimen>
     <dimen name="very_large_size">20sp</dimen>
     <dimen name="item_margin">8dp</dimen>
 </resources>

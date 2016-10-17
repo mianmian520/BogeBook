@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -38,6 +39,11 @@ public class RecommendAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public List<Recommend.RecommendBook> getRecommendBooks() {
+        if(recommendBooks == null)return new ArrayList<Recommend.RecommendBook>();
+        return recommendBooks;
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (TextUtils.isEmpty(recommendBooks.get(position).get_id())) {
@@ -50,7 +56,17 @@ public class RecommendAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend, parent, false);
-        RecommendViewHolder recommendViewHolder = new RecommendViewHolder(view);
+        final RecommendViewHolder recommendViewHolder = new RecommendViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onRecyclerViewItemClick != null){
+                    onRecyclerViewItemClick.onItemClick(view , recommendViewHolder.getLayoutPosition());
+                    recommendViewHolder.iv_not_read.setVisibility(View.GONE);
+                    recommendBooks.get(recommendViewHolder.getLayoutPosition()).setHasUp(false);
+                }
+            }
+        });
         return recommendViewHolder;
     }
 
@@ -65,6 +81,11 @@ public class RecommendAdapter extends RecyclerView.Adapter {
                     .asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
                     .format(DecodeFormat.PREFER_RGB_565)
                     .into(viewHolder.ivTxtIcon);
+            if(!recommendBooks.get(position).isHasUp()){
+                viewHolder.iv_not_read.setVisibility(View.GONE);
+            } else {
+                viewHolder.iv_not_read.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -81,6 +102,8 @@ public class RecommendAdapter extends RecyclerView.Adapter {
         TextView tvBookTitle;
         @Bind(R.id.tv_lastChapter)
         TextView tvLastChapter;
+        @Bind(R.id.iv_not_read)
+        ImageView iv_not_read;
 
         public RecommendViewHolder(View itemView) {
             super(itemView);
@@ -88,4 +111,13 @@ public class RecommendAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public interface OnRecyclerViewItemClick{
+        void onItemClick(View v , int position);
+    }
+
+    private OnRecyclerViewItemClick onRecyclerViewItemClick;
+
+    public void setOnRecyclerViewItemClick(OnRecyclerViewItemClick onRecyclerViewItemClick) {
+        this.onRecyclerViewItemClick = onRecyclerViewItemClick;
+    }
 }

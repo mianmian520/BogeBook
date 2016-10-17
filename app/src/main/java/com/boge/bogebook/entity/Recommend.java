@@ -61,6 +61,15 @@ public class Recommend {
         private String updated;
         private int chaptersCount;
         private String lastChapter;
+        private boolean hasUp = false;
+
+        public boolean isHasUp() {
+            return hasUp;
+        }
+
+        public void setHasUp(boolean hasUp) {
+            this.hasUp = hasUp;
+        }
 
         public String get_id() {
             return _id;
@@ -182,6 +191,7 @@ public class Recommend {
                     ", updated='" + updated + '\'' +
                     ", chaptersCount=" + chaptersCount +
                     ", lastChapter='" + lastChapter + '\'' +
+                    ", hasUp=" + hasUp +
                     '}';
         }
     }

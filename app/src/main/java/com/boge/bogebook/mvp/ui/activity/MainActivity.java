@@ -10,7 +10,8 @@ import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
 import com.boge.bogebook.mvp.ui.fragments.BlankFragment;
-import com.boge.bogebook.mvp.ui.fragments.BookFragment;
+import com.boge.bogebook.mvp.ui.fragments.FindFragment;
+import com.boge.bogebook.mvp.ui.fragments.RecommendFragment;
 import com.boge.bogebook.view.Indicator;
 
 import java.util.ArrayList;
@@ -46,9 +47,9 @@ public class MainActivity extends BaseActivity {
         indicator.setTabItemTitles(datas);
 
         fragments = new ArrayList<Fragment>();
-        fragments.add(BookFragment.newInstance(Constant.MALE));
+        fragments.add(RecommendFragment.newInstance(Constant.MALE));
         fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
+        fragments.add(new FindFragment());
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         indicator.setViewPager(viewPager , 0);
     }

@@ -1,6 +1,7 @@
 package com.boge.bogebook.component;
 
-import com.boge.bogebook.mvp.ui.fragments.BookFragment;
+import com.boge.bogebook.mvp.ui.fragments.FindFragment;
+import com.boge.bogebook.mvp.ui.fragments.RecommendFragment;
 
 import dagger.Component;
 
@@ -13,6 +14,8 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class )
 public interface FragmentComponent {
 
-    void inject(BookFragment fragment);
+    void inject(RecommendFragment fragment);
+
+    void inject(FindFragment fragment);
 
 }
