@@ -48,6 +48,10 @@ public class RankingList {
         private String monthRank;
         private String totalRank;
 
+        public MaleBean(String title) {
+            this.title = title;
+        }
+
         public String get_id() {
             return _id;
         }
@@ -95,5 +99,27 @@ public class RankingList {
         public void setTotalRank(String totalRank) {
             this.totalRank = totalRank;
         }
+
+        @Override
+        public String toString() {
+            return "MaleBean{" +
+                    "_id='" + _id + '\'' +
+                    ", title='" + title + '\'' +
+                    ", cover='" + cover + '\'' +
+                    ", collapse=" + collapse +
+                    ", monthRank='" + monthRank + '\'' +
+                    ", totalRank='" + totalRank + '\'' +
+                    '}';
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "RankingList{" +
+                "ok=" + ok +
+                ", female=" + female +
+                ", male=" + male +
+                '}';
     }
 }

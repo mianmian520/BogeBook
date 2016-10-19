@@ -2,12 +2,15 @@ package com.boge.bogebook.mvp.ui.activity.base;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.boge.bogebook.BookApplication;
+import com.boge.bogebook.R;
 import com.boge.bogebook.component.ActivityComponent;
 import com.boge.bogebook.component.DaggerActivityComponent;
 import com.boge.bogebook.module.ActivityModule;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -17,6 +20,9 @@ import butterknife.ButterKnife;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     protected ActivityComponent activityComponent;
 
@@ -39,7 +45,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         initViews();
+        initToolbar();
+    }
 
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
     }
 
     private void initActivityComponent() {

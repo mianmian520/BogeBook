@@ -2,6 +2,7 @@ package com.boge.bogebook.component;
 
 import com.boge.bogebook.module.ActivityModule;
 import com.boge.bogebook.mvp.ui.activity.MainActivity;
+import com.boge.bogebook.mvp.ui.activity.RankingActivity;
 
 import dagger.Component;
 
@@ -19,5 +20,5 @@ public interface ActivityComponent {
 
     void inject(MainActivity activity);
 
-
+    void inject(RankingActivity activity);
 }

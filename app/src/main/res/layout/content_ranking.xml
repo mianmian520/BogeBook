@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_ranking"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.boge.bogebook.mvp.ui.activity.RankingActivity"
+    tools:showIn="@layout/activity_ranking">
+    <com.boge.bogebook.view.ReboundScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/male"
+                android:textColor="@color/common_h1"
+                android:textSize="18dp" />
+            <com.boge.bogebook.view.CustomExpandableListView
+                android:id="@+id/maleExpandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.boge.bogebook.view.CustomExpandableListView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/female"
+                android:textColor="@color/common_h1"
+                android:textSize="18dp" />
+            <com.boge.bogebook.view.CustomExpandableListView
+                android:id="@+id/femaleExpandableListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.boge.bogebook.view.CustomExpandableListView>
+        </LinearLayout>
+    </com.boge.bogebook.view.ReboundScrollView>
+    <ProgressBar
+        android:layout_centerInParent="true"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -1,11 +1,13 @@
 package com.boge.bogebook.mvp.ui.fragments;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.support.FindBean;
+import com.boge.bogebook.mvp.ui.activity.RankingActivity;
 import com.boge.bogebook.mvp.ui.adapter.FindAdapter;
 import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
@@ -56,6 +58,10 @@ public class FindFragment extends BaseFragment implements RecommendAdapter.OnRec
 
     @Override
     public void onItemClick(View v, int position) {
-
+        switch (position){
+            case 0:
+                getActivity().startActivity(new Intent(getActivity() , RankingActivity.class));
+                break;
+        }
     }
 }

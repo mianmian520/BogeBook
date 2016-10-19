@@ -6,4 +6,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="net_error">网络请求失败</string>
+    <string name="title_activity_ranking">RankingActivity</string>
+    <string name="ranking">排行榜</string>
+    <string name="male">男生</string>
+    <string name="female">女生</string>
 </resources>
