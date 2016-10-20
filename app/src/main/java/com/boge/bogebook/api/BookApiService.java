@@ -79,8 +79,11 @@ public interface BookApiService {
     Observable<RankingList> getRankingList();
 
     /**
-     * 根据排行榜的ID获取排行榜的小说
+     * 根据排行榜的ID获取排行榜的小说获取单一排行榜
      * @param rankingId 排行榜id
+     * 周榜：rankingId->_id
+     * 月榜：rankingId->monthRank
+     * 总榜：rankingId->totalRank
      * @return
      */
     @GET("/ranking/{rankingId}")

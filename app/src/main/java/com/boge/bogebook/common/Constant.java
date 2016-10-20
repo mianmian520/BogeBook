@@ -19,5 +19,6 @@ public class Constant {
     public static final String FEMALE = "female";
     public static final String PRESS = "press";
 
-
+    /**排行榜id**/
+    public static final String RANKINGID = "rankingId";
 }

@@ -5,13 +5,13 @@
     android:id="@+id/content_ranking"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.boge.bogebook.mvp.ui.activity.RankingActivity"
     tools:showIn="@layout/activity_ranking">
-    <com.boge.bogebook.view.ReboundScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/common_h3">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,7 +26,8 @@
             <com.boge.bogebook.view.CustomExpandableListView
                 android:id="@+id/maleExpandableListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/common_bg">
 
             </com.boge.bogebook.view.CustomExpandableListView>
             <TextView
@@ -39,11 +40,12 @@
             <com.boge.bogebook.view.CustomExpandableListView
                 android:id="@+id/femaleExpandableListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/common_bg">
 
             </com.boge.bogebook.view.CustomExpandableListView>
         </LinearLayout>
-    </com.boge.bogebook.view.ReboundScrollView>
+    </ScrollView>
     <ProgressBar
         android:layout_centerInParent="true"
         android:id="@+id/progressBar"

@@ -3,6 +3,7 @@ package com.boge.bogebook.mvp.ui.activity.base;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    public Toolbar toolbar;
 
     protected ActivityComponent activityComponent;
 
@@ -50,6 +51,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initActivityComponent() {

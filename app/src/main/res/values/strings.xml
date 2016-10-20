@@ -10,4 +10,6 @@
     <string name="ranking">排行榜</string>
     <string name="male">男生</string>
     <string name="female">女生</string>
+    <string name="title_activity_rank_detail">RankDetailActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

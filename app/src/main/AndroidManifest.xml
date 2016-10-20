@@ -24,6 +24,10 @@
         <activity
             android:name=".mvp.ui.activity.RankingActivity"
             android:label="@string/title_activity_ranking"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".mvp.ui.activity.RankDetailActivity"
+            android:label="@string/title_activity_rank_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

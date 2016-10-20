@@ -15,4 +15,5 @@
     <dimen name="x_large_size">18sp</dimen>
     <dimen name="very_large_size">20sp</dimen>
     <dimen name="item_margin">8dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 </resources>

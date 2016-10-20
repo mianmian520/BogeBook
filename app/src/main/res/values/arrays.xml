@@ -6,4 +6,9 @@
         <item>发现</item>
     </string-array>
 
+    <string-array name="rang_tabs">
+        <item>周榜</item>
+        <item>月榜</item>
+        <item>总榜</item>
+    </string-array>
 </resources>

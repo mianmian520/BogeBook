@@ -1,5 +1,6 @@
 package com.boge.bogebook.mvp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -23,7 +24,7 @@ import butterknife.Bind;
 
 import static com.boge.bogebook.R.id.recyclerView;
 
-public class RankingActivity extends BaseActivity implements RankingView {
+public class RankingActivity extends BaseActivity implements RankingView ,RankingTopAdapter.OnExpandableItemOnclick{
 
 
     @Bind(R.id.progressBar)
@@ -65,6 +66,9 @@ public class RankingActivity extends BaseActivity implements RankingView {
 
         maleExpandableListView.setAdapter(maleAdapter);
         femaleExpandableListView.setAdapter(femaleAdapter);
+
+        maleAdapter.setOnExpandableItemOnclick(this , 0);
+        femaleAdapter.setOnExpandableItemOnclick(this , 1);
 
     }
 
@@ -133,5 +137,33 @@ public class RankingActivity extends BaseActivity implements RankingView {
     @Override
     public void showErrorMsg(String message) {
         Snackbar.make(progressBar, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onItemCilck(View view, boolean isChild, int groupPosition, int childPosition, int flag) {
+        RankingList.MaleBean maleBean = null;
+        switch (flag){
+            case 0:
+                if(isChild){
+                    maleBean = maleChilds.get(groupPosition).get(childPosition);
+                    Snackbar.make(progressBar , maleChilds.get(groupPosition).get(childPosition).toString() , Snackbar.LENGTH_SHORT).show();
+                }else{
+                    maleBean = maleGroups.get(groupPosition);
+                    Snackbar.make(progressBar , maleGroups.get(groupPosition).toString() , Snackbar.LENGTH_SHORT).show();
+                }
+                break;
+            case 1:
+                if(isChild){
+                    maleBean = femaleChilds.get(groupPosition).get(childPosition);
+                    Snackbar.make(progressBar , femaleChilds.get(groupPosition).get(childPosition).toString() , Snackbar.LENGTH_SHORT).show();
+                }else{
+                    maleBean = femaleGroups.get(groupPosition);
+                    Snackbar.make(progressBar , femaleGroups.get(groupPosition).toString() , Snackbar.LENGTH_SHORT).show();
+                }
+                break;
+        }
+        Intent intent = new Intent(this, RankDetailActivity.class);
+        intent.putExtra("maleBean" , maleBean);
+        startActivity(intent);
     }
 }
