@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.support.FindBean;
+import com.boge.bogebook.mvp.ui.activity.CategoryActivity;
 import com.boge.bogebook.mvp.ui.activity.RankingActivity;
 import com.boge.bogebook.mvp.ui.adapter.FindAdapter;
 import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
@@ -61,6 +62,9 @@ public class FindFragment extends BaseFragment implements RecommendAdapter.OnRec
         switch (position){
             case 0:
                 getActivity().startActivity(new Intent(getActivity() , RankingActivity.class));
+                break;
+            case 1:
+                getActivity().startActivity(new Intent(getActivity() , CategoryActivity.class));
                 break;
         }
     }

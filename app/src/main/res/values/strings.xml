@@ -109,4 +109,7 @@
     <string name="reader_liu">读者留存率</string>
     <string name="day_update_word_count">日更新字数</string>
     <string name="test">大千世界，位面交汇，万族林立，群雄荟萃，一位位来自下位面的天之至尊，在这无尽世界，演绎着令人向往的传奇，追求着那主宰之路。\\r\\n无尽火域，炎帝执掌，万火焚苍穹。\\r\\n武境之内，武祖之威，震慑乾坤。\\r\\n西天之殿，百战之皇，战威无可敌。\\r\\n北荒之丘，万墓之地，不死之主镇天地。\\r\\n......\\r\\n少年自北灵境而出，骑九幽冥雀，闯向了那精彩绝伦的纷纭世界，主宰之路，谁主沉浮？\\r\\n大千世界，万道争锋，吾为大主宰。</string>
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="category">分类</string>
+    <string name="press">出版</string>
 </resources>

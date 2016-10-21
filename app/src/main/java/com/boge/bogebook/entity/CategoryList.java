@@ -80,5 +80,23 @@ public class CategoryList {
         public void setBookCount(int bookCount) {
             this.bookCount = bookCount;
         }
+
+        @Override
+        public String toString() {
+            return "MaleBean{" +
+                    "name='" + name + '\'' +
+                    ", bookCount=" + bookCount +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CategoryList{" +
+                "ok=" + ok +
+                ", male=" + male +
+                ", female=" + female +
+                ", press=" + press +
+                '}';
     }
 }

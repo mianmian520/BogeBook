@@ -3,6 +3,7 @@ package com.boge.bogebook.api;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookDetail;
 import com.boge.bogebook.entity.BookToc;
+import com.boge.bogebook.entity.CategoryList;
 import com.boge.bogebook.entity.RankingList;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
@@ -116,4 +117,11 @@ public class BookRetrofitManager {
         return service.getRecommendBookList(bookId , limit);
     }
 
+    /**
+     * 获取分类
+     * @return
+     */
+    public Observable<CategoryList> getCategoryList(){
+        return service.getCategoryList();
+    }
 }

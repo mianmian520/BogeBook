@@ -32,6 +32,10 @@
         <activity
             android:name=".mvp.ui.activity.BookDetailActivity"
             android:label="@string/title_activity_book_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".mvp.ui.activity.CategoryActivity"
+            android:label="@string/title_activity_category"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
