@@ -85,6 +85,7 @@ public class BookListDetailAdapter extends RecyclerView.Adapter {
         Glide.with(BookApplication.getmContext()).load(Constant.IMG_BASE_URL+book.getCover())
                 .asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
                 .format(DecodeFormat.PREFER_RGB_565)
+                .error(R.mipmap.cover_default)
                 .into(viewHolder.ivBookIcon);
     }
 

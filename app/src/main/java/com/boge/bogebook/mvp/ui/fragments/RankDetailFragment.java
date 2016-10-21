@@ -1,10 +1,10 @@
 package com.boge.bogebook.mvp.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -12,6 +12,7 @@ import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.mvp.presenter.impl.RankDetailPresenterImpl;
+import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
 import com.boge.bogebook.mvp.ui.adapter.BookListDetailAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
 import com.boge.bogebook.mvp.view.RankDetailView;
@@ -103,6 +104,9 @@ public class RankDetailFragment extends BaseFragment implements RankDetailView
 
     @Override
     public void onItemClick(View v, int position) {
-        Log.i("test" , adapter.getBooksBeen().get(position).toString());
+//        Log.i("test" , adapter.getBooksBeen().get(position).toString());
+        Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+        intent.putExtra("bookId" , adapter.getBooksBeen().get(position).get_id());
+        startActivity(intent);
     }
 }

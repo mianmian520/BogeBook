@@ -1,10 +1,12 @@
 package com.boge.bogebook.api;
 
 import com.boge.bogebook.common.Constant;
+import com.boge.bogebook.entity.BookDetail;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.RankingList;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
+import com.boge.bogebook.entity.RecommendBookList;
 
 import java.util.concurrent.TimeUnit;
 
@@ -94,4 +96,24 @@ public class BookRetrofitManager {
     public Observable<Rankings> getRankings(String rankingId){
         return service.getRankings(rankingId);
     }
+
+    /**
+     * 获取小说详情
+     * @param bookId   小说id
+     * @return
+     */
+    public Observable<BookDetail> getBookDetail( String bookId){
+        return service.getBookDetail(bookId);
+    }
+
+    /**
+     * 根据小说获取推荐的小说
+     * @param bookId  小说id
+     * @param limit   推荐数量
+     * @return
+     */
+    public Observable<RecommendBookList> getRecommendBookList( String bookId,String limit){
+        return service.getRecommendBookList(bookId , limit);
+    }
+
 }

@@ -63,4 +63,14 @@
     <color name="gender_select_male_pressed">#B2DFEE</color>
     <color name="gender_select_female_normal">#EEA9B8</color>
     <color name="gender_select_female_pressed">#EEA2AD</color>
+
+
+    <color name="tag0">#9900b9da</color>
+    <color name="tag1">#55660099</color>
+    <color name="tag2">#88CD950C</color>
+    <color name="tag3">#997CCD7C</color>
+    <color name="tag4">#99ff0000</color>
+    <color name="tag5">#99DE6014</color>
+    <color name="tag6">#aa228B22</color>
+    <color name="tag7">#55FE3981</color>
 </resources>

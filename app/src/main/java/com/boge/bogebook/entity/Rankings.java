@@ -281,6 +281,9 @@ public class Rankings {
             }
 
             public String getCat() {
+                if(cat == null){
+                    return "";
+                }
                 return cat;
             }
 
@@ -321,6 +324,9 @@ public class Rankings {
             }
 
             public String getRetentionRatio() {
+                if(retentionRatio == null){
+                    return "";
+                }
                 return retentionRatio;
             }
 

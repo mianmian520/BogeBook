@@ -69,14 +69,14 @@ public class BookDetail {
     private int followerCount;
     private int wordCount;
     private int serializeWordCount;
-    private int minRetentionRatio;
+    private String minRetentionRatio;
     private String retentionRatio;
     private String updated;
     private boolean isSerial;
     private int chaptersCount;
     private String lastChapter;
     private boolean donate;
-    private List<String> gender;
+//    private List<String> gender;
     private List<String> tags;
 
     public String get_id() {
@@ -231,11 +231,11 @@ public class BookDetail {
         this.serializeWordCount = serializeWordCount;
     }
 
-    public int getMinRetentionRatio() {
+    public String getMinRetentionRatio() {
         return minRetentionRatio;
     }
 
-    public void setMinRetentionRatio(int minRetentionRatio) {
+    public void setMinRetentionRatio(String minRetentionRatio) {
         this.minRetentionRatio = minRetentionRatio;
     }
 
@@ -287,13 +287,13 @@ public class BookDetail {
         this.donate = donate;
     }
 
-    public List<String> getGender() {
-        return gender;
-    }
-
-    public void setGender(List<String> gender) {
-        this.gender = gender;
-    }
+//    public List<String> getGender() {
+//        return gender;
+//    }
+//
+//    public void setGender(List<String> gender) {
+//        this.gender = gender;
+//    }
 
     public List<String> getTags() {
         return tags;
@@ -301,5 +301,39 @@ public class BookDetail {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public String toString() {
+        return "BookDetail{" +
+                "_id='" + _id + '\'' +
+                ", author='" + author + '\'' +
+                ", cover='" + cover + '\'' +
+                ", creater='" + creater + '\'' +
+                ", longIntro='" + longIntro + '\'' +
+                ", title='" + title + '\'' +
+                ", cat='" + cat + '\'' +
+                ", majorCate='" + majorCate + '\'' +
+                ", minorCate='" + minorCate + '\'' +
+                ", _le=" + _le +
+                ", allowMonthly=" + allowMonthly +
+                ", allowVoucher=" + allowVoucher +
+                ", hasCp=" + hasCp +
+                ", postCount=" + postCount +
+                ", latelyFollower=" + latelyFollower +
+                ", latelyFollowerBase=" + latelyFollowerBase +
+                ", followerCount=" + followerCount +
+                ", wordCount=" + wordCount +
+                ", serializeWordCount=" + serializeWordCount +
+                ", minRetentionRatio=" + minRetentionRatio +
+                ", retentionRatio='" + retentionRatio + '\'' +
+                ", updated='" + updated + '\'' +
+                ", isSerial=" + isSerial +
+                ", chaptersCount=" + chaptersCount +
+                ", lastChapter='" + lastChapter + '\'' +
+                ", donate=" + donate +
+//                ", gender=" + gender +
+                ", tags=" + tags +
+                '}';
     }
 }

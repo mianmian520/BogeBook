@@ -21,4 +21,23 @@ public class Tools {
         }
     }
 
+    public static String longToDateString(long l) {
+        long l1 = 1000 * 60 * 60 * 24;
+        long l2 = 30;
+        long l3 = 12;
+
+        if(l < l1){
+            return (l / (1000 * 60 * 60)) + "小时前";
+        }else if(l >= l1 && l/l1 < l2){
+            if(l / l1 == 1){
+                return "昨天";
+            }else{
+                return (l / l1)+"天前";
+            }
+        } else if(l/l1 >= l2 && l/l1/l2 < l3){
+            return (l/l1 / l2)+"月前";
+        } else {
+            return (l/l1/l2 / l3)+"年前";
+        }
+    }
 }
