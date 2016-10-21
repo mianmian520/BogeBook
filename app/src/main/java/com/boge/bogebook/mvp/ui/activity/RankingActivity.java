@@ -22,8 +22,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-import static com.boge.bogebook.R.id.recyclerView;
-
 public class RankingActivity extends BaseActivity implements RankingView ,RankingTopAdapter.OnExpandableItemOnclick{
 
 
@@ -146,19 +144,15 @@ public class RankingActivity extends BaseActivity implements RankingView ,Rankin
             case 0:
                 if(isChild){
                     maleBean = maleChilds.get(groupPosition).get(childPosition);
-                    Snackbar.make(progressBar , maleChilds.get(groupPosition).get(childPosition).toString() , Snackbar.LENGTH_SHORT).show();
                 }else{
                     maleBean = maleGroups.get(groupPosition);
-                    Snackbar.make(progressBar , maleGroups.get(groupPosition).toString() , Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case 1:
                 if(isChild){
                     maleBean = femaleChilds.get(groupPosition).get(childPosition);
-                    Snackbar.make(progressBar , femaleChilds.get(groupPosition).get(childPosition).toString() , Snackbar.LENGTH_SHORT).show();
                 }else{
                     maleBean = femaleGroups.get(groupPosition);
-                    Snackbar.make(progressBar , femaleGroups.get(groupPosition).toString() , Snackbar.LENGTH_SHORT).show();
                 }
                 break;
         }

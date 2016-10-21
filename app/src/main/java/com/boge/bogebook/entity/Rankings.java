@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Rankings {
 
-
     /**
      * _id : 54d42d92321052167dfb75e3
      * updated : 2016-10-11T21:20:22.379Z
@@ -230,7 +229,7 @@ public class Rankings {
             private int banned;
             private int latelyFollower;
             private int latelyFollowerBase;
-            private int minRetentionRatio;
+            private String minRetentionRatio;
             private String retentionRatio;
 
             public String get_id() {
@@ -313,11 +312,11 @@ public class Rankings {
                 this.latelyFollowerBase = latelyFollowerBase;
             }
 
-            public int getMinRetentionRatio() {
+            public String getMinRetentionRatio() {
                 return minRetentionRatio;
             }
 
-            public void setMinRetentionRatio(int minRetentionRatio) {
+            public void setMinRetentionRatio(String minRetentionRatio) {
                 this.minRetentionRatio = minRetentionRatio;
             }
 
@@ -328,6 +327,54 @@ public class Rankings {
             public void setRetentionRatio(String retentionRatio) {
                 this.retentionRatio = retentionRatio;
             }
+
+            @Override
+            public String toString() {
+                return "BooksBean{" +
+                        "_id='" + _id + '\'' +
+                        ", author='" + author + '\'' +
+                        ", cover='" + cover + '\'' +
+                        ", shortIntro='" + shortIntro + '\'' +
+                        ", title='" + title + '\'' +
+                        ", site='" + site + '\'' +
+                        ", cat='" + cat + '\'' +
+                        ", banned=" + banned +
+                        ", latelyFollower=" + latelyFollower +
+                        ", latelyFollowerBase=" + latelyFollowerBase +
+                        ", minRetentionRatio=" + minRetentionRatio +
+                        ", retentionRatio='" + retentionRatio + '\'' +
+                        '}';
+            }
         }
+
+        @Override
+        public String toString() {
+            return "RankingBean{" +
+                    "_id='" + _id + '\'' +
+                    ", updated='" + updated + '\'' +
+                    ", title='" + title + '\'' +
+                    ", tag='" + tag + '\'' +
+                    ", cover='" + cover + '\'' +
+                    ", __v=" + __v +
+                    ", monthRank='" + monthRank + '\'' +
+                    ", totalRank='" + totalRank + '\'' +
+                    ", isSub=" + isSub +
+                    ", collapse=" + collapse +
+                    ", newX=" + newX +
+                    ", gender='" + gender + '\'' +
+                    ", priority=" + priority +
+                    ", created='" + created + '\'' +
+                    ", id='" + id + '\'' +
+                    ", books=" + books +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Rankings{" +
+                "ranking=" + ranking +
+                ", ok=" + ok +
+                '}';
     }
 }

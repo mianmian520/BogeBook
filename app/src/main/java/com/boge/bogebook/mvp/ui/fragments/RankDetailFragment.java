@@ -4,25 +4,38 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.Rankings;
+import com.boge.bogebook.mvp.presenter.impl.RankDetailPresenterImpl;
+import com.boge.bogebook.mvp.ui.adapter.BookListDetailAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
 import com.boge.bogebook.mvp.view.RankDetailView;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 
-public class RankDetailFragment extends BaseFragment implements RankDetailView{
+public class RankDetailFragment extends BaseFragment implements RankDetailView
+                ,BookListDetailAdapter.OnRecyclerViewItemClick{
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
 
+    /***所要查找的排行榜id*/
     private String rankingId;
+
+    @Inject
+    RankDetailPresenterImpl rankDetailPresenter;
+
+    /***书籍详细列表适配器*/
+    private BookListDetailAdapter adapter;
 
     public static RankDetailFragment newInstance(String param1) {
         RankDetailFragment fragment = new RankDetailFragment();
@@ -47,11 +60,17 @@ public class RankDetailFragment extends BaseFragment implements RankDetailView{
 
     @Override
     protected void initDatas() {
+        rankDetailPresenter.attachView(this);
+        rankDetailPresenter.loadRankDetail(rankingId);
         initRecyclerView();
     }
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new BookListDetailAdapter();
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnRecyclerViewItemClick(this);
     }
 
     @Override
@@ -77,6 +96,13 @@ public class RankDetailFragment extends BaseFragment implements RankDetailView{
 
     @Override
     public void setRankings(Rankings rankings) {
+        if(rankings != null){
+            adapter.setBooksBeen(rankings.getRanking().getBooks());
+        }
+    }
 
+    @Override
+    public void onItemClick(View v, int position) {
+        Log.i("test" , adapter.getBooksBeen().get(position).toString());
     }
 }

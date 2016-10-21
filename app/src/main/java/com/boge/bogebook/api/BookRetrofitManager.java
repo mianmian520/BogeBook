@@ -3,6 +3,7 @@ package com.boge.bogebook.api;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.RankingList;
+import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
 
 import java.util.concurrent.TimeUnit;
@@ -12,7 +13,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
 import rx.Observable;
 
 /**
@@ -81,5 +81,17 @@ public class BookRetrofitManager {
      */
     public Observable<RankingList> getRankingList(){
         return service.getRankingList();
+    }
+
+    /**
+     * 根据排行榜的ID获取排行榜的小说获取单一排行榜
+     * @param rankingId 排行榜id
+     * 周榜：rankingId->_id
+     * 月榜：rankingId->monthRank
+     * 总榜：rankingId->totalRank
+     * @return
+     */
+    public Observable<Rankings> getRankings(String rankingId){
+        return service.getRankings(rankingId);
     }
 }
