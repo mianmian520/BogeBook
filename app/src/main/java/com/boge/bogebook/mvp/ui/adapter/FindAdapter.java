@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.support.FindBean;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 
 import java.util.List;
 
@@ -71,13 +72,11 @@ public class FindAdapter extends RecyclerView.Adapter {
         return findBeanList == null ? 0 : findBeanList.size();
     }
 
-    public interface OnRecyclerViewItemClick{
-        void onItemClick(View v , int position);
-    }
 
-    private RecommendAdapter.OnRecyclerViewItemClick onRecyclerViewItemClick;
 
-    public void setOnRecyclerViewItemClick(RecommendAdapter.OnRecyclerViewItemClick onRecyclerViewItemClick) {
+    private OnRecyclerViewItemClick onRecyclerViewItemClick;
+
+    public void setOnRecyclerViewItemClick(OnRecyclerViewItemClick onRecyclerViewItemClick) {
         this.onRecyclerViewItemClick = onRecyclerViewItemClick;
     }
 }

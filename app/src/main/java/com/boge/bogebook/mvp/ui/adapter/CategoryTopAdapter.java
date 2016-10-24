@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.CategoryList;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 
 import java.util.List;
 
@@ -32,7 +33,15 @@ public class CategoryTopAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
-        CategoryViewHolder viewHolder = new CategoryViewHolder(view);
+        final CategoryViewHolder viewHolder = new CategoryViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onRecyclerViewItemClick != null){
+                    onRecyclerViewItemClick.onItemClick(view , viewHolder.getLayoutPosition());
+                }
+            }
+        });
         return viewHolder;
     }
 
@@ -60,4 +69,11 @@ public class CategoryTopAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this , itemView);
         }
     }
+
+    private OnRecyclerViewItemClick onRecyclerViewItemClick;
+
+    public void setOnRecyclerViewItemClick(OnRecyclerViewItemClick onRecyclerViewItemClick) {
+        this.onRecyclerViewItemClick = onRecyclerViewItemClick;
+    }
+
 }

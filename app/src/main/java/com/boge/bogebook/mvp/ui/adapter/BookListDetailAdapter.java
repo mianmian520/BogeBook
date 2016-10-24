@@ -15,6 +15,7 @@ import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.Rankings;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.util.Tools;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
@@ -109,10 +110,6 @@ public class BookListDetailAdapter extends RecyclerView.Adapter {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public interface OnRecyclerViewItemClick{
-        void onItemClick(View v , int position);
     }
 
     private OnRecyclerViewItemClick onRecyclerViewItemClick;

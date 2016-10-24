@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.Recommend;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
 import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
@@ -23,7 +24,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 
 public class RecommendFragment extends BaseFragment implements RecommendView
-        ,RecommendAdapter.OnRecyclerViewItemClick,SwipeRefreshLayout.OnRefreshListener {
+        ,OnRecyclerViewItemClick,SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;

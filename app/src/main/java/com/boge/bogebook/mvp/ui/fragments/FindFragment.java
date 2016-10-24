@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.support.FindBean;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.ui.activity.CategoryActivity;
 import com.boge.bogebook.mvp.ui.activity.RankingActivity;
 import com.boge.bogebook.mvp.ui.adapter.FindAdapter;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
-public class FindFragment extends BaseFragment implements RecommendAdapter.OnRecyclerViewItemClick{
+public class FindFragment extends BaseFragment implements OnRecyclerViewItemClick {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;

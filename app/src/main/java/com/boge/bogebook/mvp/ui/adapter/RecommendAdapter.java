@@ -12,6 +12,7 @@ import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.Recommend;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -109,10 +110,6 @@ public class RecommendAdapter extends RecyclerView.Adapter {
             super(itemView);
             ButterKnife.bind(this , itemView);
         }
-    }
-
-    public interface OnRecyclerViewItemClick{
-        void onItemClick(View v , int position);
     }
 
     private OnRecyclerViewItemClick onRecyclerViewItemClick;

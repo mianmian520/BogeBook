@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.Rankings;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.presenter.impl.RankDetailPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
 import com.boge.bogebook.mvp.ui.adapter.BookListDetailAdapter;
@@ -22,7 +23,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 
 public class RankDetailFragment extends BaseFragment implements RankDetailView
-                ,BookListDetailAdapter.OnRecyclerViewItemClick{
+                ,OnRecyclerViewItemClick {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
