@@ -43,7 +43,7 @@ public class RecommendFragment extends BaseFragment implements RecommendView
     public static RecommendFragment newInstance(String param1) {
         RecommendFragment fragment = new RecommendFragment();
         Bundle args = new Bundle();
-        args.putString(Constant.GENGER, param1);
+        args.putString(Constant.GENDER, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +52,7 @@ public class RecommendFragment extends BaseFragment implements RecommendView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            gender = getArguments().getString(Constant.GENGER);
+            gender = getArguments().getString(Constant.GENDER);
         }
     }
 

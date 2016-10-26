@@ -1,5 +1,8 @@
 package com.boge.bogebook.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -61,7 +64,7 @@ public class CategoryList {
         this.press = press;
     }
 
-    public static class MaleBean {
+    public static class MaleBean implements Parcelable {
         private String name;
         private int bookCount;
 
@@ -88,6 +91,37 @@ public class CategoryList {
                     ", bookCount=" + bookCount +
                     '}';
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.name);
+            dest.writeInt(this.bookCount);
+        }
+
+        public MaleBean() {
+        }
+
+        protected MaleBean(Parcel in) {
+            this.name = in.readString();
+            this.bookCount = in.readInt();
+        }
+
+        public static final Parcelable.Creator<MaleBean> CREATOR = new Parcelable.Creator<MaleBean>() {
+            @Override
+            public MaleBean createFromParcel(Parcel source) {
+                return new MaleBean(source);
+            }
+
+            @Override
+            public MaleBean[] newArray(int size) {
+                return new MaleBean[size];
+            }
+        };
     }
 
     @Override

@@ -112,4 +112,5 @@
     <string name="title_activity_category">CategoryActivity</string>
     <string name="category">分类</string>
     <string name="press">出版</string>
+    <string name="title_activity_categort_book">CategortBookActivity</string>
 </resources>

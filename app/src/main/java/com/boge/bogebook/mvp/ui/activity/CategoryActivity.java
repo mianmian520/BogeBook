@@ -1,5 +1,6 @@
 package com.boge.bogebook.mvp.ui.activity;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +9,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.boge.bogebook.R;
+import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.CategoryList;
-import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.presenter.impl.CategoryPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
 import com.boge.bogebook.mvp.ui.adapter.CategoryTopAdapter;
@@ -21,7 +22,11 @@ import javax.inject.Inject;
 import butterknife.Bind;
 
 public class CategoryActivity extends BaseActivity implements CategoryView
-                    ,OnRecyclerViewItemClick{
+                    ,CategoryTopAdapter.OnRecyclerViewItemClick {
+
+    private static final int MALE = 1;
+    private static final int FEMALE = 2;
+    private static final int PRESS = 3;
 
     @Bind(R.id.rv_male_category)
     RecyclerView rvMaleCategory;
@@ -62,21 +67,21 @@ public class CategoryActivity extends BaseActivity implements CategoryView
         rvMaleCategory.addItemDecoration(new SupportGridItemDecoration(this));
         maleAdapter = new CategoryTopAdapter();
         rvMaleCategory.setAdapter(maleAdapter);
-        maleAdapter.setOnRecyclerViewItemClick(this);
+        maleAdapter.setOnRecyclerViewItemClick(this , MALE);
 
         rvFemaleCategory.setHasFixedSize(true);
         rvFemaleCategory.setLayoutManager(new GridLayoutManager(this , 3));
         rvFemaleCategory.addItemDecoration(new SupportGridItemDecoration(this));
         femaleAdapter = new CategoryTopAdapter();
         rvFemaleCategory.setAdapter(femaleAdapter);
-        femaleAdapter.setOnRecyclerViewItemClick(this);
+        femaleAdapter.setOnRecyclerViewItemClick(this , FEMALE);
 
         rvPressCategory.setHasFixedSize(true);
         rvPressCategory.setLayoutManager(new GridLayoutManager(this , 3));
         rvPressCategory.addItemDecoration(new SupportGridItemDecoration(this));
         pressAdapter = new CategoryTopAdapter();
         rvPressCategory.setAdapter(pressAdapter);
-        pressAdapter.setOnRecyclerViewItemClick(this);
+        pressAdapter.setOnRecyclerViewItemClick(this , PRESS);
     }
 
     @Override
@@ -104,7 +109,26 @@ public class CategoryActivity extends BaseActivity implements CategoryView
     }
 
     @Override
-    public void onItemClick(View v, int position) {
-        Log.i("test" , "id:"+v.getId());
+    public void onItemClick(View v, int position , int flag) {
+        CategoryList.MaleBean maleBean = null;
+        String gender = "";
+        switch (flag){
+            case MALE:
+                maleBean = maleAdapter.getMaleBeens().get(position);
+                gender = Constant.MALE;
+                break;
+            case FEMALE:
+                maleBean = femaleAdapter.getMaleBeens().get(position);
+                gender = Constant.FEMALE;
+                break;
+            case PRESS:
+                maleBean = pressAdapter.getMaleBeens().get(position);
+                gender = Constant.PRESS;
+                break;
+        }
+        Intent intent = new Intent(this, CategortBookActivity.class);
+        intent.putExtra("maleBean" , maleBean);
+        intent.putExtra(Constant.GENDER , gender);
+        startActivity(intent);
     }
 }

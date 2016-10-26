@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.CategoryList;
-import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 
 import java.util.List;
 
@@ -30,6 +29,10 @@ public class CategoryTopAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public List<CategoryList.MaleBean> getMaleBeens() {
+        return maleBeens;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
@@ -38,7 +41,7 @@ public class CategoryTopAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                 if(onRecyclerViewItemClick != null){
-                    onRecyclerViewItemClick.onItemClick(view , viewHolder.getLayoutPosition());
+                    onRecyclerViewItemClick.onItemClick(view , viewHolder.getLayoutPosition() , flag);
                 }
             }
         });
@@ -70,10 +73,17 @@ public class CategoryTopAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public interface OnRecyclerViewItemClick{
+        void onItemClick(View v , int position , int flag);
+    }
+
     private OnRecyclerViewItemClick onRecyclerViewItemClick;
 
-    public void setOnRecyclerViewItemClick(OnRecyclerViewItemClick onRecyclerViewItemClick) {
+    private int flag;
+
+    public void setOnRecyclerViewItemClick(OnRecyclerViewItemClick onRecyclerViewItemClick , int flag) {
         this.onRecyclerViewItemClick = onRecyclerViewItemClick;
+        this.flag = flag;
     }
 
 }

@@ -11,4 +11,11 @@
         <item>月榜</item>
         <item>总榜</item>
     </string-array>
+
+    <string-array name="type_tabs">
+        <item>热门</item>
+        <item>新书</item>
+        <item>好评</item>
+        <item>完结</item>
+    </string-array>
 </resources>

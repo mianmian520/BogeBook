@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.boge.bogebook.mvp.ui.activity.CategortBookActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:navigationIcon="@mipmap/ab_back" />
+
+    </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v7.widget.RecyclerView
+            android:layout_alignParentTop="true"
+            android:id="@+id/type_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_below="@+id/type_recyclerView"
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/common_h2"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/line"
+            android:id="@+id/minor_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--<fragment-->
+            <!--android:layout_below="@+id/minor_recyclerView"-->
+            <!--android:id="@+id/fragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--tools:layout="@layout/fragment_categort_book"></fragment>-->
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
