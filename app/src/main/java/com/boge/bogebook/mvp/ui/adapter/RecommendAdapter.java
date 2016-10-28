@@ -5,14 +5,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
+import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.common.Constant;
-import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
+import com.boge.bogebook.util.Tools;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,15 +35,15 @@ public class RecommendAdapter extends RecyclerView.Adapter {
     private final static int NET_TYPE = 0;
     private final static int LOCAL_TYPE = 1;
 
-    private List<Recommend.RecommendBook> recommendBooks;
+    private List<LocalAndRecomendBook> recommendBooks;
 
-    public void setRecommendBooks(List<Recommend.RecommendBook> recommendBooks) {
+    public void setRecommendBooks(List<LocalAndRecomendBook> recommendBooks) {
         this.recommendBooks = recommendBooks;
         notifyDataSetChanged();
     }
 
-    public List<Recommend.RecommendBook> getRecommendBooks() {
-        if(recommendBooks == null)return new ArrayList<Recommend.RecommendBook>();
+    public List<LocalAndRecomendBook> getRecommendBooks() {
+        if(recommendBooks == null)return new ArrayList<LocalAndRecomendBook>();
         return recommendBooks;
     }
 
@@ -75,17 +77,24 @@ public class RecommendAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof RecommendViewHolder){
             RecommendViewHolder viewHolder = (RecommendViewHolder) holder;
-            viewHolder.tvBookTitle.setText(recommendBooks.get(position).getTitle());
-            viewHolder.tvLastChapter.setText(recommendBooks.get(position).getLastChapter());
-            Glide.with(BookApplication.getmContext())
-                    .load(Constant.IMG_BASE_URL+recommendBooks.get(position).getCover())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .format(DecodeFormat.PREFER_RGB_565)
-                    .into(viewHolder.ivTxtIcon);
-            if(!recommendBooks.get(position).isHasUp()){
+            if(recommendBooks.get(position).isLocal()){
+                viewHolder.tvBookTitle.setText(recommendBooks.get(position).getName());
+                viewHolder.tvLastChapter.setText(Tools.longToSize(recommendBooks.get(position).getSize()));
+                viewHolder.ivTxtIcon.setImageResource(R.mipmap.home_shelf_txt_icon);
                 viewHolder.iv_not_read.setVisibility(View.GONE);
-            } else {
-                viewHolder.iv_not_read.setVisibility(View.VISIBLE);
+            }else{
+                viewHolder.tvBookTitle.setText(recommendBooks.get(position).getTitle());
+                viewHolder.tvLastChapter.setText(recommendBooks.get(position).getLastChapter());
+                Glide.with(BookApplication.getmContext())
+                        .load(Constant.IMG_BASE_URL+recommendBooks.get(position).getCover())
+                        .asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .format(DecodeFormat.PREFER_RGB_565)
+                        .into(viewHolder.ivTxtIcon);
+                if(!recommendBooks.get(position).isHasUp()){
+                    viewHolder.iv_not_read.setVisibility(View.GONE);
+                } else {
+                    viewHolder.iv_not_read.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -105,6 +114,8 @@ public class RecommendAdapter extends RecyclerView.Adapter {
         TextView tvLastChapter;
         @Bind(R.id.iv_not_read)
         ImageView iv_not_read;
+        @Bind(R.id.ck_boxSelect)
+        CheckBox checkBox;
 
         public RecommendViewHolder(View itemView) {
             super(itemView);

@@ -17,6 +17,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="OverflowMenuStyle" parent="@style/ThemeOverlay.AppCompat">
+        <!-- 是否覆盖overflow按钮，默认为true，即盖住Toolbar -->
+        <item name="overlapAnchor">false</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+
     <style name="MyTabLayoutTextAppearance">
         <item name="android:textColor">@color/light_gray</item>
         <item name="android:textSize">@dimen/middle_size</item>

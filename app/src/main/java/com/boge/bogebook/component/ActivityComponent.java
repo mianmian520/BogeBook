@@ -4,6 +4,7 @@ import com.boge.bogebook.module.ActivityModule;
 import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
 import com.boge.bogebook.mvp.ui.activity.CategortBookActivity;
 import com.boge.bogebook.mvp.ui.activity.CategoryActivity;
+import com.boge.bogebook.mvp.ui.activity.LocalBookActivity;
 import com.boge.bogebook.mvp.ui.activity.MainActivity;
 import com.boge.bogebook.mvp.ui.activity.RankDetailActivity;
 import com.boge.bogebook.mvp.ui.activity.RankingActivity;
@@ -33,4 +34,6 @@ public interface ActivityComponent {
     void inject(CategoryActivity activity);
 
     void inject(CategortBookActivity activity);
+
+    void inject(LocalBookActivity activity);
 }

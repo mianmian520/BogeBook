@@ -7,6 +7,7 @@ import com.boge.bogebook.mvp.interactor.impl.RecommendInteractorImpl;
 import com.boge.bogebook.mvp.presenter.RecommendPresenter;
 import com.boge.bogebook.mvp.presenter.base.BasePresenterImpl;
 import com.boge.bogebook.mvp.view.RecommendView;
+import com.boge.bogebook.util.ClassUtil;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class RecommendPresenterImpl extends BasePresenterImpl<RecommendView,List
     public void success(List<Recommend.RecommendBook> data) {
         super.success(data);
         if(mView != null){
-            mView.setReCommendBook(data);
+            mView.setReCommendBook(ClassUtil.RecommendToLocal(data));
         }
     }
 

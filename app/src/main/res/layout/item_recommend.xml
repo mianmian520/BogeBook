@@ -43,4 +43,12 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/red"
         android:layout_margin="@dimen/item_margin"/>
+    <CheckBox
+        android:id="@+id/ck_boxSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.boge.bogebook.R;
+import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.common.Constant;
-import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
 import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
@@ -100,19 +100,19 @@ public class RecommendFragment extends BaseFragment implements RecommendView
     }
 
     @Override
-    public void setReCommendBook(List<Recommend.RecommendBook> recommendBookList) {
+    public void setReCommendBook(List<LocalAndRecomendBook> recommendBookList) {
         if(recommendBookList != null){//推荐的是否为空
-            for (Recommend.RecommendBook recommed : recommendBookList) {
+            for (LocalAndRecomendBook recommed : recommendBookList) {
                 //第一次加载推荐
                 if(adapter.getRecommendBooks().size() == 0){
                     recommed.setHasUp(true);
                 } else {
-                    for(Recommend.RecommendBook recommendBook : adapter.getRecommendBooks()) {
-                        if (recommed.get_id().equals(recommendBook.get_id())) {
-                            if (!recommed.getLastChapter().equals(recommendBook.getLastChapter())) {
+                    for(LocalAndRecomendBook localBook : adapter.getRecommendBooks()) {
+                        if (recommed.get_id().equals(localBook.get_id())) {
+                            if (!recommed.getLastChapter().equals(localBook.getLastChapter())) {
                                 recommed.setHasUp(true);
                             } else {
-                                recommed.setHasUp(recommendBook.isHasUp());
+                                recommed.setHasUp(localBook.isHasUp());
                             }
                             break;
                         }

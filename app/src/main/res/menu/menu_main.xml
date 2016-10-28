@@ -2,9 +2,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".mvp.ui.activity.MainActivity">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_search"
+        android:orderInCategory="150"
+        android:icon="@mipmap/book_detail_info_search_img"
+        android:title="@string/action_search"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_login"
+        android:orderInCategory="100"
+        android:title="@string/action_login"
+        app:showAsAction="never"
+        android:icon="@mipmap/home_menu_0"/>
+    <item
+        android:id="@+id/action_my_message"
+        android:orderInCategory="100"
+        android:title="@string/action_my_message"
+        app:showAsAction="never"
+        android:icon="@mipmap/home_menu_1"/>
+    <item
+        android:id="@+id/action_synchronous"
+        android:orderInCategory="100"
+        android:title="@string/action_synchronous"
+        app:showAsAction="never"
+        android:icon="@mipmap/home_menu_2"/>
+    <item
+        android:id="@+id/action_local_book"
+        android:orderInCategory="100"
+        android:title="@string/action_local_book"
+        app:showAsAction="never"
+        android:icon="@mipmap/home_menu_3"/>
+    <item
+        android:id="@+id/action_wifi_upload"
+        android:orderInCategory="100"
+        android:title="@string/action_wifi_upload"
+        app:showAsAction="never"
+        android:icon="@mipmap/home_menu_4"/>
+    <item
+        android:id="@+id/action_feedback"
+        android:orderInCategory="100"
+        android:title="@string/action_feedback"
+        app:showAsAction="never"
+        android:icon="@mipmap/home_menu_5"/>
+    <item
+        android:id="@+id/action_night"
+        android:orderInCategory="100"
+        android:title="@string/action_night"
+        app:showAsAction="never"
+        android:icon="@mipmap/theme_night"/>
+    <item
+        android:id="@+id/action_setting"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@mipmap/home_menu_6"/>
 </menu>

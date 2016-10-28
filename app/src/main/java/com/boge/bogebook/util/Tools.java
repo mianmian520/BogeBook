@@ -1,5 +1,7 @@
 package com.boge.bogebook.util;
 
+import java.text.DecimalFormat;
+
 /**
  * @author boge
  * @version 1.0
@@ -38,6 +40,18 @@ public class Tools {
             return (l/l1 / l2)+"月前";
         } else {
             return (l/l1/l2 / l3)+"年前";
+        }
+    }
+
+
+    public static String longToSize(long l){
+        DecimalFormat df = new DecimalFormat("#.##");
+        if(l / 1024 > 0 && l /(1024*1024) <= 0){
+            return df.format(l/1024.0)+"KB";
+        } else if(l / 1024 == 0){
+            return l+"B";
+        } else {
+            return df.format(l/(1024*1024.0))+"MB";
         }
     }
 }

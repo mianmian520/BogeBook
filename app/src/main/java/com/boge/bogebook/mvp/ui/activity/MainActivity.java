@@ -1,10 +1,15 @@
 package com.boge.bogebook.mvp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.view.menu.MenuBuilder;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
@@ -14,6 +19,7 @@ import com.boge.bogebook.mvp.ui.fragments.FindFragment;
 import com.boge.bogebook.mvp.ui.fragments.RecommendFragment;
 import com.boge.bogebook.view.Indicator;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,5 +80,64 @@ public class MainActivity extends BaseActivity {
         public int getCount() {
             return fragments == null ? 0 : fragments.size();
         }
+    }
+
+    /**
+     * 菜单拦
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /**
+     * 显示menu的图标
+     * @param view
+     * @param menu
+     * @return
+     */
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+        if (menu != null) {
+            if (menu.getClass() == MenuBuilder.class) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_search://搜索
+                break;
+            case R.id.action_login://登录
+                break;
+            case R.id.action_my_message://消息
+                break;
+            case R.id.action_synchronous://同步
+                break;
+            case R.id.action_local_book://扫描本地书籍
+                startActivity(new Intent(this , LocalBookActivity.class));
+                break;
+            case R.id.action_wifi_upload://WIFI传书
+                break;
+            case R.id.action_feedback://一件反馈
+                break;
+            case R.id.action_night://夜间模式
+                break;
+            case R.id.action_setting://设置
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
