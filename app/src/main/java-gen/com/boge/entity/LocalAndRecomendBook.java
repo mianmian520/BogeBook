@@ -20,11 +20,13 @@ public class LocalAndRecomendBook {
     @NotNull
     private String title;
     private String lastChapter;
-    private boolean isLocal;
-    private boolean hasUp;
+    private Boolean isLocal;
+    private Boolean hasUp;
+    private Boolean isTop;
 
     private boolean isSelect = false;
     private int chaptersCount;
+
     @Generated
     public LocalAndRecomendBook() {
     }
@@ -34,7 +36,7 @@ public class LocalAndRecomendBook {
     }
 
     @Generated
-    public LocalAndRecomendBook(Long id, String Path, Long size, String bookId, String cover, String title, String lastChapter, boolean isLocal, boolean hasUp) {
+    public LocalAndRecomendBook(Long id, String Path, Long size, String bookId, String cover, String title, String lastChapter, Boolean isLocal, Boolean hasUp, Boolean isTop) {
         this.id = id;
         this.Path = Path;
         this.size = size;
@@ -44,6 +46,7 @@ public class LocalAndRecomendBook {
         this.lastChapter = lastChapter;
         this.isLocal = isLocal;
         this.hasUp = hasUp;
+        this.isTop = isTop;
     }
 
     public Long getId() {
@@ -104,20 +107,28 @@ public class LocalAndRecomendBook {
         this.lastChapter = lastChapter;
     }
 
-    public boolean getIsLocal() {
+    public Boolean getIsLocal() {
         return isLocal;
     }
 
-    public void setIsLocal(boolean isLocal) {
+    public void setIsLocal(Boolean isLocal) {
         this.isLocal = isLocal;
     }
 
-    public boolean getHasUp() {
+    public Boolean getHasUp() {
         return hasUp;
     }
 
-    public void setHasUp(boolean hasUp) {
+    public void setHasUp(Boolean hasUp) {
         this.hasUp = hasUp;
+    }
+
+    public Boolean getIsTop() {
+        return isTop;
+    }
+
+    public void setIsTop(Boolean isTop) {
+        this.isTop = isTop;
     }
 
     public boolean isSelect() {
@@ -128,12 +139,12 @@ public class LocalAndRecomendBook {
         isSelect = select;
     }
 
-    public boolean getLocal() {
-        return isLocal;
+    public int getChaptersCount() {
+        return chaptersCount;
     }
 
-    public void setLocal(boolean local) {
-        isLocal = local;
+    public void setChaptersCount(int chaptersCount) {
+        this.chaptersCount = chaptersCount;
     }
 
     @Override
@@ -148,17 +159,9 @@ public class LocalAndRecomendBook {
                 ", lastChapter='" + lastChapter + '\'' +
                 ", isLocal=" + isLocal +
                 ", hasUp=" + hasUp +
+                ", isTop=" + isTop +
                 ", isSelect=" + isSelect +
-                ", chaptersCount='" + chaptersCount + '\'' +
+                ", chaptersCount=" + chaptersCount +
                 '}';
     }
-
-    public int getChaptersCount() {
-        return chaptersCount;
-    }
-
-    public void setChaptersCount(int chaptersCount) {
-        this.chaptersCount = chaptersCount;
-    }
-
 }

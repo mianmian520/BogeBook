@@ -32,6 +32,7 @@ public class DaoAutoGenerator {
         entity.addStringProperty("lastChapter");
         entity.addBooleanProperty("isLocal");
         entity.addBooleanProperty("hasUp");
+        entity.addBooleanProperty("isTop");
     }
 
 }

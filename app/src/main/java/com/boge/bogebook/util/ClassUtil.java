@@ -21,7 +21,7 @@ public class ClassUtil {
             localAndRecomendBook.setBookId(recommendBook.get_id());
             localAndRecomendBook.setChaptersCount(recommendBook.getChaptersCount());
             localAndRecomendBook.setCover(recommendBook.getCover());
-            localAndRecomendBook.setLocal(false);
+            localAndRecomendBook.setIsLocal(false);
             localAndRecomendBook.setTitle(recommendBook.getTitle());
             localAndRecomendBook.setLastChapter(recommendBook.getLastChapter());
             localAndRecomendBook.setHasUp(true);

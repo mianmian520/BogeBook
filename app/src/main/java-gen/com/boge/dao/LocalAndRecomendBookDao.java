@@ -33,6 +33,7 @@ public class LocalAndRecomendBookDao extends AbstractDao<LocalAndRecomendBook, L
         public final static Property LastChapter = new Property(6, String.class, "lastChapter", false, "LAST_CHAPTER");
         public final static Property IsLocal = new Property(7, Boolean.class, "isLocal", false, "IS_LOCAL");
         public final static Property HasUp = new Property(8, Boolean.class, "hasUp", false, "HAS_UP");
+        public final static Property IsTop = new Property(9, Boolean.class, "isTop", false, "IS_TOP");
     }
 
 
@@ -56,7 +57,8 @@ public class LocalAndRecomendBookDao extends AbstractDao<LocalAndRecomendBook, L
                 "\"TITLE\" TEXT NOT NULL ," + // 5: title
                 "\"LAST_CHAPTER\" TEXT," + // 6: lastChapter
                 "\"IS_LOCAL\" INTEGER," + // 7: isLocal
-                "\"HAS_UP\" INTEGER);"); // 8: hasUp
+                "\"HAS_UP\" INTEGER," + // 8: hasUp
+                "\"IS_TOP\" INTEGER);"); // 9: isTop
     }
 
     /** Drops the underlying database table. */
@@ -109,6 +111,11 @@ public class LocalAndRecomendBookDao extends AbstractDao<LocalAndRecomendBook, L
         if (hasUp != null) {
             stmt.bindLong(9, hasUp ? 1L: 0L);
         }
+ 
+        Boolean isTop = entity.getIsTop();
+        if (isTop != null) {
+            stmt.bindLong(10, isTop ? 1L: 0L);
+        }
     }
 
     @Override
@@ -155,6 +162,11 @@ public class LocalAndRecomendBookDao extends AbstractDao<LocalAndRecomendBook, L
         if (hasUp != null) {
             stmt.bindLong(9, hasUp ? 1L: 0L);
         }
+ 
+        Boolean isTop = entity.getIsTop();
+        if (isTop != null) {
+            stmt.bindLong(10, isTop ? 1L: 0L);
+        }
     }
 
     @Override
@@ -173,7 +185,8 @@ public class LocalAndRecomendBookDao extends AbstractDao<LocalAndRecomendBook, L
             cursor.getString(offset + 5), // title
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // lastChapter
             cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // isLocal
-            cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0 // hasUp
+            cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0, // hasUp
+            cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0 // isTop
         );
         return entity;
     }
@@ -189,6 +202,7 @@ public class LocalAndRecomendBookDao extends AbstractDao<LocalAndRecomendBook, L
         entity.setLastChapter(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setIsLocal(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
         entity.setHasUp(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
+        entity.setIsTop(cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0);
      }
     
     @Override

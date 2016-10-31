@@ -51,4 +51,12 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
         android:visibility="gone"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/iv_txt_icon"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/common_h3"
+        android:layout_marginLeft="@dimen/item_margin"
+        />
 </RelativeLayout>

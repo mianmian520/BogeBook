@@ -1,10 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mvp.ui.fragments.RecommendFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_above="@+id/ll_operation"
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,8 +18,43 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
+        android:layout_centerInParent="true"
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-</FrameLayout>
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_above="@+id/ll_operation"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_h2"/>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ll_operation"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/btn_check_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/white"
+            android:textSize="@dimen/large_size"
+            android:textColor="@color/colorPrimaryText"
+            android:text="@string/check_all"
+            />
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/white"
+            android:textSize="@dimen/large_size"
+            android:textColor="@color/dark_red"
+            android:text="@string/delete"
+            />
+    </LinearLayout>
+</RelativeLayout>

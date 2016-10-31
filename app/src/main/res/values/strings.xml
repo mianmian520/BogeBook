@@ -36,4 +36,6 @@
     <string name="local">本地书籍</string>
     <string name="import_book">立即导入</string>
     <string name="db_error">加载数据库错误</string>
+    <string name="check_all">全选</string>
+    <string name="delete">删除</string>
 </resources>
