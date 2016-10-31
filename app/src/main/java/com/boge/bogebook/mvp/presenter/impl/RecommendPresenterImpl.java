@@ -1,13 +1,13 @@
 package com.boge.bogebook.mvp.presenter.impl;
 
-import com.boge.bogebook.entity.Recommend;
+import com.boge.bogebook.dbmanager.LARBManager;
 import com.boge.bogebook.listener.RequestCallBack;
 import com.boge.bogebook.mvp.interactor.RecommendInteractor;
 import com.boge.bogebook.mvp.interactor.impl.RecommendInteractorImpl;
 import com.boge.bogebook.mvp.presenter.RecommendPresenter;
 import com.boge.bogebook.mvp.presenter.base.BasePresenterImpl;
 import com.boge.bogebook.mvp.view.RecommendView;
-import com.boge.bogebook.util.ClassUtil;
+import com.boge.entity.LocalAndRecomendBook;
 
 import java.util.List;
 
@@ -19,10 +19,12 @@ import javax.inject.Inject;
  * @date 2016/10/14
  */
 
-public class RecommendPresenterImpl extends BasePresenterImpl<RecommendView,List<Recommend.RecommendBook>>
-        implements RecommendPresenter , RequestCallBack<List<Recommend.RecommendBook>>{
+public class RecommendPresenterImpl extends BasePresenterImpl<RecommendView,List<LocalAndRecomendBook>>
+        implements RecommendPresenter , RequestCallBack<List<LocalAndRecomendBook>>{
 
-    private RecommendInteractor<List<Recommend.RecommendBook>> recommendInteractor;
+    private RecommendInteractor<List<LocalAndRecomendBook>> recommendInteractor;
+
+    private boolean isRefresh = false;
 
     @Inject
     public RecommendPresenterImpl(RecommendInteractorImpl recommendInteractor) {
@@ -36,10 +38,30 @@ public class RecommendPresenterImpl extends BasePresenterImpl<RecommendView,List
     }
 
     @Override
-    public void success(List<Recommend.RecommendBook> data) {
+    public void loadUpdateInfo() {
+        isRefresh = true;
+        String bookID = LARBManager.getBookID();
+        recommendInteractor.loadBookupdateInfo("updated" , bookID , this);
+    }
+
+    @Override
+    public void addBookcase(List<LocalAndRecomendBook> books) {
+        for (LocalAndRecomendBook book : books){
+            LARBManager.insertBook(book);
+        }
+        mView.addBookCase(books);
+    }
+
+    @Override
+    public void success(List<LocalAndRecomendBook> data) {
         super.success(data);
         if(mView != null){
-            mView.setReCommendBook(ClassUtil.RecommendToLocal(data));
+            if(isRefresh){
+                mView.setBookUpdateInfo(data);
+                isRefresh = false;
+            }else{
+                mView.setReCommendBook(data);
+            }
         }
     }
 

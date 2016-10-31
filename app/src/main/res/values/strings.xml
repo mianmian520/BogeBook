@@ -35,4 +35,5 @@
     <string name="title_activity_local_book">LocalBookActivity</string>
     <string name="local">本地书籍</string>
     <string name="import_book">立即导入</string>
+    <string name="db_error">加载数据库错误</string>
 </resources>

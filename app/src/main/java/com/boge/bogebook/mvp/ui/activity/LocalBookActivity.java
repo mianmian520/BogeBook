@@ -10,12 +10,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.boge.bogebook.R;
-import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.listener.OnBaseItemClick;
 import com.boge.bogebook.mvp.presenter.impl.LocalBookPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
 import com.boge.bogebook.mvp.ui.adapter.LocalBookAdapter;
 import com.boge.bogebook.mvp.view.LocalBookView;
+import com.boge.entity.LocalAndRecomendBook;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +63,8 @@ public class LocalBookActivity extends BaseActivity implements LocalBookView , O
 
     @OnClick(R.id.btn_import_book)
     public void onClick() {
-        List<LocalAndRecomendBook> localAndRecomendBooks = localBookAdapter.getmList();
-        List<LocalAndRecomendBook> localAndRecomendBooks1 = new ArrayList<LocalAndRecomendBook>();
+        final List<LocalAndRecomendBook> localAndRecomendBooks = localBookAdapter.getmList();
+        final List<LocalAndRecomendBook> localAndRecomendBooks1 = new ArrayList<LocalAndRecomendBook>();
         for (LocalAndRecomendBook localAndRecomendBook : localAndRecomendBooks){
             if(localAndRecomendBook.isSelect()){
                 localAndRecomendBooks1.add(localAndRecomendBook);
@@ -75,8 +77,9 @@ public class LocalBookActivity extends BaseActivity implements LocalBookView , O
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            EventBus.getDefault().post(localAndRecomendBooks1);
                             dialog.dismiss();
+                            finish();
                         }
                     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override

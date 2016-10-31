@@ -1,7 +1,7 @@
 package com.boge.bogebook.mvp.view;
 
-import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.mvp.view.base.BaseView;
+import com.boge.entity.LocalAndRecomendBook;
 
 import java.util.List;
 

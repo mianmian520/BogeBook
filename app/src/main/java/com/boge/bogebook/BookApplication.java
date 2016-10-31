@@ -2,10 +2,14 @@ package com.boge.bogebook;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.boge.bogebook.component.ApplicationComponent;
 import com.boge.bogebook.component.DaggerApplicationComponent;
 import com.boge.bogebook.module.ApplicationModule;
+import com.boge.dao.DaoMaster;
+import com.boge.dao.DaoSession;
+import com.boge.dao.LocalAndRecomendBookDao;
 
 /**
  * @author boge
@@ -18,6 +22,8 @@ public class BookApplication extends Application {
     private ApplicationComponent mApplicationComponent;
 
     private static Context mContext;
+
+    private static DaoSession daoSession;
 
     @Override
     public void onCreate() {
@@ -37,5 +43,20 @@ public class BookApplication extends Application {
 
     public static Context getmContext() {
         return mContext;
+    }
+
+    public static DaoSession getDaoSession() {
+        if(daoSession == null){
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(mContext, "book.db", null);
+            SQLiteDatabase db = helper.getWritableDatabase();
+            // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
+            DaoMaster daoMaster = new DaoMaster(db);
+            daoSession = daoMaster.newSession();
+        }
+        return daoSession;
+    }
+
+    public static LocalAndRecomendBookDao getLocalAndRecomendBookDao(){
+        return getDaoSession().getLocalAndRecomendBookDao();
     }
 }

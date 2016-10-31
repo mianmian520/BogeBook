@@ -9,14 +9,18 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.boge.bogebook.R;
-import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
 import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
 import com.boge.bogebook.mvp.view.RecommendView;
+import com.boge.entity.LocalAndRecomendBook;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,6 +41,8 @@ public class RecommendFragment extends BaseFragment implements RecommendView
 
     private String gender;
 
+    private List<LocalAndRecomendBook> books;
+
     @Inject
     RecommendPresenterImpl recommendPresenter;
 
@@ -54,6 +60,18 @@ public class RecommendFragment extends BaseFragment implements RecommendView
         if (getArguments() != null) {
             gender = getArguments().getString(Constant.GENDER);
         }
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(List<LocalAndRecomendBook> localAndRecomendBooks){
+        recommendPresenter.addBookcase(localAndRecomendBooks);
     }
 
     @Override
@@ -102,28 +120,34 @@ public class RecommendFragment extends BaseFragment implements RecommendView
     @Override
     public void setReCommendBook(List<LocalAndRecomendBook> recommendBookList) {
         if(recommendBookList != null){//推荐的是否为空
-            for (LocalAndRecomendBook recommed : recommendBookList) {
-                //第一次加载推荐
-                if(adapter.getRecommendBooks().size() == 0){
-                    recommed.setHasUp(true);
-                } else {
-                    for(LocalAndRecomendBook localBook : adapter.getRecommendBooks()) {
-                        if (recommed.get_id().equals(localBook.get_id())) {
-                            if (!recommed.getLastChapter().equals(localBook.getLastChapter())) {
-                                recommed.setHasUp(true);
-                            } else {
-                                recommed.setHasUp(localBook.isHasUp());
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
             adapter.setRecommendBooks(recommendBookList);
+            books = recommendBookList;
+        }else{
+            books = new ArrayList<LocalAndRecomendBook>();
         }
+    }
+
+    @Override
+    public void setBookUpdateInfo(List<LocalAndRecomendBook> localAndRecomendBooks) {
         if(swipeRefreshLayout.isRefreshing()){
             swipeRefreshLayout.setRefreshing(false);
         }
+        for (LocalAndRecomendBook book : localAndRecomendBooks){
+            for (LocalAndRecomendBook recomendBook : books){
+                if(recomendBook !=null && recomendBook.getBookId().equals(book.getBookId())){
+                    recomendBook = book;
+                    recomendBook.setCover("---------");
+                    break;
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void addBookCase(List<LocalAndRecomendBook> books) {
+        this.books.addAll(books);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -150,6 +174,6 @@ public class RecommendFragment extends BaseFragment implements RecommendView
 
     @Override
     public void onRefresh() {
-        recommendPresenter.loadRecommendBook(gender);
+        recommendPresenter.loadUpdateInfo();
     }
 }

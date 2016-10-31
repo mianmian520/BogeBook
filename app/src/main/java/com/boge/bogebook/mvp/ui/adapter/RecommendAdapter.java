@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
-import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.common.Constant;
+import com.boge.bogebook.dbmanager.LARBManager;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.util.Tools;
+import com.boge.entity.LocalAndRecomendBook;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -49,7 +50,7 @@ public class RecommendAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (TextUtils.isEmpty(recommendBooks.get(position).get_id())) {
+        if (TextUtils.isEmpty(recommendBooks.get(position).getBookId())) {
             return LOCAL_TYPE;
         } else {
             return NET_TYPE;
@@ -67,6 +68,7 @@ public class RecommendAdapter extends RecyclerView.Adapter {
                     onRecyclerViewItemClick.onItemClick(view , recommendViewHolder.getLayoutPosition());
                     recommendViewHolder.iv_not_read.setVisibility(View.GONE);
                     recommendBooks.get(recommendViewHolder.getLayoutPosition()).setHasUp(false);
+                    LARBManager.updateBook(recommendBooks.get(recommendViewHolder.getLayoutPosition()));
                 }
             }
         });
@@ -77,8 +79,8 @@ public class RecommendAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof RecommendViewHolder){
             RecommendViewHolder viewHolder = (RecommendViewHolder) holder;
-            if(recommendBooks.get(position).isLocal()){
-                viewHolder.tvBookTitle.setText(recommendBooks.get(position).getName());
+            if(recommendBooks.get(position).getLocal()){
+                viewHolder.tvBookTitle.setText(recommendBooks.get(position).getTitle());
                 viewHolder.tvLastChapter.setText(Tools.longToSize(recommendBooks.get(position).getSize()));
                 viewHolder.ivTxtIcon.setImageResource(R.mipmap.home_shelf_txt_icon);
                 viewHolder.iv_not_read.setVisibility(View.GONE);
@@ -90,7 +92,7 @@ public class RecommendAdapter extends RecyclerView.Adapter {
                         .asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
                         .format(DecodeFormat.PREFER_RGB_565)
                         .into(viewHolder.ivTxtIcon);
-                if(!recommendBooks.get(position).isHasUp()){
+                if(!recommendBooks.get(position).getHasUp()){
                     viewHolder.iv_not_read.setVisibility(View.GONE);
                 } else {
                     viewHolder.iv_not_read.setVisibility(View.VISIBLE);

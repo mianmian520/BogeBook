@@ -6,11 +6,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.boge.bogebook.R;
-import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.listener.OnBaseItemClick;
 import com.boge.bogebook.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
 import com.boge.bogebook.mvp.ui.adapter.base.BaseViewHolder;
 import com.boge.bogebook.util.Tools;
+import com.boge.entity.LocalAndRecomendBook;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class LocalBookAdapter extends BaseRecyclerViewAdapter<LocalAndRecomendBo
     @Override
     protected void onBindData(BaseViewHolder holder, final int position, final LocalAndRecomendBook item) {
         holder.setImageResource(R.id.iv_txt_icon,R.mipmap.home_shelf_txt_icon)
-                .setText(R.id.tv_bookTitle,item.getName())
+                .setText(R.id.tv_bookTitle,item.getTitle())
                 .setText(R.id.tv_lastChapter, Tools.longToSize(item.getSize()))
                 .setVisibility(R.id.iv_not_read , View.GONE)
                 .setVisibility(R.id.ck_boxSelect , View.VISIBLE)

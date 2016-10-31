@@ -11,6 +11,7 @@ import com.boge.bogebook.entity.BookLists;
 import com.boge.bogebook.entity.BookReview;
 import com.boge.bogebook.entity.BookReviewList;
 import com.boge.bogebook.entity.BookToc;
+import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.BooksByCats;
 import com.boge.bogebook.entity.BooksByTag;
 import com.boge.bogebook.entity.CategoryList;
@@ -27,6 +28,8 @@ import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.entity.RecommendBookList;
 import com.boge.bogebook.entity.SearchDetail;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
@@ -49,6 +52,15 @@ public interface BookApiService {
      */
     @GET("/book/recommend")
     Observable<Recommend> getRecomend(@Query("gender") String gender);
+
+    /**
+     * 得到小说的更新信息
+     * @param view
+     * @param id
+     * @return
+     */
+    @GET("/book")
+    Observable<List<BookUpdateInfo>> getBookUpdateInfo(@Query("view") String view , @Query("id") String id);
 
     /**
      * 小说章节

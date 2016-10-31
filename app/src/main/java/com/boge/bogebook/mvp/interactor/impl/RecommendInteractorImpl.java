@@ -5,17 +5,25 @@ import android.util.Log;
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.api.BookRetrofitManager;
+import com.boge.bogebook.dbmanager.LARBManager;
+import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.listener.RequestCallBack;
 import com.boge.bogebook.mvp.interactor.RecommendInteractor;
+import com.boge.bogebook.util.ClassUtil;
+import com.boge.entity.LocalAndRecomendBook;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -24,7 +32,7 @@ import rx.schedulers.Schedulers;
  * @date 2016/10/14
  */
 
-public class RecommendInteractorImpl implements RecommendInteractor<List<Recommend.RecommendBook>> {
+public class RecommendInteractorImpl implements RecommendInteractor<List<LocalAndRecomendBook>> {
 
     @Inject
     public RecommendInteractorImpl() {
@@ -32,11 +40,56 @@ public class RecommendInteractorImpl implements RecommendInteractor<List<Recomme
 
     @Override
     public Subscription loadRecommendBook(String gender , final RequestCallBack callBack) {
-        return BookRetrofitManager.getInstance()
+
+
+        if(LARBManager.getCount() != 0){
+            return Observable.create(new Observable.OnSubscribe<List<LocalAndRecomendBook>>() {
+                @Override
+                public void call(Subscriber<? super List<LocalAndRecomendBook>> subscriber) {
+                    List<LocalAndRecomendBook> list = LARBManager.getAllBook();
+                    subscriber.onNext(list);
+                    subscriber.onCompleted();
+                }
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<List<LocalAndRecomendBook>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            callBack.onError(BookApplication.getmContext().getResources().getString(R.string.db_error));
+                            Log.i("test" , e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(List<LocalAndRecomendBook> localAndRecomendBooks) {
+                            callBack.success(localAndRecomendBooks);
+                        }
+                    });
+        }else {
+            return BookRetrofitManager.getInstance()
                 .getRecomend(gender)
+                .map(new Func1<Recommend, List<Recommend.RecommendBook>>() {
+                    @Override
+                    public List<Recommend.RecommendBook> call(Recommend recommend) {
+                        return recommend.getBooks();
+                    }
+                })
+                .map(new Func1<List<Recommend.RecommendBook>, List<LocalAndRecomendBook>>() {
+                    @Override
+                    public List<LocalAndRecomendBook> call(List<Recommend.RecommendBook> recommendBooks) {
+                        List<LocalAndRecomendBook> localAndRecomendBooks = ClassUtil.RecommendToLocal(recommendBooks);
+                        for (LocalAndRecomendBook book : localAndRecomendBooks){
+                            LARBManager.insertBook(book);
+                        }
+                        return localAndRecomendBooks;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Recommend>() {
+                .subscribe(new Observer<List<LocalAndRecomendBook>>() {
                     @Override
                     public void onCompleted() {
 
@@ -49,12 +102,50 @@ public class RecommendInteractorImpl implements RecommendInteractor<List<Recomme
                     }
 
                     @Override
-                    public void onNext(Recommend recommend) {
-                        if(recommend.isOk()){
-                            callBack.success(recommend.getBooks());
-                        }else{
-                            callBack.success(null);
+                    public void onNext(List<LocalAndRecomendBook> recommend) {
+                        callBack.success(recommend);
+                    }
+                });
+        }
+    }
+
+    @Override
+    public Subscription loadBookupdateInfo(String view, String id, final RequestCallBack callBack) {
+        return BookRetrofitManager.getInstance()
+                .getBookUpdateInfo(view , id)
+                .map(new Func1<List<BookUpdateInfo>, List<LocalAndRecomendBook>>() {
+                    @Override
+                    public List<LocalAndRecomendBook> call(List<BookUpdateInfo> bookUpdateInfos) {
+                        List<LocalAndRecomendBook> books = new ArrayList<LocalAndRecomendBook>();
+                        for (BookUpdateInfo updateInfo : bookUpdateInfos){
+                            LocalAndRecomendBook book = LARBManager.getBook(updateInfo.get_id());
+                            if(!book.getLastChapter().equals(updateInfo.getLastChapter())){
+                                book.setLastChapter(updateInfo.getLastChapter());
+                                book.setHasUp(true);
+                                LARBManager.updateBook(book);
+                                books.add(book);
+                            }
                         }
+                        return books;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<LocalAndRecomendBook>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(BookApplication.getmContext().getResources().getString(R.string.net_error));
+                        Log.i("test" , e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<LocalAndRecomendBook> localAndRecomendBooks) {
+                        callBack.success(localAndRecomendBooks);
                     }
                 });
     }

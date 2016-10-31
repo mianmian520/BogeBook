@@ -1,10 +1,10 @@
 package com.boge.bogebook.mvp.presenter.impl;
 
-import com.boge.bogebook.bean.LocalAndRecomendBook;
 import com.boge.bogebook.mvp.presenter.LocalBookPresenter;
 import com.boge.bogebook.mvp.presenter.base.BasePresenterImpl;
 import com.boge.bogebook.mvp.view.LocalBookView;
 import com.boge.bogebook.util.FileUtil;
+import com.boge.entity.LocalAndRecomendBook;
 
 import java.util.List;
 

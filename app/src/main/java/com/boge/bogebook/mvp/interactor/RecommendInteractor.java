@@ -14,4 +14,6 @@ public interface RecommendInteractor<T> {
 
     Subscription loadRecommendBook(String gender , RequestCallBack<T> callBack);
 
+    Subscription loadBookupdateInfo(String view, String id, RequestCallBack<T> callBack);
+
 }

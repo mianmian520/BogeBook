@@ -1,6 +1,9 @@
 package com.boge.bogebook.mvp.presenter;
 
 import com.boge.bogebook.mvp.presenter.base.BasePresenter;
+import com.boge.entity.LocalAndRecomendBook;
+
+import java.util.List;
 
 /**
  * @author boge
@@ -16,4 +19,10 @@ public interface RecommendPresenter extends BasePresenter{
      */
     void loadRecommendBook(String gender);
 
+    /**
+     * 加载更新信息
+     */
+    void loadUpdateInfo();
+
+    void addBookcase(List<LocalAndRecomendBook> books);
 }

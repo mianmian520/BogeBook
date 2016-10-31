@@ -3,12 +3,14 @@ package com.boge.bogebook.api;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookDetail;
 import com.boge.bogebook.entity.BookToc;
+import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.CategoryList;
 import com.boge.bogebook.entity.RankingList;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.entity.RecommendBookList;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -124,4 +126,15 @@ public class BookRetrofitManager {
     public Observable<CategoryList> getCategoryList(){
         return service.getCategoryList();
     }
+
+    /**
+     * 得到小说的更新信息
+     * @param view
+     * @param id
+     * @return
+     */
+    public Observable<List<BookUpdateInfo>> getBookUpdateInfo(String view , String id){
+        return service.getBookUpdateInfo(view, id);
+    }
+
 }
