@@ -7,9 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.view.menu.MenuBuilder;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
@@ -140,4 +142,34 @@ public class MainActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private long firstTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                if(fragments.get(viewPager.getCurrentItem()) instanceof RecommendFragment){
+                    boolean b = ((RecommendFragment) fragments.get(viewPager.getCurrentItem())).onKeyDown(keyCode, event);
+                    if(b){
+                        exit();
+                    }
+                    return true;
+                }else {
+                    exit();
+                }
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exit() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            firstTime = secondTime;//更新firstTime
+        }else {
+            finish();
+        }
+    }
+
 }

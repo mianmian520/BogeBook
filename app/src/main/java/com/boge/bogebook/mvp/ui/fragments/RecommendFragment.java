@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -337,4 +338,18 @@ public class RecommendFragment extends BaseFragment implements RecommendView
         }
     }
 
+    /**
+     * 点击返回键时查看是否在批量管理
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(isBatch){
+            goneBatchManagementLayout();
+            adapter.setBatch((isBatch = false));
+            return false;
+        }
+        return true;
+    }
 }

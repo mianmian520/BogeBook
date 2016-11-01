@@ -184,7 +184,6 @@ public class RecommendInteractorImpl implements RecommendInteractor<List<LocalAn
     private void increaseOrReduceIndexAndUpdate(List<LocalAndRecomendBook> books, boolean b) {
         for (LocalAndRecomendBook book : books){
             increaseOrReduceIndex(book , b);
-            Log.i("test" , book.toString());
             LARBManager.updateBook(book);
         }
     }
