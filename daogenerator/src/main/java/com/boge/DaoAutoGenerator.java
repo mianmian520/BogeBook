@@ -33,6 +33,7 @@ public class DaoAutoGenerator {
         entity.addBooleanProperty("isLocal");
         entity.addBooleanProperty("hasUp");
         entity.addBooleanProperty("isTop");
+        entity.addIntProperty("location");
     }
 
 }

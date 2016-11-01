@@ -46,10 +46,13 @@ public class RecommendPresenterImpl extends BasePresenterImpl<RecommendView,List
 
     @Override
     public void addBookcase(List<LocalAndRecomendBook> books) {
-        for (LocalAndRecomendBook book : books){
-            LARBManager.insertBook(book);
-        }
+        recommendInteractor.addBookcase(books);
         mView.addBookCase(books);
+    }
+
+    @Override
+    public void bookStickied(LocalAndRecomendBook book) {
+        recommendInteractor.bookStickied(book);
     }
 
     @Override

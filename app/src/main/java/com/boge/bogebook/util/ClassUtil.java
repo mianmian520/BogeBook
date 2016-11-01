@@ -16,6 +16,7 @@ public class ClassUtil {
 
     public static List<LocalAndRecomendBook> RecommendToLocal(List<Recommend.RecommendBook> recommendBooks){
         List<LocalAndRecomendBook> localAndRecomendBooks = new ArrayList<LocalAndRecomendBook>();
+        int i = 0;
         for (Recommend.RecommendBook recommendBook : recommendBooks){
             LocalAndRecomendBook localAndRecomendBook = new LocalAndRecomendBook();
             localAndRecomendBook.setBookId(recommendBook.get_id());
@@ -25,6 +26,8 @@ public class ClassUtil {
             localAndRecomendBook.setTitle(recommendBook.getTitle());
             localAndRecomendBook.setLastChapter(recommendBook.getLastChapter());
             localAndRecomendBook.setHasUp(true);
+            localAndRecomendBook.setIsTop(false);
+            localAndRecomendBook.setLocation(i++);
             localAndRecomendBooks.add(localAndRecomendBook);
         }
         return localAndRecomendBooks;

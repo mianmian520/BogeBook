@@ -23,6 +23,7 @@ public class LocalAndRecomendBook {
     private Boolean isLocal;
     private Boolean hasUp;
     private Boolean isTop;
+    private Integer location;
 
     private boolean isSelect = false;
     private int chaptersCount;
@@ -36,7 +37,7 @@ public class LocalAndRecomendBook {
     }
 
     @Generated
-    public LocalAndRecomendBook(Long id, String Path, Long size, String bookId, String cover, String title, String lastChapter, Boolean isLocal, Boolean hasUp, Boolean isTop) {
+    public LocalAndRecomendBook(Long id, String Path, Long size, String bookId, String cover, String title, String lastChapter, Boolean isLocal, Boolean hasUp, Boolean isTop, Integer location) {
         this.id = id;
         this.Path = Path;
         this.size = size;
@@ -47,6 +48,7 @@ public class LocalAndRecomendBook {
         this.isLocal = isLocal;
         this.hasUp = hasUp;
         this.isTop = isTop;
+        this.location = location;
     }
 
     public Long getId() {
@@ -131,6 +133,14 @@ public class LocalAndRecomendBook {
         this.isTop = isTop;
     }
 
+    public Integer getLocation() {
+        return location;
+    }
+
+    public void setLocation(Integer location) {
+        this.location = location;
+    }
+
     public boolean isSelect() {
         return isSelect;
     }
@@ -160,6 +170,7 @@ public class LocalAndRecomendBook {
                 ", isLocal=" + isLocal +
                 ", hasUp=" + hasUp +
                 ", isTop=" + isTop +
+                ", location=" + location +
                 ", isSelect=" + isSelect +
                 ", chaptersCount=" + chaptersCount +
                 '}';

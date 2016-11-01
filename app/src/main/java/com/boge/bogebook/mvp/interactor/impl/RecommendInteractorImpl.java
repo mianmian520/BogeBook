@@ -15,6 +15,8 @@ import com.boge.entity.LocalAndRecomendBook;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -148,5 +150,62 @@ public class RecommendInteractorImpl implements RecommendInteractor<List<LocalAn
                         callBack.success(localAndRecomendBooks);
                     }
                 });
+    }
+
+    @Override
+    public void addBookcase(List<LocalAndRecomendBook> books) {
+        int maxIndex = LARBManager.getMaxIndex();
+        for (LocalAndRecomendBook book : books){
+            book.setLocation(maxIndex++);
+            LARBManager.insertBook(book);
+        }
+    }
+
+    private ExecutorService mSingleThreadPool;
+
+    @Override
+    public void bookStickied(final LocalAndRecomendBook book) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<LocalAndRecomendBook> books = LARBManager.getBeforeInLocation(book);
+                increaseOrReduceIndexAndUpdate(books , true);
+                book.setLocation(0);
+                LARBManager.updateBook(book);
+            }
+        }).start();
+    }
+
+    /**
+     * 位置的增与减
+     * @param books
+     * @param b    true增 false 减
+     */
+    private void increaseOrReduceIndexAndUpdate(List<LocalAndRecomendBook> books, boolean b) {
+        for (LocalAndRecomendBook book : books){
+            increaseOrReduceIndex(book , b);
+            Log.i("test" , book.toString());
+            LARBManager.updateBook(book);
+        }
+    }
+
+    private void increaseOrReduceIndex(LocalAndRecomendBook book, boolean b) {
+        int location;
+        if(b){
+            if(book.getIsTop()){
+                book.setIsTop(false);
+            }
+            location = book.getLocation()+1;
+        }else{
+            location = book.getLocation()-1;
+        }
+        book.setLocation(location);
+    }
+
+
+    private void createThreadPool() {
+        if (mSingleThreadPool == null) {
+            mSingleThreadPool = Executors.newSingleThreadExecutor();
+        }
     }
 }

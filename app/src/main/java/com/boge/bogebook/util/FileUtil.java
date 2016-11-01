@@ -39,6 +39,7 @@ public class FileUtil {
                         localBook.setSize(files[i].length());
                         localBook.setHasUp(false);
                         localBook.setIsLocal(true);
+                        localBook.setIsTop(false);
                         localBooks.add(localBook);
                     }
                 }

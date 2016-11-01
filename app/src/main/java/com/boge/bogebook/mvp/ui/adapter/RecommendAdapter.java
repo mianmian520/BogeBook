@@ -76,6 +76,15 @@ public class RecommendAdapter extends RecyclerView.Adapter {
         return books;
     }
 
+    public List<Integer> getPosition(){
+        List<Integer> positions = new ArrayList<Integer>();
+        for (int i = 0 ; i < recommendBooks.size() ; i++){
+            if(recommendBooks.get(i).isSelect()){
+                positions.add(i);
+            }
+        }
+        return positions;
+    }
     @Override
     public int getItemViewType(int position) {
         if (TextUtils.isEmpty(recommendBooks.get(position).getBookId())) {

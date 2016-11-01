@@ -2,6 +2,7 @@ package com.boge.bogebook.mvp.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
@@ -18,6 +20,7 @@ import com.boge.bogebook.dbmanager.LARBManager;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.listener.OnRecyclerViewLongItemClick;
 import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
+import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
 import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
 import com.boge.bogebook.mvp.view.RecommendView;
@@ -151,7 +154,6 @@ public class RecommendFragment extends BaseFragment implements RecommendView
             for (LocalAndRecomendBook recomendBook : books) {
                 if (recomendBook != null && recomendBook.getBookId().equals(book.getBookId())) {
                     recomendBook = book;
-                    recomendBook.setCover("---------");
                     break;
                 }
             }
@@ -188,8 +190,15 @@ public class RecommendFragment extends BaseFragment implements RecommendView
             List<LocalAndRecomendBook> choiceBook = adapter.getChoiceBook();
             if(choiceBook.size() > 0){
                 btnDelete.setText("删除("+choiceBook.size()+")");
+            }else{
+                btnDelete.setText("删除");
             }
-            if(choiceBook.size() == books.size())btnCheckAll.setText("取消全选");
+            if(choiceBook.size() == books.size()){
+                btnCheckAll.setText("取消全选");
+            } else {
+                ischoice = true;
+                btnCheckAll.setText("全选");
+            }
         }else{
             Snackbar.make(recyclerView, adapter.getRecommendBooks().get(position).toString(), Snackbar.LENGTH_SHORT).show();
         }
@@ -219,9 +228,11 @@ public class RecommendFragment extends BaseFragment implements RecommendView
                         public void onClick(DialogInterface dialogInterface, int i) {
                             switch (i) {
                                 case 0:
+                                    bookStickied(position);
                                     break;
                                 case 1:
-                                    delete(position);
+                                    List<Integer> ps = new ArrayList<Integer>();ps.add(position);
+                                    delete(ps);
                                     break;
                                 case 2:
                                     showBatchManagementLayout();
@@ -236,15 +247,22 @@ public class RecommendFragment extends BaseFragment implements RecommendView
                         public void onClick(DialogInterface dialogInterface, int i) {
                             switch (i) {
                                 case 0:
+                                    bookStickied(position);
                                     break;
                                 case 1:
+                                    Intent intent = new Intent(getActivity() , BookDetailActivity.class);
+                                    intent.putExtra("bookId",books.get(position).getBookId());
+                                    startActivity(intent);
                                     break;
                                 case 2:
+                                    Toast.makeText(getActivity() , "正在拼命开发中。。。" ,Toast.LENGTH_SHORT).show();
                                     break;
                                 case 3:
+                                    Toast.makeText(getActivity() , "正在拼命开发中。。。" ,Toast.LENGTH_SHORT).show();
                                     break;
                                 case 4:
-                                    delete(position);
+                                    List<Integer> ps = new ArrayList<Integer>();ps.add(position);
+                                    delete(ps);
                                     break;
                                 case 5:
                                     showBatchManagementLayout();
@@ -254,6 +272,22 @@ public class RecommendFragment extends BaseFragment implements RecommendView
                     }).create().show();
         }
     }
+
+    /**
+     * 书籍置顶
+     * @param position
+     */
+    private void bookStickied(int position) {
+        LocalAndRecomendBook book = books.get(position);
+        if(!book.getIsTop()){
+            book.setIsTop(true);
+            recommendPresenter.bookStickied(book);
+            books.remove(position);
+            books.add(0,book);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void goneBatchManagementLayout(){
         llOperation.setVisibility(View.GONE);
     }
@@ -263,14 +297,17 @@ public class RecommendFragment extends BaseFragment implements RecommendView
         adapter.setBatch((isBatch = true));
     }
 
-    private void delete(final int position) {
+    private void delete(final List<Integer> position) {
         new AlertDialog.Builder(getActivity()).setTitle("移除所选书籍")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        LARBManager.deleteBook(books.get(position));
-                        books.remove(position);
+                        for (int k = position.size()-1 ; k >= 0 ; k--){
+                            LARBManager.deleteBook(books.get(position.get(k)));
+                            books.remove((int)position.get(k));
+                        }
                         adapter.notifyDataSetChanged();
+                        btnDelete.setText("删除");btnCheckAll.setText("全选");ischoice = true;
                         dialogInterface.dismiss();
                     }
                 }).setNegativeButton("取消", null).create().show();
@@ -291,7 +328,13 @@ public class RecommendFragment extends BaseFragment implements RecommendView
                 }
                 break;
             case R.id.btn_delete:
+                if(adapter.getChoiceBook().size()==0){
+                    Toast.makeText(getActivity() , "请选择所要移除的读书" , Toast.LENGTH_SHORT).show();
+                }else{
+                    delete(adapter.getPosition());
+                }
                 break;
         }
     }
+
 }

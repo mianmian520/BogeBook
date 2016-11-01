@@ -24,5 +24,15 @@ public interface RecommendPresenter extends BasePresenter{
      */
     void loadUpdateInfo();
 
+    /**
+     * 往书架添加书籍
+     * @param books
+     */
     void addBookcase(List<LocalAndRecomendBook> books);
+
+    /**
+     * 书籍置顶
+     * @param book
+     */
+    void bookStickied(LocalAndRecomendBook book);
 }
