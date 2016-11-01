@@ -22,6 +22,7 @@ import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.listener.OnRecyclerViewLongItemClick;
 import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
+import com.boge.bogebook.mvp.ui.activity.ReaderActivity;
 import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
 import com.boge.bogebook.mvp.view.RecommendView;
@@ -201,7 +202,15 @@ public class RecommendFragment extends BaseFragment implements RecommendView
                 btnCheckAll.setText("全选");
             }
         }else{
-            Snackbar.make(recyclerView, adapter.getRecommendBooks().get(position).toString(), Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(recyclerView, adapter.getRecommendBooks().get(position).toString(), Snackbar.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity() , ReaderActivity.class);
+            if(books.get(position).getIsLocal()){
+                intent.putExtra(Constant.PATH , books.get(position).getPath());
+            }else{
+                intent.putExtra(Constant.PATH , books.get(position).getBookId());
+            }
+            intent.putExtra(Constant.LOCAL , books.get(position).getIsLocal());
+            startActivity(intent);
         }
     }
 

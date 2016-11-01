@@ -8,6 +8,7 @@ import com.boge.bogebook.mvp.ui.activity.LocalBookActivity;
 import com.boge.bogebook.mvp.ui.activity.MainActivity;
 import com.boge.bogebook.mvp.ui.activity.RankDetailActivity;
 import com.boge.bogebook.mvp.ui.activity.RankingActivity;
+import com.boge.bogebook.mvp.ui.activity.ReaderActivity;
 
 import dagger.Component;
 
@@ -36,4 +37,6 @@ public interface ActivityComponent {
     void inject(CategortBookActivity activity);
 
     void inject(LocalBookActivity activity);
+
+    void inject(ReaderActivity readerActivity);
 }

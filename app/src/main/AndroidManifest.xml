@@ -3,8 +3,9 @@
     package="com.boge.bogebook">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".BookApplication"
         android:allowBackup="true"
@@ -45,7 +46,11 @@
         <activity
             android:name=".mvp.ui.activity.LocalBookActivity"
             android:label="@string/title_activity_local_book"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".mvp.ui.activity.ReaderActivity"
+            android:label="@string/title_activity_reader"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

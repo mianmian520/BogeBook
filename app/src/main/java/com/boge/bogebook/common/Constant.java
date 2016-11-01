@@ -21,4 +21,6 @@ public class Constant {
 
     /**排行榜id**/
     public static final String RANKINGID = "rankingId";
+    public static final String PATH = "PATH" ;
+    public static final String LOCAL = "local";
 }
