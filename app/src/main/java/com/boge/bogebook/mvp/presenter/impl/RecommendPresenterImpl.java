@@ -1,6 +1,6 @@
 package com.boge.bogebook.mvp.presenter.impl;
 
-import com.boge.bogebook.dbmanager.LARBManager;
+import com.boge.bogebook.manager.dbmanager.LARBManager;
 import com.boge.bogebook.listener.RequestCallBack;
 import com.boge.bogebook.mvp.interactor.RecommendInteractor;
 import com.boge.bogebook.mvp.interactor.impl.RecommendInteractorImpl;

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
-import com.boge.bogebook.dbmanager.LARBManager;
+import com.boge.bogebook.manager.dbmanager.LARBManager;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.listener.OnRecyclerViewLongItemClick;
 import com.boge.bogebook.util.Tools;

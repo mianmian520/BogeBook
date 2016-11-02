@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.boge.bogebook.component.ApplicationComponent;
 import com.boge.bogebook.component.DaggerApplicationComponent;
 import com.boge.bogebook.module.ApplicationModule;
+import com.boge.bogebook.util.SharedPreferencesUtil;
 import com.boge.dao.DaoMaster;
 import com.boge.dao.DaoSession;
 import com.boge.dao.LocalAndRecomendBookDao;
@@ -30,6 +31,14 @@ public class BookApplication extends Application {
         super.onCreate();
         initApplicationComponent();
         mContext = this;
+        initPrefs();
+    }
+
+    /**
+     * 初始化SharedPreference
+     */
+    protected void initPrefs() {
+        SharedPreferencesUtil.init(getApplicationContext(), getPackageName() + "_preference", Context.MODE_MULTI_PROCESS);
     }
 
     private void initApplicationComponent() {

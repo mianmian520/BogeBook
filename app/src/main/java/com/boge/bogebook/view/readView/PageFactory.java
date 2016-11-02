@@ -1,4 +1,4 @@
-package com.boge.bogebook.util;
+package com.boge.bogebook.view.readView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +15,8 @@ import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
+import com.boge.bogebook.manager.SettingManager;
+import com.boge.bogebook.util.ScreenUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -222,7 +224,7 @@ public class PageFactory {
             canvas.drawText(mTime, mWidth - marginWidth - timeLen, mHeight - marginHeight, mTitlePaint);
 
             // 保存阅读进度
-            //SettingManager.getInstance().saveReadProgress(bookId, currentChapter, m_mbBufBeginPos, m_mbBufEndPos);
+            SettingManager.getInstance().saveReadProgress(bookId, currentChapter, m_mbBufBeginPos, m_mbBufEndPos);
         }
     }
 
@@ -240,7 +242,11 @@ public class PageFactory {
 
             m_mbBufBeginPos -= parabuffer.length; // 2.变换起始位置指针
             try {
-                strParagraph = new String(parabuffer, "GBK");
+                if(bookId.contains(".txt")){
+                    strParagraph = new String(parabuffer, "GBK");
+                }else{
+                    strParagraph = new String(parabuffer, "Utf-8");
+                }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -256,7 +262,11 @@ public class PageFactory {
 
             while (lines.size() > mPageLineCount) { // 4.如果段落添加完，但是超出一页，则超出部分需删减
                 try {
-                    m_mbBufBeginPos += lines.get(0).getBytes("GBK").length; // 5.删减行数同时起始位置指针也要跟着偏移
+                    if(bookId.contains(".txt")){
+                        m_mbBufBeginPos += lines.get(0).getBytes("GBK").length; // 5.删减行数同时起始位置指针也要跟着偏移
+                    }else{
+                        m_mbBufBeginPos += lines.get(0).getBytes("UTF-8").length; // 5.删减行数同时起始位置指针也要跟着偏移
+                    }
                     lines.remove(0);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -282,7 +292,11 @@ public class PageFactory {
             byte[] parabuffer = readParagraphForward(m_mbBufEndPos);
             m_mbBufEndPos += parabuffer.length;
             try {
-                strParagraph = new String(parabuffer, "GBK");
+                if(bookId.contains(".txt")){
+                    strParagraph = new String(parabuffer, "GBK");
+                }else{
+                    strParagraph = new String(parabuffer, "Utf-8");
+                }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -300,7 +314,11 @@ public class PageFactory {
             lines.set(lines.size() - 1, lines.get(lines.size() - 1) + "@");
             if (strParagraph.length() != 0) {
                 try {
-                    m_mbBufEndPos -= (strParagraph).getBytes("GBK").length;
+                    if(bookId.contains(".txt")){
+                        m_mbBufEndPos -= (strParagraph).getBytes("GBK").length;
+                    }else{
+                        m_mbBufEndPos -= (strParagraph).getBytes("UTF-8").length;
+                    }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -328,7 +346,11 @@ public class PageFactory {
                 byte[] parabuffer = readParagraphForward(m_mbBufEndPos);
                 m_mbBufEndPos += parabuffer.length;
                 try {
-                    strParagraph = new String(parabuffer, "GBK");
+                    if(bookId.contains(".txt")){
+                        strParagraph = new String(parabuffer, "GBK");
+                    }else{
+                        strParagraph = new String(parabuffer, "Utf-8");
+                    }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -347,7 +369,11 @@ public class PageFactory {
 
                 if (strParagraph.length() != 0) {
                     try {
-                        m_mbBufEndPos -= (strParagraph).getBytes("GBK").length;
+                        if(bookId.contains(".txt")){
+                            m_mbBufEndPos -= (strParagraph).getBytes("GBK").length;
+                        }else{
+                            m_mbBufEndPos -= (strParagraph).getBytes("UTF-8").length;
+                        }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -360,7 +386,7 @@ public class PageFactory {
             }
             currentPage++;
         }
-        //SettingManager.getInstance().saveReadProgress(bookId, currentChapter, m_mbBufBeginPos, m_mbBufEndPos);
+        SettingManager.getInstance().saveReadProgress(bookId, currentChapter, m_mbBufBeginPos, m_mbBufEndPos);
         return lines;
     }
 

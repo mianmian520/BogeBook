@@ -1,4 +1,4 @@
-package com.boge.bogebook.dbmanager;
+package com.boge.bogebook.manager.dbmanager;
 
 import com.boge.bogebook.BookApplication;
 import com.boge.dao.LocalAndRecomendBookDao;

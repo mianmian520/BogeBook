@@ -5,7 +5,7 @@ import android.util.Log;
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.api.BookRetrofitManager;
-import com.boge.bogebook.dbmanager.LARBManager;
+import com.boge.bogebook.manager.dbmanager.LARBManager;
 import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.listener.RequestCallBack;

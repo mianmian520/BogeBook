@@ -7,8 +7,8 @@ import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
-import com.boge.bogebook.util.PageFactory;
-import com.boge.bogebook.view.PageWidget;
+import com.boge.bogebook.view.readView.PageFactory;
+import com.boge.bogebook.view.readView.PageWidget;
 
 import java.util.ArrayList;
 import java.util.List;

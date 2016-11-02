@@ -1,4 +1,4 @@
-package com.boge.bogebook.view;
+package com.boge.bogebook.view.readView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,8 +20,8 @@ import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
-import com.boge.bogebook.util.PageFactory;
 import com.boge.bogebook.util.ScreenUtils;
+import com.boge.bogebook.manager.SettingManager;
 import com.boge.bogebook.util.ToastUtils;
 
 import java.util.List;
@@ -124,7 +124,7 @@ public class PageWidget extends View {
                 bmp.eraseColor(ContextCompat.getColor(BookApplication.getmContext(), R.color.read_theme_white));
                 pagefactory.setBgBitmap(bmp);
                 // 自动跳转到上次阅读位置
-                int pos[] = {1,0,0};
+                int pos[] = SettingManager.getInstance().getReadProgress(bookId);;
                 int ret = pagefactory.openBook(pos[0], new int[]{pos[1], pos[2]});
                 //LogUtils.i("上次阅读位置：chapter=" + pos[0] + " startPos=" + pos[1] + " endPos=" + pos[2]);
                 if (ret == 0) {
@@ -134,6 +134,7 @@ public class PageWidget extends View {
                 pagefactory.onDraw(mCurrentPageCanvas);
                 postInvalidate();
             } catch (Exception e) {
+                e.printStackTrace();
             }
             isPrepared = true;
         }
