@@ -31,7 +31,7 @@ public class FileUtil {
             if(!files[i].isDirectory()){
                 if(files[i].getAbsolutePath().endsWith(".txt") && files[i].length()>100*1024){
                     LocalAndRecomendBook book = BookApplication.getLocalAndRecomendBookDao().queryBuilder()
-                            .where(LocalAndRecomendBookDao.Properties.Path.eq(files[i].getName())).unique();
+                            .where(LocalAndRecomendBookDao.Properties.Title.eq(files[i].getName())).unique();
                     if(book == null){
                         LocalAndRecomendBook localBook = new LocalAndRecomendBook();
                         localBook.setTitle(files[i].getName());
