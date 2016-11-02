@@ -16,10 +16,10 @@ import com.boge.bogebook.R;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
 import com.boge.bogebook.manager.SettingManager;
+import com.boge.bogebook.util.FileUtil;
 import com.boge.bogebook.util.ScreenUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.nio.MappedByteBuffer;
@@ -91,14 +91,15 @@ public class PageFactory {
 
     private OnReadStateChangeListener listener;
 
-    public PageFactory(Context context, String bookId, List<BookToc.ChaptersBean> chaptersList) {
+    private boolean isLocal;
+    public PageFactory(Context context, String bookId, List<BookToc.ChaptersBean> chaptersList, boolean isLocal) {
         this(context, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(),
                 ScreenUtils.dpToPxInt(16),
-                bookId, chaptersList);
+                bookId, chaptersList,isLocal);
     }
 
     public PageFactory(Context context, int width, int height, int fontSize, String bookId,
-                       List<BookToc.ChaptersBean> chaptersList) {
+                       List<BookToc.ChaptersBean> chaptersList, boolean isLocal) {
         mWidth = width;
         mHeight = height;
         mFontSize = fontSize;
@@ -126,7 +127,7 @@ public class PageFactory {
 
         this.bookId = bookId;
         this.chaptersList = chaptersList;
-
+        this.isLocal = isLocal;
         time = dateFormat.format(new Date());
         batteryView = (ProgressBar) LayoutInflater.from(context).inflate(R.layout.layout_battery_progress, null);
     }
@@ -156,7 +157,12 @@ public class PageFactory {
         if (currentChapter > chapterSize)
             currentChapter = chapterSize;
         try {
-            File file = new File(bookId);
+            File file = null;
+            if (isLocal){
+                file = new File(bookId);
+            }else{
+                file = FileUtil.getChapterFile(bookId , chapter);
+            }
             long length = file.length();
             if (length < 50) {
                 return 0;
@@ -171,7 +177,7 @@ public class PageFactory {
             onChapterChanged(chapter);
             m_lines.clear();
             return 1;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
@@ -439,7 +445,7 @@ public class PageFactory {
     }
 
     public boolean hasNextPage() {
-        return currentChapter < chaptersList.size() || m_mbBufEndPos < m_mpBufferLen;
+        return currentChapter < chaptersList.size() || m_mbBufEndPos <= m_mpBufferLen;
     }
 
     public boolean hasPrePage() {

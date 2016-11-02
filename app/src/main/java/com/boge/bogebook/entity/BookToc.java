@@ -150,5 +150,30 @@ public class BookToc {
         public void setIsVip(boolean isVip) {
             this.isVip = isVip;
         }
+
+        @Override
+        public String toString() {
+            return "ChaptersBean{" +
+                    "title='" + title + '\'' +
+                    ", link='" + link + '\'' +
+                    ", id='" + id + '\'' +
+                    ", currency=" + currency +
+                    ", unreadble=" + unreadble +
+                    ", isVip=" + isVip +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "BookToc{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", book='" + book + '\'' +
+                ", updated='" + updated + '\'' +
+                ", host='" + host + '\'' +
+                ", chapters=" + chapters +
+                '}';
     }
 }

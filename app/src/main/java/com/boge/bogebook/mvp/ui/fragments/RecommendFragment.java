@@ -209,6 +209,7 @@ public class RecommendFragment extends BaseFragment implements RecommendView
             }else{
                 intent.putExtra(Constant.PATH , books.get(position).getBookId());
             }
+            intent.putExtra(Constant.TITLE , books.get(position).getTitle());
             intent.putExtra(Constant.LOCAL , books.get(position).getIsLocal());
             startActivity(intent);
         }

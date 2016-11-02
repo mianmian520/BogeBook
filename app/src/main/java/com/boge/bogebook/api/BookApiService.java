@@ -63,6 +63,15 @@ public interface BookApiService {
     Observable<List<BookUpdateInfo>> getBookUpdateInfo(@Query("view") String view , @Query("id") String id);
 
     /**
+     * 得到章节id
+     * @param view
+     * @param bookid
+     * @return
+     */
+    @GET("/btoc")
+    Observable<ResponseBody> getChapterID(@Query("view") String view , @Query("book") String bookid);
+
+    /**
      * 小说章节
      * @param bookId   id
      * @param view     chapters
@@ -72,7 +81,7 @@ public interface BookApiService {
     Observable<BookToc> getBookBToc(@Path("bookId") String bookId, @Query("view") String view);
 
     @GET("/mix-atoc/{bookId}")
-    Observable<BookToc> getBookToc(@Path("bookId") String bookId, @Query("view") String view);
+    Observable<BookToc> getBookAToc(@Path("bookId") String bookId, @Query("view") String view);
 
     /**
      * 获取章节内容

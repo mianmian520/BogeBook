@@ -1,5 +1,7 @@
 package com.boge.bogebook.common;
 
+import com.boge.bogebook.util.FileUtil;
+
 /**
  * @author boge
  * @version 1.0
@@ -23,4 +25,13 @@ public class Constant {
     public static final String RANKINGID = "rankingId";
     public static final String PATH = "PATH" ;
     public static final String LOCAL = "local";
+    public static final String TITLE = "title";
+
+    public static final String SUMMARY = "summary";
+    public static final String CHAPTERS = "chapters";
+
+    public static final String DIRECTORY = "BogeBook";
+
+    public static final String BASE_PATH = FileUtil.getSDCardPath();
+//    public static final String
 }

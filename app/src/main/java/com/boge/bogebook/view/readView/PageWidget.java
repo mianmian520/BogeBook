@@ -83,11 +83,14 @@ public class PageWidget extends View {
     private String bookId;
     public boolean isPrepared = false;
 
+    private boolean isLocal;
+
     public PageWidget(Context context, String bookId, List<BookToc.ChaptersBean> chaptersList,
-                      OnReadStateChangeListener listener) {
+                      OnReadStateChangeListener listener , boolean isLocal) {
         super(context);
         this.listener = listener;
         this.bookId = bookId;
+        this.isLocal = isLocal;
         mPath0 = new Path();
         mPath1 = new Path();
         mScreenWidth = ScreenUtils.getScreenWidth();
@@ -112,7 +115,7 @@ public class PageWidget extends View {
         mNextPageBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeight, Bitmap.Config.ARGB_8888);
         mCurrentPageCanvas = new Canvas(mCurPageBitmap);
         mNextPageCanvas = new Canvas(mNextPageBitmap);
-        pagefactory = new PageFactory(getContext(), bookId, chaptersList);
+        pagefactory = new PageFactory(getContext(), bookId, chaptersList,isLocal);
     }
 
     public synchronized void init() {

@@ -5,6 +5,7 @@ import com.boge.bogebook.entity.BookDetail;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.CategoryList;
+import com.boge.bogebook.entity.ChapterRead;
 import com.boge.bogebook.entity.RankingList;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -76,8 +78,25 @@ public class BookRetrofitManager {
         return service.getRecomend(gender);
     }
 
+    public Observable<ResponseBody> getChapterId(String view , String bookid){
+        return service.getChapterID(view , bookid);
+    }
+
     public Observable<BookToc> getBookBToc(String bookId,  String view){
         return service.getBookBToc(bookId , view);
+    }
+
+    public Observable<BookToc> getBookABToc(String bookId,  String view){
+        return service.getBookBToc(bookId , view);
+    }
+
+    /**
+     * 获取章节内容
+     * @param url    章节Url
+     * @return
+     */
+    public Observable<ChapterRead> getChapterRead(String url){
+        return service.getChapterRead(url);
     }
 
     /**
