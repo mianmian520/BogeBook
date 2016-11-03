@@ -42,4 +42,6 @@ public interface RecommendInteractor<T> {
      * @param book
      */
     void bookStickied(LocalAndRecomendBook book);
+
+    void bookOnclick(LocalAndRecomendBook book , int location);
 }

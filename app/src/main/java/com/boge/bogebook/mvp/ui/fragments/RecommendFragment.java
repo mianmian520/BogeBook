@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
-import com.boge.bogebook.manager.dbmanager.LARBManager;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.listener.OnRecyclerViewLongItemClick;
+import com.boge.bogebook.manager.dbmanager.LARBManager;
 import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
 import com.boge.bogebook.mvp.ui.activity.ReaderActivity;
@@ -206,12 +206,27 @@ public class RecommendFragment extends BaseFragment implements RecommendView
             Intent intent = new Intent(getActivity() , ReaderActivity.class);
             if(books.get(position).getIsLocal()){
                 intent.putExtra(Constant.PATH , books.get(position).getPath());
-            }else{
+            } else {
                 intent.putExtra(Constant.PATH , books.get(position).getBookId());
             }
             intent.putExtra(Constant.TITLE , books.get(position).getTitle());
             intent.putExtra(Constant.LOCAL , books.get(position).getIsLocal());
             startActivity(intent);
+            if(books.size() > 0 && position >= 1){
+                recommendPresenter.bookOnclick(books.get(position) , books.get(position).getLocation());
+                if(LARBManager.getBookStickied() != null){
+                    if(position != 1){
+                        books.get(position).setLocation(1);
+                        LocalAndRecomendBook book = books.get(position);
+                        books.remove(position);books.add(1 , book);
+                    }
+                }else{
+                    books.get(position).setLocation(0);
+                    LocalAndRecomendBook book = books.get(position);
+                    books.remove(position);books.add(0 , book);
+                }
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 

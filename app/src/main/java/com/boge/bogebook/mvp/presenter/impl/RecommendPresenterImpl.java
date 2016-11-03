@@ -56,6 +56,11 @@ public class RecommendPresenterImpl extends BasePresenterImpl<RecommendView,List
     }
 
     @Override
+    public void bookOnclick(LocalAndRecomendBook book, int location) {
+        recommendInteractor.bookOnclick(book , location);
+    }
+
+    @Override
     public void success(List<LocalAndRecomendBook> data) {
         super.success(data);
         if(mView != null){

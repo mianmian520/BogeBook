@@ -35,4 +35,10 @@ public interface RecommendPresenter extends BasePresenter{
      * @param book
      */
     void bookStickied(LocalAndRecomendBook book);
+
+    /**
+     * 点击书籍，更换位置
+     * @param book
+     */
+    void bookOnclick(LocalAndRecomendBook book , int location);
 }

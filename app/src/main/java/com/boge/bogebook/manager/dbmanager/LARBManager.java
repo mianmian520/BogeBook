@@ -115,6 +115,12 @@ public class LARBManager {
 
     public static List<LocalAndRecomendBook> getBeforeInLocation(LocalAndRecomendBook book){
         return dao.queryBuilder().where(LocalAndRecomendBookDao.Properties.Location.lt(book.getLocation()))
+                .orderAsc(LocalAndRecomendBookDao.Properties.Location)
+                .list();
+    }
+    public static List<LocalAndRecomendBook> getBeforeInLocation(int location){
+        return dao.queryBuilder().where(LocalAndRecomendBookDao.Properties.Location.lt(location))
+                .orderAsc(LocalAndRecomendBookDao.Properties.Location)
                 .list();
     }
 

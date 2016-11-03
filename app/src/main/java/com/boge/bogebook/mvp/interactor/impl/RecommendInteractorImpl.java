@@ -176,6 +176,24 @@ public class RecommendInteractorImpl implements RecommendInteractor<List<LocalAn
         }).start();
     }
 
+    @Override
+    public void bookOnclick(final LocalAndRecomendBook book , final int location) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<LocalAndRecomendBook> books  = LARBManager.getBeforeInLocation(location);
+                if(LARBManager.getBookStickied() != null && books.size() > 0){
+                    books.remove(0);
+                    book.setLocation(1);
+                }else {
+                    book.setLocation(0);
+                }
+                increaseOrReduceIndexAndUpdate(books , true);
+                LARBManager.updateBook(book);
+            }
+        }).start();
+    }
+
     /**
      * 位置的增与减
      * @param books
