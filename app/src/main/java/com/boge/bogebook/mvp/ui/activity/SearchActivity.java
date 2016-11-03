@@ -1,15 +1,27 @@
 package com.boge.bogebook.mvp.ui.activity;
 
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
+import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.HotWord;
+import com.boge.bogebook.entity.support.BookInfo;
+import com.boge.bogebook.listener.OnBaseItemClick;
 import com.boge.bogebook.mvp.presenter.impl.SearchPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
+import com.boge.bogebook.mvp.ui.adapter.BookListDetailAdapter;
+import com.boge.bogebook.mvp.ui.adapter.ImgAndTextAdapter;
 import com.boge.bogebook.mvp.ui.adapter.TagAdapter;
 import com.boge.bogebook.mvp.view.SearchView;
 import com.boge.bogebook.view.TagGroup;
@@ -29,8 +41,22 @@ public class SearchActivity extends BaseActivity implements SearchView {
     TagGroup tvTag;
     @Bind(R.id.rv_history)
     RecyclerView rvHistory;
+    @Bind(R.id.rl_hot_history)
+    RelativeLayout rlHotHistory;
+    @Bind(R.id.rv_key)
+    RecyclerView rvKey;
+    @Bind(R.id.tv_accurate_search)
+    TextView tvAccurateSearch;
+    @Bind(R.id.rv_book)
+    RecyclerView rvBook;
+    @Bind(R.id.ll_search_book)
+    LinearLayout llSearchBook;
 
     private TagAdapter<String> tagAdapter;
+    private ImgAndTextAdapter autoCompleteAdapter;
+    private ImgAndTextAdapter historyAdapter;
+    /***书籍详细列表适配器*/
+    private BookListDetailAdapter bookAdapter;
 
     @Inject
     SearchPresenterImpl searchPresenter;
@@ -50,8 +76,9 @@ public class SearchActivity extends BaseActivity implements SearchView {
         toolbar.setTitle("");
 
         initTag();
-
-        initRecyclerView();
+        initKeyRecyclerView();
+        initHistoryRecyclerView();
+        initBookRecyclerView();
 
         basePresenter = searchPresenter;
         searchPresenter.attachView(this);
@@ -59,8 +86,37 @@ public class SearchActivity extends BaseActivity implements SearchView {
         getHotWord();
     }
 
-    private void initRecyclerView() {
+    private void initBookRecyclerView() {
+        rvBook.setLayoutManager(new LinearLayoutManager(this));
+        rvBook.setHasFixedSize(true);
+        bookAdapter = new BookListDetailAdapter();
+        rvBook.setAdapter(bookAdapter);
+    }
 
+    private void initHistoryRecyclerView() {
+        rvHistory.setLayoutManager(new LinearLayoutManager(this));
+        rvHistory.setHasFixedSize(true);
+        historyAdapter = new ImgAndTextAdapter(this, new ArrayList<String>(), R.mipmap.history, new OnBaseItemClick() {
+            @Override
+            public void onItemClick(View v, int position, Object data) {
+
+            }
+        });
+        rvHistory.setAdapter(historyAdapter);
+    }
+
+    private void initKeyRecyclerView() {
+        rvKey.setLayoutManager(new LinearLayoutManager(this));
+        rvKey.setHasFixedSize(true);
+        autoCompleteAdapter = new ImgAndTextAdapter(this, new ArrayList<String>(), R.mipmap.search, new OnBaseItemClick() {
+            @Override
+            public void onItemClick(View v, int position, Object data) {
+                rvKey.setVisibility(View.GONE);
+                llSearchBook.setVisibility(View.VISIBLE);
+                searchPresenter.searchBook((String) data);
+            }
+        });
+        rvKey.setAdapter(autoCompleteAdapter);
     }
 
     private void initTag() {
@@ -69,22 +125,10 @@ public class SearchActivity extends BaseActivity implements SearchView {
             @Override
             public void onItemClick(View view, int position) {
                 List<String> hots = tagAdapter.getmDataList();
-                Snackbar.make(tvTag , hots.get(position) , Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(tvTag, hots.get(position), Snackbar.LENGTH_SHORT).show();
             }
         });
         tvTag.setAdapter(tagAdapter);
-    }
-
-    /**
-     * 菜单拦
-     *
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        return true;
     }
 
     @Override
@@ -93,6 +137,19 @@ public class SearchActivity extends BaseActivity implements SearchView {
             BookApplication.setHotWords(hotWords.getHotWords());
         }
         getHotWord();
+    }
+
+    @Override
+    public void setAutoComplete(AutoComplete autoComplete) {
+        autoCompleteAdapter.clear();
+        autoCompleteAdapter.addAll(autoComplete.getKeywords());
+    }
+
+    @Override
+    public void setBooks(List<BookInfo> bookInfos) {
+        if(bookInfos != null){
+            bookAdapter.setBooksBeen(bookInfos);
+        }
     }
 
     private void getHotWord() {
@@ -139,4 +196,41 @@ public class SearchActivity extends BaseActivity implements SearchView {
                 break;
         }
     }
+
+    private android.support.v7.widget.SearchView searchView;
+
+    /**
+     * 菜单拦
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_search, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);//在菜单中找到对应控件的item
+        searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!newText.equals("")) {
+                    rvKey.setVisibility(View.VISIBLE);
+                    rlHotHistory.setVisibility(View.GONE);
+                    searchPresenter.autoComplete(newText);
+                } else {
+                    rvKey.setVisibility(View.GONE);
+                    rlHotHistory.setVisibility(View.VISIBLE);
+                }
+                return false;
+            }
+        });
+        return true;
+    }
+
 }

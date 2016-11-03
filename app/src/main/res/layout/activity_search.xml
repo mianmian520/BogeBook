@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/common_gray_bg"
     tools:context="com.boge.bogebook.mvp.ui.activity.SearchActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -24,9 +25,9 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_hot_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/common_gray_bg"
         android:padding="@dimen/item_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <TextView
@@ -102,5 +103,33 @@
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_key"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/item_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/ll_search_book"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical"
+        android:padding="@dimen/item_margin"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_accurate_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accurate_search"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/middle_size"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_book"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/item_margin"/>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

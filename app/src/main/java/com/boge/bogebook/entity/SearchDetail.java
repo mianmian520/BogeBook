@@ -61,7 +61,7 @@ public class SearchDetail {
         private String cover;
         private String shortIntro;
         private String lastChapter;
-        private double retentionRatio;
+        private String retentionRatio;
         private int latelyFollower;
         private int wordCount;
 
@@ -137,11 +137,11 @@ public class SearchDetail {
             this.lastChapter = lastChapter;
         }
 
-        public double getRetentionRatio() {
+        public String getRetentionRatio() {
             return retentionRatio;
         }
 
-        public void setRetentionRatio(double retentionRatio) {
+        public void setRetentionRatio(String retentionRatio) {
             this.retentionRatio = retentionRatio;
         }
 

@@ -1,6 +1,7 @@
 package com.boge.bogebook.api;
 
 import com.boge.bogebook.common.Constant;
+import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.BookDetail;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.BookUpdateInfo;
@@ -11,6 +12,7 @@ import com.boge.bogebook.entity.RankingList;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.entity.RecommendBookList;
+import com.boge.bogebook.entity.SearchDetail;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -163,6 +165,26 @@ public class BookRetrofitManager {
      */
     public Observable<HotWord> getHotWord(){
         return service.getHotWord();
+    }
+
+    /**
+     * 关键字自动补全
+     *
+     * @param query
+     * @return
+     */
+    public Observable<AutoComplete> autoComplete(String query){
+        return service.autoComplete(query);
+    }
+
+    /**
+     * 书籍查询
+     *
+     * @param query
+     * @return
+     */
+    public Observable<SearchDetail> searchBooks(String query){
+        return service.searchBooks(query);
     }
 
 }

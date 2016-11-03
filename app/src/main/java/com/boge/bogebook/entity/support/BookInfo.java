@@ -84,6 +84,9 @@ public class BookInfo {
     }
 
     public String getRetentionRatio() {
+        if(retentionRatio == null){
+            return "0.0";
+        }
         return retentionRatio;
     }
 

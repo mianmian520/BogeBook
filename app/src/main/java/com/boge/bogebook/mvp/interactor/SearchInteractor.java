@@ -19,4 +19,19 @@ public interface SearchInteractor {
      */
     Subscription loadHotWord(RequestCallBack callBack);
 
+    /**
+     * 搜索关键字，补全
+     * @param query
+     * @param callBack
+     * @return
+     */
+    Subscription autoComplete(String query , RequestCallBack callBack);
+
+    /**
+     * 搜索书籍
+     * @param query
+     * @param callBack
+     * @return
+     */
+    Subscription searchBook(String query , RequestCallBack callBack);
 }

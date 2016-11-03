@@ -15,4 +15,15 @@ public interface SearchPresenter extends BasePresenter {
      */
     void loadHotWords();
 
+    /**
+     * 关键字补全
+     * @param query
+     */
+    void autoComplete(String query);
+
+    /**
+     * 搜索书籍
+     * @param query
+     */
+    void searchBook(String query);
 }
