@@ -59,6 +59,8 @@ public class LocalBookActivity extends BaseActivity implements LocalBookView , O
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
+        localBookAdapter = new LocalBookAdapter(this ,localBookList , this );
+        recyclerView.setAdapter(localBookAdapter);
     }
 
     @OnClick(R.id.btn_import_book)
@@ -92,15 +94,17 @@ public class LocalBookActivity extends BaseActivity implements LocalBookView , O
         }
     }
 
+    private List<LocalAndRecomendBook> localBookList = new ArrayList<LocalAndRecomendBook>();
+
     @Override
-    public void setLocalBook(List<LocalAndRecomendBook> localBookList) {
-        if(localBookList != null && localBookList.size() > 0){
+    public void setLocalBook(List<LocalAndRecomendBook> localBooks) {
+        if(localBooks != null && localBooks.size()>0)localBookList.addAll(localBooks);
+        if(localBookList.size() > 0){
             tvBookCount.setText("扫描到"+localBookList.size()+"个TXT文件");
         }else{
             tvBookCount.setText("没有扫描到TXT文件");
         }
-        localBookAdapter = new LocalBookAdapter(this ,localBookList , this );
-        recyclerView.setAdapter(localBookAdapter);
+        localBookAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -13,6 +13,10 @@ import java.util.List;
 
 public interface LocalBookView extends BaseView {
 
-    void setLocalBook(List<LocalAndRecomendBook> localBookList);
+    /**
+     * 设置本地的读书
+     * @param localBooks
+     */
+    void setLocalBook(List<LocalAndRecomendBook> localBooks);
 
 }

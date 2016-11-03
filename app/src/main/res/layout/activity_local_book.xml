@@ -26,15 +26,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@color/common_gray_bg">
+        android:background="@color/common_bg">
         <TextView
             android:layout_alignParentTop="true"
             android:id="@+id/tv_book_count"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:gravity="center|left"
-            android:layout_marginLeft="@dimen/item_margin"
+            android:paddingLeft="@dimen/item_margin"
             android:background="@color/common_bg"
+            android:textColor="@color/common_h3"
+            />
+        <ProgressBar
+            android:layout_toRightOf="@+id/tv_book_count"
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:indeterminateDrawable="@drawable/progressbar1"
             />
         <View
             android:id="@+id/line"
@@ -61,11 +70,7 @@
             android:background="@color/btn1"
             android:textColor="@color/white"
             android:textSize="@dimen/large_size"/>
-        <ProgressBar
-            android:layout_centerInParent="true"
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

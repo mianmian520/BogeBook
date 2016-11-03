@@ -117,4 +117,10 @@ public class LARBManager {
         return dao.queryBuilder().where(LocalAndRecomendBookDao.Properties.Location.lt(book.getLocation()))
                 .list();
     }
+
+    public static boolean isExists(LocalAndRecomendBook localBook) {
+        LocalAndRecomendBook unique = dao.queryBuilder().where(LocalAndRecomendBookDao.Properties.Path.eq(localBook.getPath()))
+                .unique();
+        return unique == null ? false : true;
+    }
 }
