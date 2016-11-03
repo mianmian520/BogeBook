@@ -53,6 +53,7 @@ public class SearchActivity extends BaseActivity implements SearchView {
 
         initRecyclerView();
 
+        basePresenter = searchPresenter;
         searchPresenter.attachView(this);
 
         getHotWord();

@@ -29,7 +29,7 @@ public class CategoryPresenterImpl extends BasePresenterImpl<CategoryView , Cate
     @Override
     public void loadCategoryList() {
         this.beforeRequest();
-        categoryInteractor.loadCategoryList(this);
+        mSubscription = categoryInteractor.loadCategoryList(this);
     }
 
     @Override

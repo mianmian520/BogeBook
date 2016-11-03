@@ -28,7 +28,7 @@ public class BookDetailPresenterImpl extends BasePresenterImpl<BookDetailView,Bo
 
     @Override
     public void loadBookDetail(String bookID) {
-        bookDetailInteractor.loadBookDetail(bookID , this);
+        mSubscription = bookDetailInteractor.loadBookDetail(bookID , this);
     }
 
     @Override

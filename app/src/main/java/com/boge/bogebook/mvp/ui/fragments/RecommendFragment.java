@@ -101,6 +101,7 @@ public class RecommendFragment extends BaseFragment implements RecommendView
 
     @Override
     protected void initDatas() {
+        basePresenter = recommendPresenter;
         recommendPresenter.attachView(this);
         recommendPresenter.loadRecommendBook(gender);
         initSwipeRefreshLayout();

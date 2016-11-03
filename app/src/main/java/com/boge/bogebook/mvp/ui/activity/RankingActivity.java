@@ -56,6 +56,7 @@ public class RankingActivity extends BaseActivity implements RankingView ,Rankin
 
     @Override
     protected void initViews() {
+        basePresenter= rankingListPresenter;
         rankingListPresenter.attachView(this);
         rankingListPresenter.loadRankingList();
 

@@ -27,7 +27,7 @@ public class RankingListPresenterImpl extends BasePresenterImpl<RankingView,Rank
     @Override
     public void loadRankingList() {
         this.beforeRequest();
-        rankingInteractor.loadRankingList(this);
+        mSubscription = rankingInteractor.loadRankingList(this);
     }
 
     @Override

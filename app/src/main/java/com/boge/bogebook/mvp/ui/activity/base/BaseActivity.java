@@ -10,6 +10,7 @@ import com.boge.bogebook.R;
 import com.boge.bogebook.component.ActivityComponent;
 import com.boge.bogebook.component.DaggerActivityComponent;
 import com.boge.bogebook.module.ActivityModule;
+import com.boge.bogebook.mvp.presenter.base.BasePresenter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initViews();
 
+    protected BasePresenter basePresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,5 +70,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public ActivityComponent getActivityComponent() {
         return activityComponent;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(basePresenter != null){
+            basePresenter.onDestroy();
+        }
     }
 }

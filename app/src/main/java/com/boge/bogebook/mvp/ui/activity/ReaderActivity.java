@@ -76,6 +76,7 @@ public class ReaderActivity extends BaseActivity implements ReaderView,OnReadSta
             chaptersBeens.add(chaptersBean);
             showChapterRead(null , currentChapter);
         }else{
+            basePresenter = readerPresenter;
             readerPresenter.attachView(this);
             readerPresenter.loadBookToc(path);
         }

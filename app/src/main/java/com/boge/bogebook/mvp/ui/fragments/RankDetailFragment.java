@@ -62,6 +62,7 @@ public class RankDetailFragment extends BaseFragment implements RankDetailView
 
     @Override
     protected void initDatas() {
+        basePresenter = rankDetailPresenter;
         rankDetailPresenter.attachView(this);
         rankDetailPresenter.loadRankDetail(rankingId);
         initRecyclerView();

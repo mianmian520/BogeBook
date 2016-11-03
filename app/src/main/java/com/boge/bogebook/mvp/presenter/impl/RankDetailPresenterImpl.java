@@ -29,7 +29,7 @@ public class RankDetailPresenterImpl extends BasePresenterImpl<RankDetailView,Ra
     @Override
     public void loadRankDetail(String rankingId) {
         this.beforeRequest();
-        rankDetailInteractor.loadRankDetail(rankingId , this);
+        mSubscription = rankDetailInteractor.loadRankDetail(rankingId , this);
     }
 
     @Override

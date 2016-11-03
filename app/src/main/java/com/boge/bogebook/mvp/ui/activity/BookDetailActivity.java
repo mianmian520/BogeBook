@@ -77,6 +77,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
 
     @Override
     protected void initViews() {
+        basePresenter = bookDetailPresenter;
         bookDetailPresenter.attachView(this);
         bookDetailPresenter.loadBookDetail(getIntent().getStringExtra("bookId"));
         mClickAdapter = new TagAdapter<>(this);

@@ -34,14 +34,14 @@ public class RecommendPresenterImpl extends BasePresenterImpl<RecommendView,List
     @Override
     public void loadRecommendBook(String gender) {
         this.beforeRequest();
-        recommendInteractor.loadRecommendBook(gender , this);
+        mSubscription = recommendInteractor.loadRecommendBook(gender , this);
     }
 
     @Override
     public void loadUpdateInfo() {
         isRefresh = true;
         String bookID = LARBManager.getBookID();
-        recommendInteractor.loadBookupdateInfo("updated" , bookID , this);
+        mSubscription = recommendInteractor.loadBookupdateInfo("updated" , bookID , this);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class ReaderPresenterImpl implements ReaderPresenter,RequestCallBack {
 
     @Override
     public void loadBookToc(String bookid) {
-        readerInteractor.getChaptersId(bookid , this);
+        mSubscription = readerInteractor.getChaptersId(bookid , this);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ReaderPresenterImpl implements ReaderPresenter,RequestCallBack {
             mView.hideProgress();
         }
         if(data instanceof String){
-            readerInteractor.loadBookToc((String) data, this);
+            mSubscription = readerInteractor.loadBookToc((String) data, this);
         }else if(data instanceof BookToc){
             mView.setBookToc((BookToc) data);
         }else if(data instanceof ChapterRead){
