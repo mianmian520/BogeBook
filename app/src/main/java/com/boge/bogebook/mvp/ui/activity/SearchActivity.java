@@ -1,9 +1,11 @@
 package com.boge.bogebook.mvp.ui.activity;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.HotWord;
 import com.boge.bogebook.entity.support.BookInfo;
 import com.boge.bogebook.listener.OnBaseItemClick;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.presenter.impl.SearchPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
 import com.boge.bogebook.mvp.ui.adapter.BookListDetailAdapter;
@@ -34,6 +37,8 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import static android.R.attr.data;
 
 public class SearchActivity extends BaseActivity implements SearchView {
 
@@ -57,6 +62,8 @@ public class SearchActivity extends BaseActivity implements SearchView {
     private ImgAndTextAdapter historyAdapter;
     /***书籍详细列表适配器*/
     private BookListDetailAdapter bookAdapter;
+
+    private List<String> historys = new ArrayList<String>();
 
     @Inject
     SearchPresenterImpl searchPresenter;
@@ -90,16 +97,26 @@ public class SearchActivity extends BaseActivity implements SearchView {
         rvBook.setLayoutManager(new LinearLayoutManager(this));
         rvBook.setHasFixedSize(true);
         bookAdapter = new BookListDetailAdapter();
+        bookAdapter.setOnRecyclerViewItemClick(new OnRecyclerViewItemClick() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
+                intent.putExtra("bookId" , bookAdapter.getBooksBeen().get(position).get_id());
+                startActivity(intent);
+            }
+        });
         rvBook.setAdapter(bookAdapter);
     }
 
     private void initHistoryRecyclerView() {
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
         rvHistory.setHasFixedSize(true);
-        historyAdapter = new ImgAndTextAdapter(this, new ArrayList<String>(), R.mipmap.history, new OnBaseItemClick() {
+        historyAdapter = new ImgAndTextAdapter(this, historys, R.mipmap.history, new OnBaseItemClick() {
             @Override
             public void onItemClick(View v, int position, Object data) {
-
+                rvKey.setVisibility(View.GONE);
+                llSearchBook.setVisibility(View.VISIBLE);
+                searchPresenter.searchBook((String) data);
             }
         });
         rvHistory.setAdapter(historyAdapter);
@@ -112,6 +129,7 @@ public class SearchActivity extends BaseActivity implements SearchView {
             @Override
             public void onItemClick(View v, int position, Object data) {
                 rvKey.setVisibility(View.GONE);
+                rlHotHistory.setVisibility(View.GONE);
                 llSearchBook.setVisibility(View.VISIBLE);
                 searchPresenter.searchBook((String) data);
             }
@@ -125,10 +143,25 @@ public class SearchActivity extends BaseActivity implements SearchView {
             @Override
             public void onItemClick(View view, int position) {
                 List<String> hots = tagAdapter.getmDataList();
-                Snackbar.make(tvTag, hots.get(position), Snackbar.LENGTH_SHORT).show();
+                rvKey.setVisibility(View.GONE);
+                rlHotHistory.setVisibility(View.GONE);
+                llSearchBook.setVisibility(View.VISIBLE);
+                searchPresenter.searchBook(hots.get(position));
+                addToHistory(hots.get(position));
             }
         });
         tvTag.setAdapter(tagAdapter);
+    }
+
+    private void addToHistory(String s) {
+        if(!historys.contains(s) && historys.size()<7){
+            historys.add(s);
+            historyAdapter.notifyDataSetChanged();
+        } else if(historys.size() >= 7) {
+            historys.remove(0);
+            historys.add(s);
+            historyAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -163,7 +196,13 @@ public class SearchActivity extends BaseActivity implements SearchView {
             } else {
                 Random r = new Random();
                 for (int i = 0; i < 10; i++) {
-                    int i1 = r.nextInt(hotWords.size());
+                    int i1 = 0 ;
+                    while(true){
+                        i1 = r.nextInt(hotWords.size());
+                        if(!hots.contains(hotWords.get(i1))){
+                            break;
+                        }
+                    }
                     hots.add(hotWords.get(i1));
                 }
             }
@@ -214,6 +253,13 @@ public class SearchActivity extends BaseActivity implements SearchView {
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if(!query.equals("")){
+                    rvKey.setVisibility(View.GONE);
+                    rlHotHistory.setVisibility(View.GONE);
+                    llSearchBook.setVisibility(View.VISIBLE);
+                    addToHistory(query);
+                    searchPresenter.searchBook(query);
+                }
                 return false;
             }
 
@@ -222,10 +268,13 @@ public class SearchActivity extends BaseActivity implements SearchView {
                 if (!newText.equals("")) {
                     rvKey.setVisibility(View.VISIBLE);
                     rlHotHistory.setVisibility(View.GONE);
+                    llSearchBook.setVisibility(View.GONE);
                     searchPresenter.autoComplete(newText);
                 } else {
-                    rvKey.setVisibility(View.GONE);
-                    rlHotHistory.setVisibility(View.VISIBLE);
+                    if(llSearchBook.getVisibility() != View.VISIBLE){
+                        rvKey.setVisibility(View.GONE);
+                        rlHotHistory.setVisibility(View.VISIBLE);
+                    }
                 }
                 return false;
             }
@@ -233,4 +282,9 @@ public class SearchActivity extends BaseActivity implements SearchView {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        searchPresenter.onDestroy();
+    }
 }

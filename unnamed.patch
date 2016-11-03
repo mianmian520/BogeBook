@@ -1,0 +1,931 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(date 1476440853000)
++++ app/build.gradle	(date 1476702226000)
+@@ -36,13 +36,17 @@
+ 
+ 
+ 
++
++
++
++
++
+     compile 'com.android.support:appcompat-v7:24.2.0'
+     compile 'com.android.support:design:24.2.0'
+     compile 'com.android.support:cardview-v7:24.2.0'
+     compile 'com.android.support:recyclerview-v7:24.2.0'
+     compile 'com.jakewharton:butterknife:7.0.1'
+     compile 'com.android.support:support-v4:24.2.0'
+-
+     compile 'io.reactivex:rxandroid:1.2.0'
+     compile 'io.reactivex:rxjava:1.1.5'
+     compile 'com.google.code.gson:gson:2.4'
+@@ -54,12 +58,8 @@
+     compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+     compile 'com.squareup.okio:okio:1.6.0'
+     compile 'com.github.bumptech.glide:glide:3.7.0'
+-
+-    testCompile 'junit:junit:4.12'
+-
+-
+     compile 'com.google.dagger:dagger:2.4'
+-    apt 'com.google.dagger:dagger-compiler:2.4'
+     compile 'org.glassfish:javax.annotation:10.0-b28'
+-
++    testCompile 'junit:junit:4.12'
++    apt 'com.google.dagger:dagger-compiler:2.4'
+ }
+Index: app/src/main/java/com/boge/bogebook/component/FragmentComponent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/component/FragmentComponent.java	(date 1476440853000)
++++ app/src/main/java/com/boge/bogebook/component/FragmentComponent.java	(date 1476702226000)
+@@ -1,6 +1,7 @@
+ package com.boge.bogebook.component;
+ 
+-import com.boge.bogebook.mvp.ui.fragments.BookFragment;
++import com.boge.bogebook.mvp.ui.fragments.FindFragment;
++import com.boge.bogebook.mvp.ui.fragments.RecommendFragment;
+ 
+ import dagger.Component;
+ 
+@@ -13,6 +14,8 @@
+ @Component(dependencies = ApplicationComponent.class )
+ public interface FragmentComponent {
+ 
+-    void inject(BookFragment fragment);
++    void inject(RecommendFragment fragment);
++
++    void inject(FindFragment fragment);
+ 
+ }
+Index: app/src/main/java/com/boge/bogebook/entity/Recommend.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/entity/Recommend.java	(date 1476440853000)
++++ app/src/main/java/com/boge/bogebook/entity/Recommend.java	(date 1476702226000)
+@@ -61,7 +61,16 @@
+         private String updated;
+         private int chaptersCount;
+         private String lastChapter;
++        private boolean hasUp = false;
+ 
++        public boolean isHasUp() {
++            return hasUp;
++        }
++
++        public void setHasUp(boolean hasUp) {
++            this.hasUp = hasUp;
++        }
++
+         public String get_id() {
+             return _id;
+         }
+@@ -182,6 +191,7 @@
+                     ", updated='" + updated + '\'' +
+                     ", chaptersCount=" + chaptersCount +
+                     ", lastChapter='" + lastChapter + '\'' +
++                    ", hasUp=" + hasUp +
+                     '}';
+         }
+     }
+Index: app/src/main/java/com/boge/bogebook/entity/support/FindBean.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/entity/support/FindBean.java	(date 1476702226000)
++++ app/src/main/java/com/boge/bogebook/entity/support/FindBean.java	(date 1476702226000)
+@@ -0,0 +1,46 @@
++package com.boge.bogebook.entity.support;
++
++/**
++ * @author boge
++ * @version 1.0
++ * @date 2016/10/17
++ * ???
++ */
++
++public class FindBean {
++
++    private String title;
++    private int iconResId;
++
++    public FindBean(String title, int iconResId) {
++        this.title = title;
++        this.iconResId = iconResId;
++    }
++
++    public FindBean() {
++    }
++
++    public String getTitle() {
++        return title;
++    }
++
++    public void setTitle(String title) {
++        this.title = title;
++    }
++
++    public int getIconResId() {
++        return iconResId;
++    }
++
++    public void setIconResId(int iconResId) {
++        this.iconResId = iconResId;
++    }
++
++    @Override
++    public String toString() {
++        return "FindBean{" +
++                "title='" + title + '\'' +
++                ", iconResId=" + iconResId +
++                '}';
++    }
++}
+Index: app/src/main/java/com/boge/bogebook/mvp/ui/activity/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/mvp/ui/activity/MainActivity.java	(date 1476440853000)
++++ app/src/main/java/com/boge/bogebook/mvp/ui/activity/MainActivity.java	(date 1476702226000)
+@@ -10,7 +10,8 @@
+ import com.boge.bogebook.common.Constant;
+ import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
+ import com.boge.bogebook.mvp.ui.fragments.BlankFragment;
+-import com.boge.bogebook.mvp.ui.fragments.BookFragment;
++import com.boge.bogebook.mvp.ui.fragments.FindFragment;
++import com.boge.bogebook.mvp.ui.fragments.RecommendFragment;
+ import com.boge.bogebook.view.Indicator;
+ 
+ import java.util.ArrayList;
+@@ -46,9 +47,9 @@
+         indicator.setTabItemTitles(datas);
+ 
+         fragments = new ArrayList<Fragment>();
+-        fragments.add(BookFragment.newInstance(Constant.MALE));
++        fragments.add(RecommendFragment.newInstance(Constant.MALE));
+         fragments.add(new BlankFragment());
+-        fragments.add(new BlankFragment());
++        fragments.add(new FindFragment());
+         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+         indicator.setViewPager(viewPager , 0);
+     }
+Index: app/src/main/java/com/boge/bogebook/mvp/ui/adapter/FindAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/mvp/ui/adapter/FindAdapter.java	(date 1476702226000)
++++ app/src/main/java/com/boge/bogebook/mvp/ui/adapter/FindAdapter.java	(date 1476702226000)
+@@ -0,0 +1,83 @@
++package com.boge.bogebook.mvp.ui.adapter;
++
++import android.support.v7.widget.RecyclerView;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import com.boge.bogebook.R;
++import com.boge.bogebook.entity.support.FindBean;
++
++import java.util.List;
++
++import butterknife.Bind;
++import butterknife.ButterKnife;
++
++/**
++ * @author boge
++ * @version 1.0
++ * @date 2016/10/17
++ */
++
++public class FindAdapter extends RecyclerView.Adapter {
++
++
++    private List<FindBean> findBeanList;
++
++    public FindAdapter(List<FindBean> findBeanList) {
++        this.findBeanList = findBeanList;
++    }
++
++    @Override
++    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
++        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_find, parent, false);
++        final FindViewHolder viewHolder = new FindViewHolder(view);
++        view.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                if(onRecyclerViewItemClick != null){
++                    onRecyclerViewItemClick.onItemClick(view , viewHolder.getLayoutPosition());
++                }
++            }
++        });
++
++        return viewHolder;
++    }
++
++    @Override
++    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
++        FindViewHolder viewHolder = (FindViewHolder) holder;
++
++        viewHolder.ivIcon.setImageResource(findBeanList.get(position).getIconResId());
++        viewHolder.tvTitle.setText(findBeanList.get(position).getTitle());
++    }
++
++    class FindViewHolder extends RecyclerView.ViewHolder {
++        @Bind(R.id.ivIcon)
++        ImageView ivIcon;
++        @Bind(R.id.tvTitle)
++        TextView tvTitle;
++
++        public FindViewHolder(View itemView) {
++            super(itemView);
++            ButterKnife.bind(this , itemView);
++        }
++    }
++
++    @Override
++    public int getItemCount() {
++        return findBeanList == null ? 0 : findBeanList.size();
++    }
++
++    public interface OnRecyclerViewItemClick{
++        void onItemClick(View v , int position);
++    }
++
++    private RecommendAdapter.OnRecyclerViewItemClick onRecyclerViewItemClick;
++
++    public void setOnRecyclerViewItemClick(RecommendAdapter.OnRecyclerViewItemClick onRecyclerViewItemClick) {
++        this.onRecyclerViewItemClick = onRecyclerViewItemClick;
++    }
++}
+Index: app/src/main/java/com/boge/bogebook/mvp/ui/adapter/RecommendAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/mvp/ui/adapter/RecommendAdapter.java	(date 1476440853000)
++++ app/src/main/java/com/boge/bogebook/mvp/ui/adapter/RecommendAdapter.java	(date 1476702226000)
+@@ -16,6 +16,7 @@
+ import com.bumptech.glide.load.DecodeFormat;
+ import com.bumptech.glide.load.engine.DiskCacheStrategy;
+ 
++import java.util.ArrayList;
+ import java.util.List;
+ 
+ import butterknife.Bind;
+@@ -38,6 +39,11 @@
+         notifyDataSetChanged();
+     }
+ 
++    public List<Recommend.RecommendBook> getRecommendBooks() {
++        if(recommendBooks == null)return new ArrayList<Recommend.RecommendBook>();
++        return recommendBooks;
++    }
++
+     @Override
+     public int getItemViewType(int position) {
+         if (TextUtils.isEmpty(recommendBooks.get(position).get_id())) {
+@@ -50,7 +56,17 @@
+     @Override
+     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend, parent, false);
+-        RecommendViewHolder recommendViewHolder = new RecommendViewHolder(view);
++        final RecommendViewHolder recommendViewHolder = new RecommendViewHolder(view);
++        view.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                if(onRecyclerViewItemClick != null){
++                    onRecyclerViewItemClick.onItemClick(view , recommendViewHolder.getLayoutPosition());
++                    recommendViewHolder.iv_not_read.setVisibility(View.GONE);
++                    recommendBooks.get(recommendViewHolder.getLayoutPosition()).setHasUp(false);
++                }
++            }
++        });
+         return recommendViewHolder;
+     }
+ 
+@@ -65,8 +81,13 @@
+                     .asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
+                     .format(DecodeFormat.PREFER_RGB_565)
+                     .into(viewHolder.ivTxtIcon);
++            if(!recommendBooks.get(position).isHasUp()){
++                viewHolder.iv_not_read.setVisibility(View.GONE);
++            } else {
++                viewHolder.iv_not_read.setVisibility(View.VISIBLE);
+-        }
+-    }
++            }
++        }
++    }
+ 
+     @Override
+     public int getItemCount() {
+@@ -81,6 +102,8 @@
+         TextView tvBookTitle;
+         @Bind(R.id.tv_lastChapter)
+         TextView tvLastChapter;
++        @Bind(R.id.iv_not_read)
++        ImageView iv_not_read;
+ 
+         public RecommendViewHolder(View itemView) {
+             super(itemView);
+@@ -88,4 +111,13 @@
+         }
+     }
+ 
++    public interface OnRecyclerViewItemClick{
++        void onItemClick(View v , int position);
++    }
++
++    private OnRecyclerViewItemClick onRecyclerViewItemClick;
++
++    public void setOnRecyclerViewItemClick(OnRecyclerViewItemClick onRecyclerViewItemClick) {
++        this.onRecyclerViewItemClick = onRecyclerViewItemClick;
++    }
+ }
+Index: app/src/main/java/com/boge/bogebook/mvp/ui/fragments/FindFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/mvp/ui/fragments/FindFragment.java	(date 1476702226000)
++++ app/src/main/java/com/boge/bogebook/mvp/ui/fragments/FindFragment.java	(date 1476702226000)
+@@ -0,0 +1,61 @@
++package com.boge.bogebook.mvp.ui.fragments;
++
++import android.support.v7.widget.LinearLayoutManager;
++import android.support.v7.widget.RecyclerView;
++import android.view.View;
++
++import com.boge.bogebook.R;
++import com.boge.bogebook.entity.support.FindBean;
++import com.boge.bogebook.mvp.ui.adapter.FindAdapter;
++import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
++import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
++
++import java.util.ArrayList;
++import java.util.List;
++
++import butterknife.Bind;
++
++public class FindFragment extends BaseFragment implements RecommendAdapter.OnRecyclerViewItemClick{
++
++    @Bind(R.id.recyclerView)
++    RecyclerView recyclerView;
++
++    private List<FindBean> findBeanList = new ArrayList<FindBean>();
++
++    private FindAdapter adapter;
++
++    @Override
++    protected int getLayoutResId() {
++        return R.layout.fragment_find;
++    }
++
++    @Override
++    protected void initDatas() {
++        initFindBeanList();
++
++        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
++        recyclerView.setHasFixedSize(true);
++
++        adapter = new FindAdapter(findBeanList);
++        adapter.setOnRecyclerViewItemClick(this);
++        recyclerView.setAdapter(adapter);
++    }
++
++    private void initFindBeanList() {
++        findBeanList.clear();
++        findBeanList.add(new FindBean("???", R.mipmap.home_find_rank));
++        findBeanList.add(new FindBean("??", R.mipmap.home_find_category));
++        findBeanList.add(new FindBean("????", R.mipmap.home_find_topic));
++        findBeanList.add(new FindBean("????", R.mipmap.home_find_listen));
++    }
++
++    @Override
++    protected void initInjector() {
++        mFragmentComponent.inject(this);
++    }
++
++    @Override
++    public void onItemClick(View v, int position) {
++
++    }
++}
+Index: app/src/main/java/com/boge/bogebook/mvp/ui/fragments/RecommendFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/mvp/ui/fragments/RecommendFragment.java	(date 1476702226000)
++++ app/src/main/java/com/boge/bogebook/mvp/ui/fragments/RecommendFragment.java	(date 1476702226000)
+@@ -0,0 +1,154 @@
++package com.boge.bogebook.mvp.ui.fragments;
++
++import android.os.Bundle;
++import android.support.design.widget.Snackbar;
++import android.support.v4.widget.SwipeRefreshLayout;
++import android.support.v7.widget.LinearLayoutManager;
++import android.support.v7.widget.RecyclerView;
++import android.view.View;
++import android.widget.ProgressBar;
++
++import com.boge.bogebook.R;
++import com.boge.bogebook.common.Constant;
++import com.boge.bogebook.entity.Recommend;
++import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
++import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
++import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
++import com.boge.bogebook.mvp.view.RecommendView;
++
++import java.util.List;
++
++import javax.inject.Inject;
++
++import butterknife.Bind;
++
++public class RecommendFragment extends BaseFragment implements RecommendView
++        ,RecommendAdapter.OnRecyclerViewItemClick,SwipeRefreshLayout.OnRefreshListener {
++
++    @Bind(R.id.recyclerView)
++    RecyclerView recyclerView;
++    @Bind(R.id.swipeRefreshLayout)
++    SwipeRefreshLayout swipeRefreshLayout;
++    @Bind(R.id.progressBar)
++    ProgressBar progressBar;
++
++    private RecommendAdapter adapter;
++
++    private String gender;
++
++    @Inject
++    RecommendPresenterImpl recommendPresenter;
++
++    public static RecommendFragment newInstance(String param1) {
++        RecommendFragment fragment = new RecommendFragment();
++        Bundle args = new Bundle();
++        args.putString(Constant.GENGER, param1);
++        fragment.setArguments(args);
++        return fragment;
++    }
++
++    @Override
++    public void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        if (getArguments() != null) {
++            gender = getArguments().getString(Constant.GENGER);
++        }
++    }
++
++    @Override
++    protected int getLayoutResId() {
++        return R.layout.fragment_recommend;
++    }
++
++    @Override
++    protected void initDatas() {
++        recommendPresenter.attachView(this);
++        recommendPresenter.loadRecommendBook(gender);
++
++        initSwipeRefreshLayout();
++        initRecyclerView();
++    }
++
++    private void initRecyclerView() {
++        adapter = new RecommendAdapter();
++        adapter.setOnRecyclerViewItemClick(this);
++        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
++        recyclerView.setAdapter(adapter);
++    }
++
++    /**
++     * ???SwipeRefreshLayout
++     */
++    private void initSwipeRefreshLayout() {
++        //????
++        swipeRefreshLayout.setOnRefreshListener(this);
++        // ??????????????????????,??????? ??
++        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
++                android.R.color.holo_orange_light, android.R.color.holo_red_light);
++        // ????????????????????
++        swipeRefreshLayout.setDistanceToTriggerSync(400);
++        //???????
++        swipeRefreshLayout.setProgressBackgroundColor(android.R.color.white);
++        //???????????????DEFAULT?LARGE
++        swipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
++    }
++
++    @Override
++    protected void initInjector() {
++        mFragmentComponent.inject(this);
++    }
++
++    @Override
++    public void setReCommendBook(List<Recommend.RecommendBook> recommendBookList) {
++        if(recommendBookList != null){//???????
++            for (Recommend.RecommendBook recommed : recommendBookList) {
++                //???????
++                if(adapter.getRecommendBooks().size() == 0){
++                    recommed.setHasUp(true);
++                } else {
++                    for(Recommend.RecommendBook recommendBook : adapter.getRecommendBooks()) {
++                        if (recommed.get_id().equals(recommendBook.get_id())) {
++                            if (!recommed.getLastChapter().equals(recommendBook.getLastChapter())) {
++                                recommed.setHasUp(true);
++                            } else {
++                                recommed.setHasUp(recommendBook.isHasUp());
++                            }
++                            break;
++                        }
++                    }
++                }
++            }
++            adapter.setRecommendBooks(recommendBookList);
++        }
++        if(swipeRefreshLayout.isRefreshing()){
++            swipeRefreshLayout.setRefreshing(false);
++        }
++    }
++
++    @Override
++    public void showProgress() {
++        if(!swipeRefreshLayout.isRefreshing()){
++            progressBar.setVisibility(View.VISIBLE);
++        }
++    }
++
++    @Override
++    public void hideProgress() {
++        progressBar.setVisibility(View.GONE);
++    }
++
++    @Override
++    public void showErrorMsg(String message) {
++        Snackbar.make(recyclerView , message , Snackbar.LENGTH_SHORT).show();
++    }
++
++    @Override
++    public void onItemClick(View v, int position) {
++        Snackbar.make(recyclerView , adapter.getRecommendBooks().get(position).toString() , Snackbar.LENGTH_SHORT).show();
++    }
++
++    @Override
++    public void onRefresh() {
++        recommendPresenter.loadRecommendBook(gender);
++    }
++}
+Index: app/src/main/java/com/boge/bogebook/mvp/ui/fragments/base/BaseFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/boge/bogebook/mvp/ui/fragments/base/BaseFragment.java	(date 1476440853000)
++++ app/src/main/java/com/boge/bogebook/mvp/ui/fragments/base/BaseFragment.java	(date 1476702226000)
+@@ -3,6 +3,7 @@
+ import android.os.Bundle;
+ import android.support.annotation.Nullable;
+ import android.support.v4.app.Fragment;
++import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -44,6 +45,7 @@
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                              Bundle savedInstanceState) {
++        Log.i("test" , "onCreateView...");
+         if(view == null){
+             view = inflater.inflate(getLayoutResId(), container, false);
+             ButterKnife.bind(this, view);
+@@ -58,6 +60,7 @@
+     public void onDestroyView() {
+         super.onDestroyView();
+         ButterKnife.unbind(this);
++        view = null;
+     }
+ 
+     public FragmentComponent getFragmentComponent() {
+Index: app/src/main/res/layout/fragment_find.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_find.xml	(date 1476702226000)
++++ app/src/main/res/layout/fragment_find.xml	(date 1476702226000)
+@@ -0,0 +1,13 @@
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context="com.boge.bogebook.mvp.ui.fragments.FindFragment">
++
++    <android.support.v7.widget.RecyclerView
++        android:id="@+id/recyclerView"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:foregroundGravity="center"/>
++
++</LinearLayout>
+Index: app/src/main/res/layout/fragment_book.xml
+===================================================================
+--- app/src/main/res/layout/fragment_book.xml	(date 1476440853000)
++++ app/src/main/res/layout/fragment_recommend.xml	(date 1476702226000)
+@@ -2,7 +2,7 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context=".mvp.ui.fragments.BookFragment">
++    tools:context=".mvp.ui.fragments.RecommendFragment">
+ 
+     <android.support.v4.widget.SwipeRefreshLayout
+         android:id="@+id/swipeRefreshLayout"
+Index: app/src/main/res/layout/item_find.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/item_find.xml	(date 1476702226000)
++++ app/src/main/res/layout/item_find.xml	(date 1476702226000)
+@@ -0,0 +1,31 @@
++<?xml version="1.0" encoding="utf-8"?>
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:padding="20dp">
++
++    <ImageView
++        android:id="@+id/ivIcon"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_centerVertical="true"
++        android:background="@mipmap/home_find_rank" />
++
++    <TextView
++        android:id="@+id/tvTitle"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_centerVertical="true"
++        android:layout_marginLeft="20dp"
++        android:layout_toRightOf="@id/ivIcon"
++        android:text="???"
++        android:textColor="@color/common_h1"
++        android:textSize="@dimen/x_large_size" />
++
++    <ImageView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_alignParentRight="true"
++        android:layout_centerVertical="true"
++        android:src="@mipmap/ios_arrow" />
++</RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/item_recommend.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/item_recommend.xml	(date 1476440853000)
++++ app/src/main/res/layout/item_recommend.xml	(date 1476702226000)
+@@ -1,10 +1,10 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:orientation="horizontal"
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+ 
+     <ImageView
++        android:layout_alignParentLeft="true"
+         android:id="@+id/iv_txt_icon"
+         android:layout_width="@dimen/book_img_width"
+         android:layout_height="@dimen/book_img_height"
+@@ -13,7 +13,9 @@
+         android:layout_margin="@dimen/item_margin"
+         />
+     <LinearLayout
+-        android:layout_width="match_parent"
++        android:layout_toRightOf="@+id/iv_txt_icon"
++        android:layout_centerInParent="true"
++        android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         android:layout_gravity="center">
+@@ -33,4 +35,12 @@
+             android:padding="@dimen/item_padding"
+             android:textSize="@dimen/small_size"/>
+     </LinearLayout>
+-</LinearLayout>
+\ No newline at end of file
++    <ImageView
++        android:id="@+id/iv_not_read"
++        android:layout_alignParentRight="true"
++        android:layout_centerInParent="true"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:src="@mipmap/red"
++        android:layout_margin="@dimen/item_margin"/>
++</RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(date 1476440853000)
++++ app/src/main/res/values/colors.xml	(date 1476702226000)
+@@ -19,4 +19,47 @@
+     <color name="light_red">#EC4A48</color>
+     <color name="light_blue">#039BE5</color>
+     <color name="dark_red">#B93221</color>
++
++    <!--?????-->
++    <color name="common_bg">@color/white</color>
++    <!--???????-->
++    <color name="common_touch_bg">#E3E3E3</color>
++    <!--?????-->
++    <color name="common_gray_bg">#EEEEEE</color>
++    <!--?????????-->
++    <color name="common_h1">#212121</color>
++    <!--?????????-->
++    <color name="common_h2">#727272</color>
++    <!--?????????-->
++    <color name="common_h3">#B2B2B2</color>
++    <!--??????-->
++    <color name="common_divider_narrow">#E3E3E3</color>
++    <!--??????-->
++    <color name="common_divider_wide">@color/light_white</color>
++
++    <color name="reader_menu_bg_color">#191919</color>
++    <color name="read_theme_white">#ffffff</color>
++    <color name="read_theme_green">#bed0cf</color>
++    <color name="read_theme_yellow">#e6dbbf</color>
++    <color name="read_theme_gray">#AAAAAA</color>
++    <color name="read_theme_night">#000000</color>
++
++    <!--????????-->
++    <color name="chapter_title_night">#292929</color>
++    <!--????????-->
++    <color name="chapter_content_night">#444444</color>
++    <!--????????-->
++    <color name="chapter_title_day">#837B63</color>
++    <!--????????-->
++    <color name="chapter_content_day">#3B3220</color>
++    <!--?????????-->
++    <color name="book_read_top_text">#D1D1D1</color>
++    <!--?????????-->
++    <color name="book_read_bottom_text">#888888</color>
++
++    <!--???????-->
++    <color name="gender_select_male_normal">#B0E2FF</color>
++    <color name="gender_select_male_pressed">#B2DFEE</color>
++    <color name="gender_select_female_normal">#EEA9B8</color>
++    <color name="gender_select_female_pressed">#EEA2AD</color>
+ </resources>
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/dimens.xml	(date 1476440853000)
++++ app/src/main/res/values/dimens.xml	(date 1476702226000)
+@@ -12,6 +12,7 @@
+     <dimen name="small_size">12sp</dimen>
+     <dimen name="middle_size">14sp</dimen>
+     <dimen name="large_size">16sp</dimen>
++    <dimen name="x_large_size">18sp</dimen>
+     <dimen name="very_large_size">20sp</dimen>
+     <dimen name="item_margin">8dp</dimen>
+ </resources>
+Index: app/src/main/java/com/boge/bogebook/mvp/ui/fragments/BookFragment.java
+===================================================================
+--- app/src/main/java/com/boge/bogebook/mvp/ui/fragments/BookFragment.java	(date 1476440853000)
++++ app/src/main/java/com/boge/bogebook/mvp/ui/fragments/BookFragment.java	(date 1476440853000)
+@@ -1,115 +0,0 @@
+-package com.boge.bogebook.mvp.ui.fragments;
+-
+-import android.os.Bundle;
+-import android.support.design.widget.Snackbar;
+-import android.support.v4.widget.SwipeRefreshLayout;
+-import android.support.v7.widget.LinearLayoutManager;
+-import android.support.v7.widget.RecyclerView;
+-import android.util.Log;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-import android.widget.ProgressBar;
+-
+-import com.boge.bogebook.R;
+-import com.boge.bogebook.common.Constant;
+-import com.boge.bogebook.entity.Recommend;
+-import com.boge.bogebook.mvp.presenter.impl.RecommendPresenterImpl;
+-import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
+-import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
+-import com.boge.bogebook.mvp.view.RecommendView;
+-
+-import java.util.List;
+-
+-import javax.inject.Inject;
+-
+-import butterknife.Bind;
+-import butterknife.ButterKnife;
+-
+-public class BookFragment extends BaseFragment implements RecommendView {
+-
+-    @Bind(R.id.recyclerView)
+-    RecyclerView recyclerView;
+-    @Bind(R.id.swipeRefreshLayout)
+-    SwipeRefreshLayout swipeRefreshLayout;
+-    @Bind(R.id.progressBar)
+-    ProgressBar progressBar;
+-
+-    private RecommendAdapter adapter;
+-
+-    private String gender;
+-
+-    @Inject
+-    RecommendPresenterImpl recommendPresenter;
+-
+-    public static BookFragment newInstance(String param1) {
+-        BookFragment fragment = new BookFragment();
+-        Bundle args = new Bundle();
+-        args.putString(Constant.GENGER, param1);
+-        fragment.setArguments(args);
+-        return fragment;
+-    }
+-
+-    @Override
+-    public void onCreate(Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        if (getArguments() != null) {
+-            gender = getArguments().getString(Constant.GENGER);
+-        }
+-    }
+-
+-    @Override
+-    protected int getLayoutResId() {
+-        return R.layout.fragment_book;
+-    }
+-
+-    @Override
+-    protected void initDatas() {
+-        recommendPresenter.attachView(this);
+-        recommendPresenter.loadRecommendBook(gender);
+-
+-        adapter = new RecommendAdapter();
+-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+-        recyclerView.setAdapter(adapter);
+-    }
+-
+-    @Override
+-    protected void initInjector() {
+-        mFragmentComponent.inject(this);
+-    }
+-
+-    @Override
+-    public void setReCommendBook(List<Recommend.RecommendBook> recommendBookList) {
+-        for (Recommend.RecommendBook recommed : recommendBookList) {
+-            Log.i("test", recommed.toString());
+-        }
+-        adapter.setRecommendBooks(recommendBookList);
+-    }
+-
+-    @Override
+-    public void showProgress() {
+-        progressBar.setVisibility(View.VISIBLE);
+-    }
+-
+-    @Override
+-    public void hideProgress() {
+-        progressBar.setVisibility(View.GONE);
+-    }
+-
+-    @Override
+-    public void showErrorMsg(String message) {
+-        Snackbar.make(recyclerView , message , Snackbar.LENGTH_SHORT).show();
+-    }
+-
+-    @Override
+-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+-        return rootView;
+-    }
+-
+-    @Override
+-    public void onDestroyView() {
+-        super.onDestroyView();
+-        ButterKnife.unbind(this);
+-    }
+-}

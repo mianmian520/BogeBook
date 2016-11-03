@@ -98,7 +98,7 @@
             android:layout_below="@+id/ll_delete"
             android:id="@+id/rv_history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/item_margin">
 
         </android.support.v7.widget.RecyclerView>
@@ -116,7 +116,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical"
-        android:padding="@dimen/item_margin"
         android:visibility="gone">
         <TextView
             android:id="@+id/tv_accurate_search"
@@ -125,11 +124,16 @@
             android:text="@string/accurate_search"
             android:gravity="center"
             android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/middle_size"/>
+            android:textSize="@dimen/middle_size"
+            android:layout_margin="@dimen/item_margin"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/common_h3"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_book"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/item_margin"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
