@@ -10,13 +10,15 @@ import android.widget.ProgressBar;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
-import com.boge.bogebook.entity.Rankings;
+import com.boge.bogebook.entity.support.BookInfo;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.presenter.impl.RankDetailPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
 import com.boge.bogebook.mvp.ui.adapter.BookListDetailAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
 import com.boge.bogebook.mvp.view.RankDetailView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -98,9 +100,9 @@ public class RankDetailFragment extends BaseFragment implements RankDetailView
     }
 
     @Override
-    public void setRankings(Rankings rankings) {
-        if(rankings != null){
-            adapter.setBooksBeen(rankings.getRanking().getBooks());
+    public void setRankings(List<BookInfo> bookInfos) {
+        if(bookInfos != null){
+            adapter.setBooksBeen(bookInfos);
         }
     }
 

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
-import com.boge.bogebook.entity.Rankings;
+import com.boge.bogebook.entity.support.BookInfo;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.util.Tools;
 import com.bumptech.glide.Glide;
@@ -35,14 +35,14 @@ import butterknife.ButterKnife;
 
 public class BookListDetailAdapter extends RecyclerView.Adapter {
 
-    private List<Rankings.RankingBean.BooksBean> booksBeen;
+    private List<BookInfo> booksBeen;
 
-    public void setBooksBeen(List<Rankings.RankingBean.BooksBean> booksBeen) {
+    public void setBooksBeen(List<BookInfo> booksBeen) {
         this.booksBeen = booksBeen;
         notifyDataSetChanged();
     }
 
-    public List<Rankings.RankingBean.BooksBean> getBooksBeen() {
+    public List<BookInfo> getBooksBeen() {
         return booksBeen;
     }
 
@@ -66,7 +66,7 @@ public class BookListDetailAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         BookListDetailViewHolder viewHolder = (BookListDetailViewHolder) holder;
-        Rankings.RankingBean.BooksBean book = booksBeen.get(position);
+        BookInfo book = booksBeen.get(position);
         //设置作者和类型
         viewHolder.tvAuthorCat.setText(book.getAuthor()+" | "+ book.getCat());
         //设置书名

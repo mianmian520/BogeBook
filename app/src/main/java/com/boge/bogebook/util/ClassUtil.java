@@ -1,6 +1,8 @@
 package com.boge.bogebook.util;
 
+import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
+import com.boge.bogebook.entity.support.BookInfo;
 import com.boge.entity.LocalAndRecomendBook;
 
 import java.util.ArrayList;
@@ -33,4 +35,26 @@ public class ClassUtil {
         return localAndRecomendBooks;
     }
 
+    public static List<BookInfo> RankingsToBookInfo(Rankings rankings) {
+        if(rankings != null){
+            List<Rankings.RankingBean.BooksBean> books = rankings.getRanking().getBooks();
+            List<BookInfo> bookInfos = new ArrayList<BookInfo>();
+            for (Rankings.RankingBean.BooksBean booksBean : books){
+                BookInfo bookInfo = new BookInfo();
+                bookInfo.set_id(booksBean.get_id());
+                bookInfo.setAuthor(booksBean.getAuthor());
+                bookInfo.setCat(booksBean.getCat());
+                bookInfo.setCover(booksBean.getCover());
+                bookInfo.setLatelyFollower(booksBean.getLatelyFollower());
+                bookInfo.setRetentionRatio(booksBean.getRetentionRatio());
+                bookInfo.setShortIntro(booksBean.getShortIntro());
+                bookInfo.setSite(booksBean.getSite());
+                bookInfo.setTitle(booksBean.getTitle());
+                bookInfos.add(bookInfo);
+            }
+            return bookInfos;
+        }
+
+        return null;
+    }
 }
