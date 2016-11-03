@@ -43,7 +43,7 @@ public class TagAdapter<T> extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.tag_item, null);
         TextView textView = (TextView) view.findViewById(R.id.tv_tag);
         switch (position%8){
@@ -76,6 +76,15 @@ public class TagAdapter<T> extends BaseAdapter{
         if (t instanceof String) {
             textView.setText((String) t);
         }
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onTagItemClick != null){
+                    onTagItemClick.onItemClick(view , position);
+                }
+            }
+        });
         return view;
     }
 
@@ -85,4 +94,17 @@ public class TagAdapter<T> extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    public interface OnTagItemClick{
+        void onItemClick(View view , int position);
+    }
+
+    private OnTagItemClick onTagItemClick;
+
+    public void setOnTagItemClick(OnTagItemClick onTagItemClick) {
+        this.onTagItemClick = onTagItemClick;
+    }
+
+    public List<T> getmDataList() {
+        return mDataList;
+    }
 }

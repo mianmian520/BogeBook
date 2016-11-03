@@ -51,6 +51,9 @@
             android:name=".mvp.ui.activity.ReaderActivity"
             android:label="@string/title_activity_reader"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".mvp.ui.activity.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

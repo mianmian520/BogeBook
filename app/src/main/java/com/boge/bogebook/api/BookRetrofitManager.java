@@ -6,6 +6,7 @@ import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.CategoryList;
 import com.boge.bogebook.entity.ChapterRead;
+import com.boge.bogebook.entity.HotWord;
 import com.boge.bogebook.entity.RankingList;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
@@ -154,6 +155,14 @@ public class BookRetrofitManager {
      */
     public Observable<List<BookUpdateInfo>> getBookUpdateInfo(String view , String id){
         return service.getBookUpdateInfo(view, id);
+    }
+
+    /**
+     * 热门搜索
+     * @return
+     */
+    public Observable<HotWord> getHotWord(){
+        return service.getHotWord();
     }
 
 }

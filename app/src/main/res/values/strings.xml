@@ -39,4 +39,9 @@
     <string name="check_all">全选</string>
     <string name="delete">删除</string>
     <string name="title_activity_reader">ReaderActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="action_search_book">输入书名或作者名</string>
+    <string name="all_love_search">大家都在搜</string>
+    <string name="replace">换一批</string>
+    <string name="search_history">搜索历史</string>
 </resources>

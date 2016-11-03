@@ -9,6 +9,7 @@ import com.boge.bogebook.mvp.ui.activity.MainActivity;
 import com.boge.bogebook.mvp.ui.activity.RankDetailActivity;
 import com.boge.bogebook.mvp.ui.activity.RankingActivity;
 import com.boge.bogebook.mvp.ui.activity.ReaderActivity;
+import com.boge.bogebook.mvp.ui.activity.SearchActivity;
 
 import dagger.Component;
 
@@ -39,4 +40,6 @@ public interface ActivityComponent {
     void inject(LocalBookActivity activity);
 
     void inject(ReaderActivity readerActivity);
+
+    void inject(SearchActivity activity);
 }

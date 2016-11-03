@@ -121,6 +121,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_search://搜索
+                startActivity(new Intent(this , SearchActivity.class));
                 break;
             case R.id.action_login://登录
                 break;

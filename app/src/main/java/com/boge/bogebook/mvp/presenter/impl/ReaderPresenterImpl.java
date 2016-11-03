@@ -42,7 +42,7 @@ public class ReaderPresenterImpl implements ReaderPresenter,RequestCallBack {
 
     @Override
     public void loadChapterContent(String url, int chapter) {
-        readerInteractor.loadChapterContent(url, chapter, this);
+        mSubscription = readerInteractor.loadChapterContent(url, chapter, this);
     }
 
     @Override

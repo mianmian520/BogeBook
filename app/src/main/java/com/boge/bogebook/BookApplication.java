@@ -12,6 +12,8 @@ import com.boge.dao.DaoMaster;
 import com.boge.dao.DaoSession;
 import com.boge.dao.LocalAndRecomendBookDao;
 
+import java.util.List;
+
 /**
  * @author boge
  * @version 1.0
@@ -25,6 +27,8 @@ public class BookApplication extends Application {
     private static Context mContext;
 
     private static DaoSession daoSession;
+
+    private static List<String> hotWords;
 
     @Override
     public void onCreate() {
@@ -67,5 +71,14 @@ public class BookApplication extends Application {
 
     public static LocalAndRecomendBookDao getLocalAndRecomendBookDao(){
         return getDaoSession().getLocalAndRecomendBookDao();
+    }
+
+
+    public static List<String> getHotWords() {
+        return hotWords;
+    }
+
+    public static void setHotWords(List<String> hotWords) {
+        BookApplication.hotWords = hotWords;
     }
 }
