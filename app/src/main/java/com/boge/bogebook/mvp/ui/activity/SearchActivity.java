@@ -5,7 +5,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
+import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.HotWord;
 import com.boge.bogebook.entity.support.BookInfo;
@@ -27,7 +27,10 @@ import com.boge.bogebook.mvp.ui.adapter.BookListDetailAdapter;
 import com.boge.bogebook.mvp.ui.adapter.ImgAndTextAdapter;
 import com.boge.bogebook.mvp.ui.adapter.TagAdapter;
 import com.boge.bogebook.mvp.view.SearchView;
+import com.boge.bogebook.util.SharedPreferencesUtil;
 import com.boge.bogebook.view.TagGroup;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +41,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static android.R.attr.data;
+import static com.boge.bogebook.R.mipmap.history;
 
 public class SearchActivity extends BaseActivity implements SearchView {
 
@@ -63,7 +66,7 @@ public class SearchActivity extends BaseActivity implements SearchView {
     /***书籍详细列表适配器*/
     private BookListDetailAdapter bookAdapter;
 
-    private List<String> historys = new ArrayList<String>();
+    private List<String> historys;
 
     @Inject
     SearchPresenterImpl searchPresenter;
@@ -81,7 +84,12 @@ public class SearchActivity extends BaseActivity implements SearchView {
     @Override
     protected void initViews() {
         toolbar.setTitle("");
-
+        String s = SharedPreferencesUtil.getInstance().getString(Constant.HISTORY);
+        if(s == null){
+            historys = new ArrayList<String>();
+        }else{
+            historys = new Gson().fromJson(s , new TypeToken<ArrayList<String>>(){}.getType());
+        }
         initTag();
         initKeyRecyclerView();
         initHistoryRecyclerView();
@@ -111,12 +119,12 @@ public class SearchActivity extends BaseActivity implements SearchView {
     private void initHistoryRecyclerView() {
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
         rvHistory.setHasFixedSize(true);
-        historyAdapter = new ImgAndTextAdapter(this, historys, R.mipmap.history, new OnBaseItemClick() {
+        historyAdapter = new ImgAndTextAdapter(this, historys, history, new OnBaseItemClick() {
             @Override
             public void onItemClick(View v, int position, Object data) {
-                rvKey.setVisibility(View.GONE);
-                llSearchBook.setVisibility(View.VISIBLE);
+                showSearchBook();
                 searchPresenter.searchBook((String) data);
+                addToHistory((String) data);
             }
         });
         rvHistory.setAdapter(historyAdapter);
@@ -128,10 +136,9 @@ public class SearchActivity extends BaseActivity implements SearchView {
         autoCompleteAdapter = new ImgAndTextAdapter(this, new ArrayList<String>(), R.mipmap.search, new OnBaseItemClick() {
             @Override
             public void onItemClick(View v, int position, Object data) {
-                rvKey.setVisibility(View.GONE);
-                rlHotHistory.setVisibility(View.GONE);
-                llSearchBook.setVisibility(View.VISIBLE);
+                showSearchBook();
                 searchPresenter.searchBook((String) data);
+                addToHistory((String) data);
             }
         });
         rvKey.setAdapter(autoCompleteAdapter);
@@ -143,9 +150,7 @@ public class SearchActivity extends BaseActivity implements SearchView {
             @Override
             public void onItemClick(View view, int position) {
                 List<String> hots = tagAdapter.getmDataList();
-                rvKey.setVisibility(View.GONE);
-                rlHotHistory.setVisibility(View.GONE);
-                llSearchBook.setVisibility(View.VISIBLE);
+                showSearchBook();
                 searchPresenter.searchBook(hots.get(position));
                 addToHistory(hots.get(position));
             }
@@ -153,15 +158,28 @@ public class SearchActivity extends BaseActivity implements SearchView {
         tvTag.setAdapter(tagAdapter);
     }
 
+    /**
+     * 显示搜索的书籍recyclerView
+     */
+    private void showSearchBook(){
+        rlHotHistory.setVisibility(View.GONE);
+        rvKey.setVisibility(View.GONE);
+        llSearchBook.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 添加到历史搜索
+     * @param s
+     */
     private void addToHistory(String s) {
-        if(!historys.contains(s) && historys.size()<7){
-            historys.add(s);
-            historyAdapter.notifyDataSetChanged();
-        } else if(historys.size() >= 7) {
-            historys.remove(0);
-            historys.add(s);
-            historyAdapter.notifyDataSetChanged();
+        if(historys.contains(s)){
+            historys.remove(historys.indexOf(s));
+        } else if(historys.size() >= 7){
+            historys.remove(historys.size()-1);
         }
+        historys.add(0,s);
+        historyAdapter.notifyDataSetChanged();
+        SharedPreferencesUtil.getInstance().putString(Constant.HISTORY , new Gson().toJson(historys));
     }
 
     @Override
@@ -185,6 +203,9 @@ public class SearchActivity extends BaseActivity implements SearchView {
         }
     }
 
+    /**
+     * 随机获取热门搜索中的10个
+     */
     private void getHotWord() {
         List<String> hotWords = BookApplication.getHotWords();
         if (hotWords == null) {
@@ -232,6 +253,10 @@ public class SearchActivity extends BaseActivity implements SearchView {
                 getHotWord();
                 break;
             case R.id.ll_delete:
+                if(historys.size() != 0){
+                    historys.clear();
+                    historyAdapter.notifyDataSetChanged();
+                }
                 break;
         }
     }
@@ -254,9 +279,7 @@ public class SearchActivity extends BaseActivity implements SearchView {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(!query.equals("")){
-                    rvKey.setVisibility(View.GONE);
-                    rlHotHistory.setVisibility(View.GONE);
-                    llSearchBook.setVisibility(View.VISIBLE);
+                    showSearchBook();
                     addToHistory(query);
                     searchPresenter.searchBook(query);
                 }

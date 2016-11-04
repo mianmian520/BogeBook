@@ -33,5 +33,7 @@ public class Constant {
     public static final String DIRECTORY = "BogeBook";
 
     public static final String BASE_PATH = FileUtil.getSDCardPath();
-//    public static final String
+
+    /*** 历史记录*/
+    public static final String HISTORY = "history";
 }
