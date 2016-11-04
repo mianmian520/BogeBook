@@ -3,7 +3,6 @@ package com.boge.bogebook.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
@@ -81,7 +80,6 @@ public class RankingActivity extends BaseActivity implements RankingView ,Rankin
         if (rankingList != null) {
             maleGroups.clear();
             femaleGroups.clear();
-            Log.i("test" , rankingList.toString());
             updateMale(rankingList);
             updateFemale(rankingList);
         }

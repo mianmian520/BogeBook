@@ -8,8 +8,11 @@ import android.widget.TextView;
 
 import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
+import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,14 +26,58 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter {
 
     private List<String> datas;
 
+    private Map<String,Boolean> chooseMap;
+
+    private int index = 0;
+
     public SimpleRecyclerViewAdapter(List<String> datas) {
         this.datas = datas;
+        setChooseMap();
+    }
+
+    public SimpleRecyclerViewAdapter() {}
+
+    public void setDatas(List<String> datas) {
+        this.datas = datas;
+        setChooseMap();
+        notifyDataSetChanged();
+    }
+
+    public List<String> getDatas() {
+        return datas;
+    }
+
+    public void setChooseMap() {
+        chooseMap = new HashMap<String, Boolean>();
+        if(datas != null){
+            for (int i = 0 ; i < datas.size() ; i++){
+                if(i==0){
+                    chooseMap.put(datas.get(i) , true);
+                }else{
+                    chooseMap.put(datas.get(i) , false);
+                }
+            }
+        }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_text, parent, false);
-        SimpleViewHolder viewHolder = new SimpleViewHolder(view);
+        final SimpleViewHolder viewHolder = new SimpleViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(index != viewHolder.getLayoutPosition()){
+                    chooseMap.put(datas.get(viewHolder.getLayoutPosition()) , true);
+                    chooseMap.put(datas.get(index) , false);
+                    index = viewHolder.getLayoutPosition();
+                    notifyDataSetChanged();
+                }
+                if(onRecyclerViewItemClick != null){
+                    onRecyclerViewItemClick.onItemClick(view , viewHolder.getLayoutPosition());
+                }
+            }
+        });
         return viewHolder;
     }
 
@@ -38,7 +85,11 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final SimpleViewHolder viewHolder = (SimpleViewHolder) holder;
         viewHolder.text.setText(datas.get(position));
-
+        if(chooseMap.get(datas.get(position))){
+            viewHolder.text.setTextColor(BookApplication.getmContext().getResources().getColor(R.color.dark_red));
+        }else{
+            viewHolder.text.setTextColor(BookApplication.getmContext().getResources().getColor(R.color.light_black));
+        }
     }
 
     class SimpleViewHolder extends RecyclerView.ViewHolder {
@@ -53,5 +104,11 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return datas == null ? 0 : datas.size();
+    }
+
+    private OnRecyclerViewItemClick onRecyclerViewItemClick;
+
+    public void setOnRecyclerViewItemClick(OnRecyclerViewItemClick onRecyclerViewItemClick) {
+        this.onRecyclerViewItemClick = onRecyclerViewItemClick;
     }
 }

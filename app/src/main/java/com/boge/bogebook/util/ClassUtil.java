@@ -1,5 +1,8 @@
 package com.boge.bogebook.util;
 
+import com.boge.bogebook.common.Constant;
+import com.boge.bogebook.entity.BooksByCats;
+import com.boge.bogebook.entity.CategoryListLv2;
 import com.boge.bogebook.entity.Rankings;
 import com.boge.bogebook.entity.Recommend;
 import com.boge.bogebook.entity.SearchDetail;
@@ -79,5 +82,40 @@ public class ClassUtil {
             return bookInfos;
         }
         return null;
+    }
+
+    public static List<String> CateToList(CategoryListLv2 data, String gender, String major) {
+        List<CategoryListLv2.MaleBean> males;
+        if(gender.equals(Constant.MALE)){
+            males = data.getMale();
+        } else if(gender.equals(Constant.FEMALE)){
+            males = data.getFemale();
+        } else {
+            return null;
+        }
+        for (CategoryListLv2.MaleBean maleBean : males){
+            if(maleBean.getMajor().equals(major)){
+                return maleBean.getMins();
+            }
+        }
+        return null;
+    }
+
+    public static List<BookInfo> CatsToBookInfo(BooksByCats data) {
+        List<BookInfo> bookInfos = new ArrayList<BookInfo>();
+        for (BooksByCats.BooksBean booksBean : data.getBooks()){
+            BookInfo bookInfo = new BookInfo();
+            bookInfo.set_id(booksBean.get_id());
+            bookInfo.setAuthor(booksBean.getAuthor());
+            bookInfo.setCat(booksBean.getMajorCate());
+            bookInfo.setCover(booksBean.getCover());
+            bookInfo.setLatelyFollower(booksBean.getLatelyFollower());
+            bookInfo.setRetentionRatio(booksBean.getRetentionRatio());
+            bookInfo.setShortIntro(booksBean.getShortIntro());
+            bookInfo.setSite(booksBean.getSite());
+            bookInfo.setTitle(booksBean.getTitle());
+            bookInfos.add(bookInfo);
+        }
+        return bookInfos;
     }
 }

@@ -1,6 +1,11 @@
 package com.boge.bogebook.common;
 
+import android.support.annotation.StringDef;
+
 import com.boge.bogebook.util.FileUtil;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author boge
@@ -36,4 +41,22 @@ public class Constant {
 
     /*** 历史记录*/
     public static final String HISTORY = "history";
+
+
+    @StringDef({
+        CateType.HOT,
+            CateType.NEW,
+            CateType.REPUTATION,
+            CateType.MONTHLY,
+            CateType.OVER
+    })
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface CateType{
+        String HOT = "hot";
+        String NEW = "new";
+        String REPUTATION = "reputation";
+        String OVER = "over";
+        String MONTHLY = "monthly";
+    }
 }

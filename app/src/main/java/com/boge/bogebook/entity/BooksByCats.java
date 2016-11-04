@@ -62,8 +62,8 @@ public class BooksByCats {
         private String majorCate;
         private int latelyFollower;
         private int latelyFollowerBase;
-        private int minRetentionRatio;
-        private double retentionRatio;
+        private String minRetentionRatio;
+        private String retentionRatio;
         private String lastChapter;
         private List<String> tags;
 
@@ -139,19 +139,19 @@ public class BooksByCats {
             this.latelyFollowerBase = latelyFollowerBase;
         }
 
-        public int getMinRetentionRatio() {
+        public String getMinRetentionRatio() {
             return minRetentionRatio;
         }
 
-        public void setMinRetentionRatio(int minRetentionRatio) {
+        public void setMinRetentionRatio(String minRetentionRatio) {
             this.minRetentionRatio = minRetentionRatio;
         }
 
-        public double getRetentionRatio() {
+        public String getRetentionRatio() {
             return retentionRatio;
         }
 
-        public void setRetentionRatio(double retentionRatio) {
+        public void setRetentionRatio(String retentionRatio) {
             this.retentionRatio = retentionRatio;
         }
 

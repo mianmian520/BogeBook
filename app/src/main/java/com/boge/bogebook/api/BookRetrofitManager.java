@@ -5,7 +5,9 @@ import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.BookDetail;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.BookUpdateInfo;
+import com.boge.bogebook.entity.BooksByCats;
 import com.boge.bogebook.entity.CategoryList;
+import com.boge.bogebook.entity.CategoryListLv2;
 import com.boge.bogebook.entity.ChapterRead;
 import com.boge.bogebook.entity.HotWord;
 import com.boge.bogebook.entity.RankingList;
@@ -148,6 +150,31 @@ public class BookRetrofitManager {
     public Observable<CategoryList> getCategoryList(){
         return service.getCategoryList();
     }
+
+    /**
+     * 获取二级分类
+     *
+     * @return
+     */
+    public Observable<CategoryListLv2> getCategoryListLv2(){
+        return service.getCategoryListLv2();
+    }
+
+    /**
+     * 按分类获取书籍列表
+     *
+     * @param gender male、female
+     * @param type   hot(热门)、new(新书)、reputation(好评)、over(完结) monthly(包月)
+     * @param major  玄幻
+     * @param minor  东方玄幻、异界大陆、异界争霸、远古神话
+     * @param start  开始下标
+     * @param limit  结束下标   分页
+     * @return
+     */
+    public Observable<BooksByCats> getBooksByCats(String gender, String type, String major, String minor, int start, int limit){
+        return service.getBooksByCats(gender, type, major, minor, start, limit);
+    }
+
 
     /**
      * 得到小说的更新信息

@@ -17,6 +17,7 @@
         <item>新书</item>
         <item>好评</item>
         <item>完结</item>
+        <item>包月</item>
     </string-array>
 
     <string-array name="recommend_item_long_click_choice">

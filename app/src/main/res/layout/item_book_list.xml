@@ -9,8 +9,8 @@
         android:id="@+id/iv_book_icon"
         android:layout_alignParentLeft="true"
         android:layout_centerInParent="true"
-        android:layout_width="45dp"
-        android:layout_height="60dp"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
         android:padding="@dimen/item_margin"
         android:scaleType="centerCrop"/>
 
@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="@dimen/middle_size"
+            android:singleLine="true"
             />
         <TextView
             android:id="@+id/tv_author_cat"

@@ -48,6 +48,7 @@
                     android:layout_marginBottom="8dp"
                     android:textStyle="bold"
                     android:textSize="@dimen/middle_size"
+                    android:singleLine="true"
                     />
                 <TextView
                     android:layout_below="@+id/tv_book_title"

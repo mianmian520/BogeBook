@@ -42,6 +42,11 @@ public class BookListDetailAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void addAll(List<BookInfo> bookinfos){
+        booksBeen.addAll(bookinfos);
+        notifyDataSetChanged();
+    }
+
     public List<BookInfo> getBooksBeen() {
         return booksBeen;
     }
