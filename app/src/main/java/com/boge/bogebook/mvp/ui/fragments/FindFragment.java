@@ -10,8 +10,8 @@ import com.boge.bogebook.entity.support.FindBean;
 import com.boge.bogebook.listener.OnRecyclerViewItemClick;
 import com.boge.bogebook.mvp.ui.activity.CategoryActivity;
 import com.boge.bogebook.mvp.ui.activity.RankingActivity;
+import com.boge.bogebook.mvp.ui.activity.ThemeBookActivity;
 import com.boge.bogebook.mvp.ui.adapter.FindAdapter;
-import com.boge.bogebook.mvp.ui.adapter.RecommendAdapter;
 import com.boge.bogebook.mvp.ui.fragments.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -66,6 +66,9 @@ public class FindFragment extends BaseFragment implements OnRecyclerViewItemClic
                 break;
             case 1:
                 getActivity().startActivity(new Intent(getActivity() , CategoryActivity.class));
+                break;
+            case 2:
+                getActivity().startActivity(new Intent(getActivity() , ThemeBookActivity.class));
                 break;
         }
     }

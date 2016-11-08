@@ -42,6 +42,8 @@ public class Constant {
     /*** 历史记录*/
     public static final String HISTORY = "history";
 
+    /*** 书单标签*/
+    public static final String BOOK_TAG = "tag";
 
     @StringDef({
         CateType.HOT,
@@ -50,7 +52,9 @@ public class Constant {
             CateType.MONTHLY,
             CateType.OVER
     })
-
+    /**
+     * 分类类型
+     */
     @Retention(RetentionPolicy.SOURCE)
     public @interface CateType{
         String HOT = "hot";

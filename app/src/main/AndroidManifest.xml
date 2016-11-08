@@ -53,6 +53,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".mvp.ui.activity.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".mvp.ui.activity.ThemeBookActivity"
+            android:label="@string/title_activity_theme_book"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

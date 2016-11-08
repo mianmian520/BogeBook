@@ -20,6 +20,21 @@
         <item>包月</item>
     </string-array>
 
+    <string-array name="duration_tabs">
+        <item>本周最热</item>
+        <item>最新发布</item>
+        <item>最多收藏</item>
+    </string-array>
+
+    <string-array name="tag_tabs">
+        <item>全部</item>
+        <item>男生</item>
+        <item>女生</item>
+        <item>玄幻</item>
+        <item>都市</item>
+        <item>总裁</item>
+    </string-array>
+
     <string-array name="recommend_item_long_click_choice">
         <item>置顶</item>
         <item>书籍详情</item>

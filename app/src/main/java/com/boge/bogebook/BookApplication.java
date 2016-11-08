@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.component.ApplicationComponent;
 import com.boge.bogebook.component.DaggerApplicationComponent;
 import com.boge.bogebook.module.ApplicationModule;
@@ -11,7 +12,9 @@ import com.boge.bogebook.util.SharedPreferencesUtil;
 import com.boge.dao.DaoMaster;
 import com.boge.dao.DaoSession;
 import com.boge.dao.LocalAndRecomendBookDao;
+import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,6 +39,15 @@ public class BookApplication extends Application {
         initApplicationComponent();
         mContext = this;
         initPrefs();
+        initBookTag();
+    }
+
+    private void initBookTag() {
+        String s = SharedPreferencesUtil.getInstance().getString(Constant.BOOK_TAG);
+        if(s == null){
+            List<String> tags = Arrays.asList(getResources().getStringArray(R.array.tag_tabs));
+            SharedPreferencesUtil.getInstance().putString(Constant.BOOK_TAG, new Gson().toJson(tags));
+        }
     }
 
     /**

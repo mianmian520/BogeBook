@@ -3,6 +3,7 @@ package com.boge.bogebook.api;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.BookDetail;
+import com.boge.bogebook.entity.BookListTags;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.BooksByCats;
@@ -175,6 +176,14 @@ public class BookRetrofitManager {
         return service.getBooksByCats(gender, type, major, minor, start, limit);
     }
 
+    /**
+     * 获取主题书单标签列表
+     *
+     * @return
+     */
+    public Observable<BookListTags> getBookListTags(){
+        return service.getBookListTags();
+    }
 
     /**
      * 得到小说的更新信息

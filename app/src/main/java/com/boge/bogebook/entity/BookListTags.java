@@ -45,6 +45,14 @@ public class BookListTags {
         private String name;
         private List<String> tags;
 
+        public DataBean() {
+        }
+
+        public DataBean(String name, List<String> tags) {
+            this.name = name;
+            this.tags = tags;
+        }
+
         public String getName() {
             return name;
         }
@@ -59,6 +67,14 @@ public class BookListTags {
 
         public void setTags(List<String> tags) {
             this.tags = tags;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "name='" + name + '\'' +
+                    ", tags=" + tags +
+                    '}';
         }
     }
 }
