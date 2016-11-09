@@ -19,4 +19,18 @@ public interface ThemeBookInteractor {
      */
     Subscription loadTagType(RequestCallBack callBack);
 
+    /**
+     * 获取主题书单列表
+     * @param duration
+     * @param sort
+     * @param start
+     * @param limit
+     * @param tag
+     * @param gender
+     * @param callBack
+     * @return
+     */
+    Subscription loadBookLists(String duration, String sort, int start,
+                               int limit, String tag, String gender, RequestCallBack callBack);
+
 }

@@ -91,6 +91,11 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         return 0;
     }
 
+    public void setmList(List<T> list){
+        mList = list;
+        notifyDataSetChanged();
+    }
+
     public boolean addAll(List<T> list) {
         boolean result = mList.addAll(list);
         notifyDataSetChanged();

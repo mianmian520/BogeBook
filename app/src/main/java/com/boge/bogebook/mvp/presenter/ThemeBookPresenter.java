@@ -15,4 +15,15 @@ public interface ThemeBookPresenter extends BasePresenter {
      */
     void loadTagType();
 
+    /**
+     * 加载主题书单列表
+     * @param type
+     * @param tag
+     */
+    void loadBooksList(String type, String tag);
+
+    /**
+     * 加载更多
+     */
+    void loadMore();
 }

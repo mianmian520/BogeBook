@@ -152,7 +152,7 @@ public interface BookApiService {
      * @return
      */
     @GET("/book-list")
-    Observable<BookLists> getBookLists(@Query("duration") String duration, @Query("sort") String sort, @Query("start") String start, @Query("limit") String limit, @Query("tag") String tag, @Query("gender") String gender);
+    Observable<BookLists> getBookLists(@Query("duration") String duration, @Query("sort") String sort, @Query("start") int start, @Query("limit") int limit, @Query("tag") String tag, @Query("gender") String gender);
 
     /**
      * 获取主题书单标签列表

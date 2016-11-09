@@ -31,15 +31,25 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter {
     private int index = 0;
 
     public SimpleRecyclerViewAdapter(List<String> datas) {
+        this(datas, 0);
+    }
+
+    public SimpleRecyclerViewAdapter(List<String> datas, int position) {
         this.datas = datas;
-        setChooseMap();
+        setChooseMap(position);
     }
 
     public SimpleRecyclerViewAdapter() {}
 
     public void setDatas(List<String> datas) {
         this.datas = datas;
-        setChooseMap();
+        setChooseMap(0);
+        notifyDataSetChanged();
+    }
+
+    public void setDatas(List<String> datas, int position) {
+        this.datas = datas;
+        setChooseMap(position);
         notifyDataSetChanged();
     }
 
@@ -47,11 +57,12 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter {
         return datas;
     }
 
-    public void setChooseMap() {
+    public void setChooseMap(int position) {
+        index = position;
         chooseMap = new HashMap<String, Boolean>();
         if(datas != null){
             for (int i = 0 ; i < datas.size() ; i++){
-                if(i==0){
+                if(i == position){
                     chooseMap.put(datas.get(i) , true);
                 }else{
                     chooseMap.put(datas.get(i) , false);

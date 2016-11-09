@@ -26,7 +26,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/common_bg">
         <android.support.v7.widget.RecyclerView
             android:layout_alignParentTop="true"
             android:id="@+id/type_recyclerView"
@@ -38,13 +39,15 @@
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/common_h2"/>
+            android:background="@color/common_h3"/>
         <RelativeLayout
             android:id="@+id/rl_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/line">
             <android.support.v7.widget.RecyclerView
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/ll_screening"
                 android:id="@+id/tag_recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,12 +78,20 @@
             android:id="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/common_h2"/>
+            android:background="@color/common_h3"/>
         <android.support.v7.widget.RecyclerView
             android:layout_below="@+id/line1"
             android:id="@+id/book_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/line1"
+            android:id="@+id/rv_tags"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/common_gray_bg"
+            android:visibility="gone"/>
         <ProgressBar
             android:layout_centerInParent="true"
             android:id="@+id/progressBar"

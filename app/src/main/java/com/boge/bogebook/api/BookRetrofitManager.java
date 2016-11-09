@@ -4,6 +4,7 @@ import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.BookDetail;
 import com.boge.bogebook.entity.BookListTags;
+import com.boge.bogebook.entity.BookLists;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.BooksByCats;
@@ -183,6 +184,23 @@ public class BookRetrofitManager {
      */
     public Observable<BookListTags> getBookListTags(){
         return service.getBookListTags();
+    }
+
+    /**
+     * 获取主题书单列表
+     * 本周最热：duration=last-seven-days&sort=collectorCount
+     * 最新发布：duration=all&sort=created
+     * 最多收藏：duration=all&sort=collectorCount
+     *
+     * @param tag    都市、古代、架空、重生、玄幻、网游
+     * @param gender male、female
+     * @param tag 标签
+     * @param limit  结束下标
+     * @return
+     */
+    public Observable<BookLists> getBookLists(String duration, String sort, int start,
+                                        int limit, String tag, String gender){
+        return service.getBookLists(duration, sort, start, limit, tag, gender);
     }
 
     /**

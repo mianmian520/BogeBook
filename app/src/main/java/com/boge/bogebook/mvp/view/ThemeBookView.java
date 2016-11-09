@@ -1,6 +1,7 @@
 package com.boge.bogebook.mvp.view;
 
 import com.boge.bogebook.entity.BookListTags;
+import com.boge.bogebook.entity.BookLists;
 import com.boge.bogebook.mvp.view.base.BaseView;
 
 import java.util.List;
@@ -19,4 +20,10 @@ public interface ThemeBookView extends BaseView {
      */
     void setTagsType(List<BookListTags.DataBean> dataBeanList);
 
+    /**
+     * 设置书单列表
+     * @param bookLists 书单列表
+     * @param isLoad    是否是加载的数据
+     */
+    void setBookList(List<BookLists.BookListsBean> bookLists, boolean isLoad);
 }

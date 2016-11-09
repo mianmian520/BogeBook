@@ -2,7 +2,9 @@ package com.boge.bogebook.mvp.presenter.impl;
 
 import android.support.annotation.NonNull;
 
+import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookListTags;
+import com.boge.bogebook.entity.BookLists;
 import com.boge.bogebook.listener.RequestCallBack;
 import com.boge.bogebook.mvp.interactor.ThemeBookInteractor;
 import com.boge.bogebook.mvp.interactor.impl.ThemeBookInteractorImpl;
@@ -31,6 +33,16 @@ public class ThemeBookPresenterImpl implements ThemeBookPresenter,RequestCallBac
 
     private Subscription mSubscription;
 
+    private int start = 0;
+    private int limit = 10;
+    private String duration = "";
+    private String sort = "";
+    private String tag = "";
+    private String gender = "";
+
+    private boolean isLoad = false;
+
+
     @Inject
     public ThemeBookPresenterImpl(ThemeBookInteractorImpl themeBookInteractor) {
         this.themeBookInteractor = themeBookInteractor;
@@ -39,6 +51,64 @@ public class ThemeBookPresenterImpl implements ThemeBookPresenter,RequestCallBac
     @Override
     public void loadTagType() {
         themeBookInteractor.loadTagType(this);
+    }
+
+    @Override
+    public void loadBooksList(String type, String tag) {
+        isLoad = false;
+        start = 0;
+        limit = 10;
+        setTagAndGender(tag);
+        setDurationAndSort(type);
+        loadBooks();
+    }
+
+    @Override
+    public void loadMore() {
+        isLoad = true;
+        start += limit;
+        loadBooks();
+    }
+
+    private void loadBooks(){
+        themeBookInteractor.loadBookLists(duration, sort, start, limit, tag, gender, this);
+    }
+
+    /**
+     * 设置类型
+     * @param type
+     */
+    private void setDurationAndSort(String type) {
+        if(type.equals("本周最热")){
+            duration = "last-seven-days";
+            sort = "collectorCount";
+        } else if(type.equals("最新发布")){
+            duration = "all";
+            sort = "created";
+        } else if(type.equals("最多收藏")){
+            duration = "all";
+            sort = "collectorCount";
+        }
+    }
+
+    /**
+     * 设置标签
+     * @param tag
+     */
+    private void setTagAndGender(String tag){
+        if(tag.equals("男生")){
+            this.tag = "";
+            gender = Constant.MALE;
+        } else if(tag.equals("女生")){
+            this.tag = "";
+            gender = Constant.FEMALE;
+        } else if(tag.equals("全部")){
+            this.tag = "";
+            gender = "";
+        } else {
+            this.tag = tag;
+            gender = "";
+        }
     }
 
     @Override
@@ -71,7 +141,9 @@ public class ThemeBookPresenterImpl implements ThemeBookPresenter,RequestCallBac
                 BookListTags.DataBean dataBean = new BookListTags.DataBean("性别", tags);
                 dataBeanList.add(0,dataBean);
                 mView.setTagsType(dataBeanList);
-            } else {
+            } else if(data instanceof BookLists){
+                BookLists book = (BookLists) data;
+                mView.setBookList(book.getBookLists(), isLoad);
                 mView.hideProgress();
             }
         }

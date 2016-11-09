@@ -43,7 +43,9 @@ public class Constant {
     public static final String HISTORY = "history";
 
     /*** 书单标签*/
-    public static final String BOOK_TAG = "tag";
+    public static final String BOOK_TAG = "tags";
+    /***当前选中的标签*/
+    public static final String CHOOSE_TAG = "tag";
 
     @StringDef({
         CateType.HOT,

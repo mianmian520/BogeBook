@@ -48,6 +48,10 @@ public class BookApplication extends Application {
             List<String> tags = Arrays.asList(getResources().getStringArray(R.array.tag_tabs));
             SharedPreferencesUtil.getInstance().putString(Constant.BOOK_TAG, new Gson().toJson(tags));
         }
+        String tag = SharedPreferencesUtil.getInstance().getString(Constant.CHOOSE_TAG);
+        if(tag == null){
+            SharedPreferencesUtil.getInstance().putString(Constant.CHOOSE_TAG, "全部");
+        }
     }
 
     /**
