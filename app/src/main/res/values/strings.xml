@@ -48,4 +48,6 @@
     <string name="title_activity_theme_book">ThemeBookActivity</string>
     <string name="theme_book">主题书单</string>
     <string name="screening">筛选</string>
+    <string name="title_activity_book_list_detail">BookListDetailActivity</string>
+    <string name="bookList_detail">书单详情</string>
 </resources>

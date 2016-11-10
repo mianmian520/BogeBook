@@ -26,6 +26,8 @@ public class Constant {
     public static final String FEMALE = "female";
     public static final String PRESS = "press";
 
+    public static final String BOOKLIST_ID = "booklist_id";
+
     /**排行榜id**/
     public static final String RANKINGID = "rankingId";
     public static final String PATH = "PATH" ;

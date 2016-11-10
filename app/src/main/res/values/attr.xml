@@ -24,4 +24,11 @@
         </attr>
     </declare-styleable>
 
+    <!-- 圆形和圆角图片（开始）-->
+    <declare-styleable name="CircleOrRectImage">
+        <attr name="isCircle" format="boolean"/>
+        <attr name="orderRadius" format="dimension"/>
+    </declare-styleable>
+    <!-- 圆形和圆角图片（结束）-->
+
 </resources>

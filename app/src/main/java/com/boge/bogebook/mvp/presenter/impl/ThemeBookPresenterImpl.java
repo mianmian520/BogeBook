@@ -55,6 +55,7 @@ public class ThemeBookPresenterImpl implements ThemeBookPresenter,RequestCallBac
 
     @Override
     public void loadBooksList(String type, String tag) {
+        beforeRequest();
         isLoad = false;
         start = 0;
         limit = 10;
@@ -71,7 +72,7 @@ public class ThemeBookPresenterImpl implements ThemeBookPresenter,RequestCallBac
     }
 
     private void loadBooks(){
-        themeBookInteractor.loadBookLists(duration, sort, start, limit, tag, gender, this);
+        mSubscription = themeBookInteractor.loadBookLists(duration, sort, start, limit, tag, gender, this);
     }
 
     /**

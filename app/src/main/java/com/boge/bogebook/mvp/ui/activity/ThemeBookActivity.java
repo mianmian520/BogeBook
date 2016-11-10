@@ -1,5 +1,6 @@
 package com.boge.bogebook.mvp.ui.activity;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -92,7 +93,27 @@ public class ThemeBookActivity extends BaseActivity implements ThemeBookView {
         bookRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         bookRecyclerView.setHasFixedSize(true);
         bookListAdapter = new BookListAdapter(this,null);
+        bookListAdapter.setOnBaseItemClick(new OnBaseItemClick<BookLists.BookListsBean>() {
+            @Override
+            public void onItemClick(View v, int position, BookLists.BookListsBean data) {
+                Intent intent = new Intent(ThemeBookActivity.this, BookListDetailActivity.class);
+                intent.putExtra(Constant.BOOKLIST_ID, data.get_id());
+                startActivity(intent);
+            }
+        });
         bookRecyclerView.setAdapter(bookListAdapter);
+        bookRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) bookRecyclerView.getLayoutManager();
+                int itemCount = layoutManager.getItemCount();
+                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                if(lastVisibleItemPosition >= itemCount - 1 && newState == RecyclerView.SCROLL_STATE_IDLE){
+                    themeBookPresenter.loadMore();
+                }
+            }
+        });
     }
 
     private void initrvTags() {
@@ -110,6 +131,10 @@ public class ThemeBookActivity extends BaseActivity implements ThemeBookView {
                     tags.remove(tags.size()-1);
                     tagAdapter.setDatas(tags, 1);
                 }
+                themeBookPresenter.loadBooksList(type, tag);
+                rvTags.setVisibility(View.GONE);
+                ivUpDown.setImageResource(R.mipmap.down);
+                bookRecyclerView.setVisibility(View.VISIBLE);
             }
         });
         rvTags.setAdapter(tagRecyclerViewAdapter);
@@ -130,6 +155,7 @@ public class ThemeBookActivity extends BaseActivity implements ThemeBookView {
                 if(!tag.equals(tags.get(position))){
                     tag = tags.get(position);
                     tagRecyclerViewAdapter.setTag(tag);
+                    themeBookPresenter.loadBooksList(type, tag);
                 }
             }
         });
@@ -152,6 +178,7 @@ public class ThemeBookActivity extends BaseActivity implements ThemeBookView {
             public void onItemClick(View v, int position) {
                 if(!type.equals(datas.get(position))){
                     type = datas.get(position);
+                    themeBookPresenter.loadBooksList(type, tag);
                 }
             }
         });
@@ -172,11 +199,10 @@ public class ThemeBookActivity extends BaseActivity implements ThemeBookView {
 
     @Override
     public void setBookList(List<BookLists.BookListsBean> bookLists, boolean isLoad) {
-        bookListAdapter.setmList(bookLists);
         if (isLoad){
-
+            bookListAdapter.addAll(bookLists);
         } else {
-
+            bookListAdapter.setmList(bookLists);
         }
     }
 
