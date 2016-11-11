@@ -9,6 +9,7 @@ import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.ChapterRead;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
+import com.boge.bogebook.manager.SettingManager;
 import com.boge.bogebook.mvp.presenter.impl.ReaderPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
 import com.boge.bogebook.mvp.view.ReaderView;
@@ -90,6 +91,8 @@ public class ReaderActivity extends BaseActivity implements ReaderView,OnReadSta
     }
 
     private void readCurrentChapter() {
+        int[] readProgress = SettingManager.getInstance().getReadProgress(path);
+        currentChapter = readProgress[0];
         if(FileUtil.getChapterFile(path , currentChapter) != null){
             showChapterRead(null , currentChapter);
         }else{

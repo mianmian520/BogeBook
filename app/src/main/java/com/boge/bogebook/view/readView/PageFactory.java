@@ -107,7 +107,7 @@ public class PageFactory {
         mNumFontSize = ScreenUtils.dpToPxInt(16);
         marginWidth = ScreenUtils.dpToPxInt(15);
         marginHeight = ScreenUtils.dpToPxInt(15);
-        mVisibleHeight = mHeight - marginHeight * 2 - mNumFontSize * 2 - mLineSpace * 2;
+        mVisibleHeight = mHeight - marginHeight * 2 - mNumFontSize * 2 - mLineSpace * 2 - ScreenUtils.dpToPxInt(10);
         mVisibleWidth = mWidth - marginWidth * 2;
         mPageLineCount = mVisibleHeight / (mFontSize + mLineSpace);
         rectF = new Rect(0, 0, mWidth, mHeight);
@@ -221,13 +221,13 @@ public class PageFactory {
                 canvas.drawBitmap(batteryBitmap, marginWidth + 2,
                         mHeight - marginHeight - ScreenUtils.dpToPxInt(12), mTitlePaint);
             }
-
             float percent = (float) currentChapter * 100 / chapterSize;
             canvas.drawText(decimalFormat.format(percent) + "%", (mWidth - percentLen) / 2,
-                    mHeight - marginHeight, mTitlePaint);
+                    mHeight - marginHeight - ScreenUtils.dpToPxInt(12), mTitlePaint);
 
             String mTime = dateFormat.format(new Date());
-            canvas.drawText(mTime, mWidth - marginWidth - timeLen, mHeight - marginHeight, mTitlePaint);
+            canvas.drawText(mTime, mWidth - marginWidth - timeLen,
+                    mHeight - marginHeight - ScreenUtils.dpToPxInt(12), mTitlePaint);
 
             // 保存阅读进度
             SettingManager.getInstance().saveReadProgress(bookId, currentChapter, m_mbBufBeginPos, m_mbBufEndPos);

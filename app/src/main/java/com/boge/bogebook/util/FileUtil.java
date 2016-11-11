@@ -101,7 +101,9 @@ public class FileUtil {
      */
     public static void saveChapterFile(String path, ChapterRead.ChapterBean chapterBean, int chapter){
         File file = getSaveChapterFile(path , chapter);
-        FileUtil.writeFile(file.getAbsolutePath() , chapterBean.getCpContent() ,false);
+        String replace = chapterBean.getCpContent().replace("\n\n", "\n");
+        replace = replace.replace("\n\n", "\n");
+        FileUtil.writeFile(file.getAbsolutePath() , replace ,false);
     }
 
     public static File getChapterFile(String path, int currentChapter) {
