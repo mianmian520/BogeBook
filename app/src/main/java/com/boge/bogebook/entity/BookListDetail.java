@@ -307,7 +307,7 @@ public class BookListDetail {
                 private int latelyFollower;
                 private int latelyFollowerBase;
                 private int wordCount;
-                private int minRetentionRatio;
+                private String minRetentionRatio;
                 private double retentionRatio;
 
                 public String get_id() {
@@ -414,11 +414,11 @@ public class BookListDetail {
                     this.wordCount = wordCount;
                 }
 
-                public int getMinRetentionRatio() {
+                public String getMinRetentionRatio() {
                     return minRetentionRatio;
                 }
 
-                public void setMinRetentionRatio(int minRetentionRatio) {
+                public void setMinRetentionRatio(String minRetentionRatio) {
                     this.minRetentionRatio = minRetentionRatio;
                 }
 
@@ -429,7 +429,49 @@ public class BookListDetail {
                 public void setRetentionRatio(double retentionRatio) {
                     this.retentionRatio = retentionRatio;
                 }
+
+                @Override
+                public String toString() {
+                    return "BookBean{" +
+                            "_id='" + _id + '\'' +
+                            ", author='" + author + '\'' +
+                            ", cover='" + cover + '\'' +
+                            ", longIntro='" + longIntro + '\'' +
+                            ", title='" + title + '\'' +
+                            ", site='" + site + '\'' +
+                            ", cat='" + cat + '\'' +
+                            ", majorCate='" + majorCate + '\'' +
+                            ", minorCate='" + minorCate + '\'' +
+                            ", banned=" + banned +
+                            ", latelyFollower=" + latelyFollower +
+                            ", latelyFollowerBase=" + latelyFollowerBase +
+                            ", wordCount=" + wordCount +
+                            ", minRetentionRatio=" + minRetentionRatio +
+                            ", retentionRatio=" + retentionRatio +
+                            '}';
+                }
             }
+
+        }
+
+        @Override
+        public String toString() {
+            return "BookListBean{" +
+                    "_id='" + _id + '\'' +
+                    ", updated='" + updated + '\'' +
+                    ", title='" + title + '\'' +
+                    ", author=" + author +
+                    ", desc='" + desc + '\'' +
+                    ", gender='" + gender + '\'' +
+                    ", created='" + created + '\'' +
+                    ", stickStopTime=" + stickStopTime +
+                    ", isDraft=" + isDraft +
+                    ", isDistillate=" + isDistillate +
+                    ", collectorCount=" + collectorCount +
+                    ", shareLink='" + shareLink + '\'' +
+                    ", id='" + id + '\'' +
+                    ", tags=" + tags +
+                    '}';
         }
     }
 }

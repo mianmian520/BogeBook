@@ -3,6 +3,7 @@ package com.boge.bogebook.api;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.AutoComplete;
 import com.boge.bogebook.entity.BookDetail;
+import com.boge.bogebook.entity.BookListDetail;
 import com.boge.bogebook.entity.BookListTags;
 import com.boge.bogebook.entity.BookLists;
 import com.boge.bogebook.entity.BookToc;
@@ -201,6 +202,15 @@ public class BookRetrofitManager {
     public Observable<BookLists> getBookLists(String duration, String sort, int start,
                                         int limit, String tag, String gender){
         return service.getBookLists(duration, sort, start, limit, tag, gender);
+    }
+
+    /**
+     * 获取书单详情
+     * @param bookListId 书单列表id
+     * @return
+     */
+    public Observable<BookListDetail> getBookListDetail(String bookListId){
+        return service.getBookListDetail(bookListId);
     }
 
     /**

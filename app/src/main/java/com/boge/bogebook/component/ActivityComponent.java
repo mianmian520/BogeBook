@@ -2,6 +2,7 @@ package com.boge.bogebook.component;
 
 import com.boge.bogebook.module.ActivityModule;
 import com.boge.bogebook.mvp.ui.activity.BookDetailActivity;
+import com.boge.bogebook.mvp.ui.activity.BookListDetailActivity;
 import com.boge.bogebook.mvp.ui.activity.CategortBookActivity;
 import com.boge.bogebook.mvp.ui.activity.CategoryActivity;
 import com.boge.bogebook.mvp.ui.activity.LocalBookActivity;
@@ -45,4 +46,6 @@ public interface ActivityComponent {
     void inject(SearchActivity activity);
 
     void inject(ThemeBookActivity activity);
+
+    void inject(BookListDetailActivity activity);
 }
