@@ -8,11 +8,18 @@
 * 使用MVP的设计模式
 * RxJava，Retrofit2，Dagger2等一些主流开源框架的使用
 * Glide加载图片
+
 ###版本
 项目正在完善，请等待
+
 ###截图
 * 首页
+![](https://github.com/mianmian520/BogeBook/screenshot/recommend.png)
+![](https://github.com/mianmian520/BogeBook/screenshot/find.png)
 
+* 排行榜
+![](https://github.com/mianmian520/BogeBook/screenshot/ranking1.png)
+![](https://github.com/mianmian520/BogeBook/screenshot/ranking2.png)
 
 ###引入的第三方库
 ####squareup出品
