@@ -13,13 +13,13 @@
 项目正在完善，请等待
 
 ###截图
-* 首页
-![](https://github.com/mianmian520/BogeBook/screenshot/recommend.png)
-![](https://github.com/mianmian520/BogeBook/screenshot/find.png)
+* ####首页
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/recommend.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/find.png)<br>
 
-* 排行榜
-![](https://github.com/mianmian520/BogeBook/screenshot/ranking1.png)
-![](https://github.com/mianmian520/BogeBook/screenshot/ranking2.png)
+* ####排行榜
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/ranking1.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/ranking2.png)
 
 ###引入的第三方库
 ####squareup出品
