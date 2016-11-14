@@ -14,12 +14,12 @@
 
 ###引入的第三方库
 ####squareup出品
-* retrofit(https://github.com/square/retrofit "悬停显示")
-* okhttp3(https://github.com/square/okhttp "悬停显示")
+* retrofit(https://github.com/square/retrofit)
+* okhttp3(https://github.com/square/okhttp)
 ####Rx系列
-* RxJava(https://github.com/ReactiveX/RxJava "悬停显示")
-* RxAndroid(https://github.com/ReactiveX/RxAndroid "悬停显示")
+* RxJava(https://github.com/ReactiveX/RxJava )
+* RxAndroid(https://github.com/ReactiveX/RxAndroid )
 ####其他
-* Glide(https://github.com/bumptech/glide "悬停显示")(Google官方推荐图片加载库)
-* Butter Knife(https://github.com/JakeWharton/butterknife "悬停显示")(专注于控件的注解)
+* Glide(https://github.com/bumptech/glide )(Google官方推荐图片加载库)
+* Butter Knife(https://github.com/JakeWharton/butterknife )(专注于控件的注解)
 * Greendao()(专注数据k库的框架)
