@@ -11,15 +11,21 @@
 ###版本
 项目正在完善，请等待
 ###截图
+* 首页
+
 
 ###引入的第三方库
 ####squareup出品
 * retrofit(https://github.com/square/retrofit)
-* okhttp3(https://github.com/square/okhttp)
+* okhttp3(https://github.com/square/okhttp)(网络请求框架)
+* Dagger(https://github.com/square/dagger)(依赖注入)
+
 ####Rx系列
-* RxJava(https://github.com/ReactiveX/RxJava )
-* RxAndroid(https://github.com/ReactiveX/RxAndroid )
+* RxJava(https://github.com/ReactiveX/RxJava)
+* RxAndroid(https://github.com/ReactiveX/RxAndroid)
+
 ####其他
-* Glide(https://github.com/bumptech/glide )(Google官方推荐图片加载库)
-* Butter Knife(https://github.com/JakeWharton/butterknife )(专注于控件的注解)
-* Greendao()(专注数据k库的框架)
+* Glide(https://github.com/bumptech/glide)(Google官方推荐图片加载库)
+* Butter Knife(https://github.com/JakeWharton/butterknife)(专注于控件的注解)
+* Greendao(https://github.com/greenrobot/greenDAO)(专注数据库的框架)
+* Eventbus(https://github.com/greenrobot/EventBus)(针对Android优化的发布/订阅事件总线)
