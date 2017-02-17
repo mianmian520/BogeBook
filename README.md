@@ -13,13 +13,32 @@
 项目正在完善，请等待
 
 ###截图
-* 首页
-![](https://github.com/mianmian520/BogeBook/screenshot/recommend.png)
-![](https://github.com/mianmian520/BogeBook/screenshot/find.png)
+* ####首页
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/recommend.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/find.png)
 
-* 排行榜
-![](https://github.com/mianmian520/BogeBook/screenshot/ranking1.png)
-![](https://github.com/mianmian520/BogeBook/screenshot/ranking2.png)
+* ####排行榜
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/ranking1.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/ranking2.png)
+
+* ####分类
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/cate1.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/cate2.png)
+
+* ####主题书单
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/booklist.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/booklist_tag.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/booklist_detail.png)
+
+* ####搜索
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/search1.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/search2.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/search3.png)
+
+* ####其他
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/book_detail.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/local.png)
+![](https://github.com/mianmian520/BogeBook/blob/master/screenshot/read1.png)
 
 ###引入的第三方库
 ####squareup出品
