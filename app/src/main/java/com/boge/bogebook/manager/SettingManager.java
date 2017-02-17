@@ -1,5 +1,7 @@
 package com.boge.bogebook.manager;
 
+import com.boge.bogebook.BookApplication;
+import com.boge.bogebook.util.ScreenUtils;
 import com.boge.bogebook.util.SharedPreferencesUtil;
 
 /**
@@ -62,5 +64,88 @@ public class SettingManager {
         return bookId + "-endPos";
     }
 
+    /**
+     * 得到阅读界面字体大小
+     * @return
+     */
+    public int getReadFontSize() {
+        return SharedPreferencesUtil.getInstance().getInt("font-size", ScreenUtils.dpToPxInt(16));
+    }
 
+    /**
+     * 设置阅读界面字体大小
+     * @param curFontSizeDp
+     */
+    public void saveReadFontSize(int curFontSizeDp) {
+        SharedPreferencesUtil.getInstance().putInt("font-size", curFontSizeDp);
+    }
+
+    /**
+     * 得到阅读界面屏幕亮度
+     * @return
+     */
+    public int getReadBrightness() {
+        return SharedPreferencesUtil.getInstance().getInt("readLightness",
+                (int) ScreenUtils.getScreenBrightness(BookApplication.getmContext()));
+    }
+
+    /**
+     * 保存阅读界面屏幕亮度
+     *
+     * @param percent 亮度比例 0~100
+     */
+    public void saveReadBrightness(int percent) {
+        SharedPreferencesUtil.getInstance().putInt("readLightness", percent);
+    }
+
+
+    /**
+     * 是否跟随系统亮度
+     * @return
+     */
+    public boolean isAutoBrightness() {
+        return SharedPreferencesUtil.getInstance().getBoolean("autoBrightness", false);
+    }
+
+    /**
+     * 设置是否跟随系统亮度
+     * @return
+     */
+    public void saveAutoBrightness(boolean enable) {
+        SharedPreferencesUtil.getInstance().putBoolean("autoBrightness", enable);
+    }
+
+    /**
+     * 是否可以使用音量键翻页
+     * @return
+     */
+    public boolean isVolumeFlipEnable() {
+        return SharedPreferencesUtil.getInstance().getBoolean("volumeFlip", true);
+    }
+
+    /**
+     * 设置是否可以使用音量键翻页
+     *
+     * @param enable
+     */
+    public void saveVolumeFlipEnable(boolean enable) {
+        SharedPreferencesUtil.getInstance().putBoolean("volumeFlip", enable);
+    }
+
+    /**
+     * 得到阅读界面主题
+     * @return
+     */
+    public int getReadTheme() {
+        return SharedPreferencesUtil.getInstance().getInt("readtheme", 0);
+    }
+
+    /**
+     * 保存阅读界面主题
+     *
+     * @param curTheme
+     */
+    public void saveReadTheme(int curTheme) {
+        SharedPreferencesUtil.getInstance().putInt("readtheme", curTheme);
+    }
 }

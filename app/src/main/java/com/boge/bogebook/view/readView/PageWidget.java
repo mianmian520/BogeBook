@@ -687,7 +687,7 @@ public class PageWidget extends View {
             abortAnimation();
             pagefactory.onDraw(mCurrentPageCanvas);
             pagefactory.onDraw(mNextPageCanvas);
-            //SettingManager.getInstance().saveFontSize(bookId, fontSizePx);
+            SettingManager.getInstance().saveReadFontSize(fontSizePx);
             postInvalidate();
         }
     }

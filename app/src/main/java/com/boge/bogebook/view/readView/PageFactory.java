@@ -94,7 +94,7 @@ public class PageFactory {
     private boolean isLocal;
     public PageFactory(Context context, String bookId, List<BookToc.ChaptersBean> chaptersList, boolean isLocal) {
         this(context, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(),
-                ScreenUtils.dpToPxInt(16),
+                SettingManager.getInstance().getReadFontSize(),
                 bookId, chaptersList,isLocal);
     }
 

@@ -51,4 +51,16 @@
     <string name="title_activity_book_list_detail">BookListDetailActivity</string>
     <string name="bookList_detail">书单详情</string>
     <string name="share">分享</string>
+
+    <string name="book_read_reading">朗读</string>
+    <string name="book_read_community">社区</string>
+    <string name="book_read_change_source">换源</string>
+    <string name="book_read_introduce">简介</string>
+    <string name="book_read_mode_day">夜间</string>
+    <string name="book_read_mode_day_manual_setting">日间</string>
+    <string name="book_read_mode_night_manual_setting">夜间</string>
+    <string name="book_read_feedback">反馈</string>
+    <string name="book_read_settings">设置</string>
+    <string name="book_read_download">缓存</string>
+    <string name="book_read_toc">目录</string>
 </resources>

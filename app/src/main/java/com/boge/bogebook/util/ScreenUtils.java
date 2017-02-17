@@ -225,7 +225,6 @@ public class ScreenUtils {
      *
      * @param activity
      */
-
     public static void startAutoBrightness(Activity activity) {
         Settings.System.putInt(activity.getContentResolver(),
                 Settings.System.SCREEN_BRIGHTNESS_MODE,

@@ -21,4 +21,6 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="item_margin1">12dp</dimen>
     <dimen name="item_margin2">25dp</dimen>
+
+    <dimen name="book_read_bottom_text">12dp</dimen>
 </resources>
