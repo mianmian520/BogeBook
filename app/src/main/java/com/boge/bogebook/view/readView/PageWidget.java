@@ -20,6 +20,7 @@ import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
+import com.boge.bogebook.manager.ThemeManager;
 import com.boge.bogebook.util.ScreenUtils;
 import com.boge.bogebook.manager.SettingManager;
 import com.boge.bogebook.util.ToastUtils;
@@ -123,8 +124,10 @@ public class PageWidget extends View {
 
             pagefactory.setOnReadStateChangeListener(listener);
             try {
-                Bitmap bmp = Bitmap.createBitmap(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(), Bitmap.Config.ARGB_8888);
-                bmp.eraseColor(ContextCompat.getColor(BookApplication.getmContext(), R.color.read_theme_white));
+                int theme = SettingManager.getInstance().getReadTheme();
+                Bitmap bmp = ThemeManager.getThemeDrawable(theme);
+//                Bitmap bmp = Bitmap.createBitmap(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(), Bitmap.Config.ARGB_8888);
+//                bmp.eraseColor(ContextCompat.getColor(BookApplication.getmContext(), R.color.read_theme_white));
                 pagefactory.setBgBitmap(bmp);
                 // 自动跳转到上次阅读位置
                 int pos[] = SettingManager.getInstance().getReadProgress(bookId);;
@@ -681,6 +684,10 @@ public class PageWidget extends View {
         }
     }
 
+    /**
+     * 设置阅读页面文字的大小
+     * @param fontSizePx
+     */
     public synchronized void setFontSize(final int fontSizePx) {
         pagefactory.setTextFont(fontSizePx);
         if (isPrepared) {
@@ -692,6 +699,11 @@ public class PageWidget extends View {
         }
     }
 
+    /**
+     * 设置阅读页面文字的颜色
+     * @param textColor
+     * @param titleColor
+     */
     public synchronized void setTextColor(int textColor,int titleColor) {
         pagefactory.setTextColor(textColor,titleColor);
         if (isPrepared) {
@@ -702,9 +714,14 @@ public class PageWidget extends View {
         }
     }
 
+    /**
+     * 设置阅读页面的背景
+     * @param theme
+     */
     public synchronized void setTheme(int theme) {
-        Bitmap bg = Bitmap.createBitmap(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(), Bitmap.Config.ARGB_8888);
-        bg.eraseColor(ContextCompat.getColor(BookApplication.getmContext(), R.color.read_theme_white));
+//        Bitmap bg = Bitmap.createBitmap(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight(), Bitmap.Config.ARGB_8888);
+//        bg.eraseColor(ContextCompat.getColor(BookApplication.getmContext(), R.color.read_theme_white));
+        Bitmap bg = ThemeManager.getThemeDrawable(theme);
         if (bg != null) {
             pagefactory.setBgBitmap(bg);
             if (isPrepared) {
@@ -713,9 +730,7 @@ public class PageWidget extends View {
                 postInvalidate();
             }
         }
-        if (theme < 5) {
-            //SettingManager.getInstance().saveReadTheme(theme);
-        }
+        SettingManager.getInstance().saveReadTheme(theme);
     }
 
     public void setBattery(int battery) {

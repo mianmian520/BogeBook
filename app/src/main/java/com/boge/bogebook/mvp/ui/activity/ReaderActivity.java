@@ -1,5 +1,6 @@
 package com.boge.bogebook.mvp.ui.activity;
 
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +10,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.ChapterRead;
+import com.boge.bogebook.listener.OnBaseItemClick;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
 import com.boge.bogebook.manager.SettingManager;
 import com.boge.bogebook.manager.ThemeManager;
@@ -34,6 +37,9 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static android.R.attr.data;
+import static android.R.attr.theme;
+
 public class ReaderActivity extends BaseActivity implements ReaderView, OnReadStateChangeListener{
 
     @Bind(R.id.reader)
@@ -41,6 +47,9 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
 
     @Bind(R.id.llBookReadBottom)
     LinearLayout llBookReadBottom;
+
+    @Bind(R.id.rl_reader)
+    RelativeLayout rlReader;
 
     @Bind(R.id.rlReadAaSet)
     LinearLayout rlReadAaSet;
@@ -117,7 +126,18 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
 
         int curTheme = SettingManager.getInstance().getReadTheme();
 
-        readThemeAdapter = new ReadThemeAdapter(this, ThemeManager.getReaderThemeData(), curTheme);
+        readThemeAdapter = new ReadThemeAdapter(this, ThemeManager.getReaderThemeData(), curTheme, new OnBaseItemClick<Integer>() {
+            @Override
+            public void onItemClick(View v, int position, Integer data) {
+                mPageWidget.setTheme(data);
+                if(data == ThemeManager.NIGHT){
+                    mPageWidget.setTextColor(Color.WHITE, Color.WHITE);
+                }else {
+                    mPageWidget.setTextColor(Color.BLACK, Color.BLACK);
+                }
+                readThemeAdapter.setSelected(position);
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rvTheme.setLayoutManager(linearLayoutManager);

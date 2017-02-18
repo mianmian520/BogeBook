@@ -16,6 +16,7 @@ import com.boge.bogebook.R;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.listener.OnReadStateChangeListener;
 import com.boge.bogebook.manager.SettingManager;
+import com.boge.bogebook.manager.ThemeManager;
 import com.boge.bogebook.util.FileUtil;
 import com.boge.bogebook.util.ScreenUtils;
 
@@ -115,10 +116,16 @@ public class PageFactory {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setTextSize(mFontSize);
         mPaint.setTextSize(ContextCompat.getColor(context, R.color.chapter_content_day));
-        mPaint.setColor(Color.BLACK);
+//        mPaint.setColor(Color.BLACK);
         mTitlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTitlePaint.setTextSize(mNumFontSize);
-        mTitlePaint.setColor(ContextCompat.getColor(BookApplication.getmContext(), R.color.chapter_title_day));
+        if(SettingManager.getInstance().getReadTheme() == ThemeManager.NIGHT){
+            mPaint.setColor(Color.WHITE);
+            mTitlePaint.setColor(Color.WHITE);
+        }else {
+            mPaint.setColor(Color.BLACK);
+            mTitlePaint.setColor(ContextCompat.getColor(BookApplication.getmContext(), R.color.chapter_title_day));
+        }
         timeLen = (int) mTitlePaint.measureText("00:00");
         percentLen = (int) mTitlePaint.measureText("00.00%");
         // Typeface typeface = Typeface.createFromAsset(context.getAssets(),"fonts/FZBYSK.TTF");
