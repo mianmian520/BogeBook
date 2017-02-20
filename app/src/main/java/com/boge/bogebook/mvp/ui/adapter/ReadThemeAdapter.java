@@ -41,7 +41,9 @@ public class ReadThemeAdapter extends BaseRecyclerViewAdapter<Integer> {
         holder.setOnItemViewClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBaseItemClick.onItemClick(view , position , item);
+                if(onBaseItemClick != null){
+                    onBaseItemClick.onItemClick(view , position , item);
+                }
             }
         });
     }

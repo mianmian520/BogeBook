@@ -4,14 +4,18 @@ import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
@@ -23,6 +27,7 @@ import com.boge.bogebook.manager.SettingManager;
 import com.boge.bogebook.manager.ThemeManager;
 import com.boge.bogebook.mvp.presenter.impl.ReaderPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
+import com.boge.bogebook.mvp.ui.adapter.ChapterAdapter;
 import com.boge.bogebook.mvp.ui.adapter.ReadThemeAdapter;
 import com.boge.bogebook.mvp.view.ReaderView;
 import com.boge.bogebook.util.FileUtil;
@@ -37,10 +42,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static android.R.attr.data;
-import static android.R.attr.theme;
-
-public class ReaderActivity extends BaseActivity implements ReaderView, OnReadStateChangeListener{
+public class ReaderActivity extends BaseActivity implements ReaderView, OnReadStateChangeListener {
 
     @Bind(R.id.reader)
     FrameLayout reader;
@@ -83,6 +85,8 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
      */
     private boolean startRead = false;
 
+    private DisplayMetrics dm;
+
     @Inject
     ReaderPresenterImpl readerPresenter;
 
@@ -107,6 +111,9 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
         initPagerWidget();
 
         initAASet();
+
+        dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
     }
 
     private void initAASet() {
@@ -130,9 +137,9 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
             @Override
             public void onItemClick(View v, int position, Integer data) {
                 mPageWidget.setTheme(data);
-                if(data == ThemeManager.NIGHT){
+                if (data == ThemeManager.NIGHT) {
                     mPageWidget.setTextColor(Color.WHITE, Color.WHITE);
-                }else {
+                } else {
                     mPageWidget.setTextColor(Color.BLACK, Color.BLACK);
                 }
                 readThemeAdapter.setSelected(position);
@@ -183,12 +190,13 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
     public void setBookToc(BookToc bookToc) {
         chaptersBeens.clear();
         chaptersBeens.addAll(bookToc.getChapters());
+
+        int[] readProgress = SettingManager.getInstance().getReadProgress(path);
+        currentChapter = readProgress[0];
         readCurrentChapter();
     }
 
     private void readCurrentChapter() {
-        int[] readProgress = SettingManager.getInstance().getReadProgress(path);
-        currentChapter = readProgress[0];
         if (FileUtil.getChapterFile(path, currentChapter) != null) {
             showChapterRead(null, currentChapter);
         } else {
@@ -258,6 +266,8 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
         hideReadBar();
     }
 
+    private PopupWindow chapterWindow;
+
     @OnClick({R.id.tvBookReadMode, R.id.tvBookReadSettings, R.id.tvBookReadDownload, R.id.tvBookReadToc})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -275,8 +285,34 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
             case R.id.tvBookReadDownload:
                 break;
             case R.id.tvBookReadToc:
+                showChapterWindow();
                 break;
         }
+    }
+
+    private void showChapterWindow() {
+        View view = View.inflate(this, R.layout.popupwindow_chapter, null);
+        TextView tvBookTitle = (TextView) view.findViewById(R.id.tv_book_title);
+        RecyclerView rvChapter = (RecyclerView) view.findViewById(R.id.rv_chapter);
+        tvBookTitle.setText(title);
+        ChapterAdapter chapterAdapter = new ChapterAdapter(this, chaptersBeens, currentChapter - 1, new OnBaseItemClick<BookToc.ChaptersBean>() {
+            @Override
+            public void onItemClick(View v, int position, BookToc.ChaptersBean data) {
+                currentChapter = position+1;
+                startRead = false;
+                readCurrentChapter();
+                chapterWindow.dismiss();
+            }
+        });
+        rvChapter.setAdapter(chapterAdapter);
+        rvChapter.setLayoutManager(new LinearLayoutManager(this));
+        rvChapter.setHasFixedSize(true);
+        rvChapter.scrollToPosition(currentChapter-1);
+        chapterWindow = new PopupWindow(view, (int)(dm.widthPixels/1.2), (int)(dm.heightPixels/1.2), true);
+        chapterWindow.setTouchable(true);
+//        chapterWindow.setBackgroundDrawable(new BitmapDrawable());
+        chapterWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        hideReadBar();
     }
 
     @OnClick({R.id.ivBrightnessMinus, R.id.ivBrightnessPlus, R.id.tvFontsizeMinus, R.id.tvFontsizePlus})
@@ -320,11 +356,11 @@ public class ReaderActivity extends BaseActivity implements ReaderView, OnReadSt
     public class SeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if(seekBar.getId() == seekbarFontSize.getId() && fromUser){
-                if(progress > 5){
+            if (seekBar.getId() == seekbarFontSize.getId() && fromUser) {
+                if (progress > 5) {
                     mPageWidget.setFontSize(ScreenUtils.dpToPxInt(progress));
                 }
-            }else if(seekBar.getId() == seekbarLightness.getId() && fromUser){
+            } else if (seekBar.getId() == seekbarLightness.getId() && fromUser) {
                 ScreenUtils.setScreenBrightness(progress, ReaderActivity.this);
                 SettingManager.getInstance().saveReadBrightness(progress);
             }
