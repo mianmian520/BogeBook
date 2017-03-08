@@ -89,9 +89,24 @@ public class RecommendFragment extends BaseFragment implements RecommendView
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 添加书籍到本地
+     * @param localAndRecomendBooks
+     */
     @Subscribe
     public void onEventMainThread(List<LocalAndRecomendBook> localAndRecomendBooks) {
         recommendPresenter.addBookcase(localAndRecomendBooks);
+    }
+
+    /**
+     * 从本地移除书籍
+     * @param book
+     */
+    @Subscribe
+    public void onEventMainThread(LocalAndRecomendBook book){
+        LARBManager.deleteBook(book);
+        books.remove(book);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

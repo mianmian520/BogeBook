@@ -1,5 +1,7 @@
 package com.boge.bogebook.mvp.ui.activity;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +11,7 @@ import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookDetail;
+import com.boge.bogebook.manager.dbmanager.LARBManager;
 import com.boge.bogebook.mvp.presenter.impl.BookDetailPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
 import com.boge.bogebook.mvp.ui.adapter.TagAdapter;
@@ -16,13 +19,18 @@ import com.boge.bogebook.mvp.view.BookDetailView;
 import com.boge.bogebook.util.Tools;
 import com.boge.bogebook.view.DrawableCenterButton;
 import com.boge.bogebook.view.TagGroup;
+import com.boge.entity.LocalAndRecomendBook;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -62,6 +70,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
 
     private TagAdapter<String> mClickAdapter;
 
+    private String bookId;
+
+    private LocalAndRecomendBook book;
+    private boolean isLocal;
+
     @Inject
     BookDetailPresenterImpl bookDetailPresenter;
 
@@ -86,16 +99,54 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
 
     private boolean isOpen = false;
 
-    @OnClick(R.id.tv_longIntro)
-    public void onClick() {
-        if (isOpen) {
-            tvLongIntro.setMaxLines(4);
-        } else {
-            tvLongIntro.setMaxLines(tvLongIntro.getLineCount());
+    @OnClick({R.id.tv_longIntro, R.id.btn_update, R.id.btn_start_read})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.tv_longIntro:
+                if (isOpen) {
+                    tvLongIntro.setMaxLines(4);
+                } else {
+                    tvLongIntro.setMaxLines(tvLongIntro.getLineCount());
+                }
+                isOpen = !isOpen;
+                break;
+            case R.id.btn_update:
+                if(isLocal){
+                    EventBus.getDefault().post(book);
+                    setBtnUpdateStyle(getResources().getString(R.string.update),
+                            R.color.red,
+                            getResources().getDrawable(R.mipmap.book_detail_info_add_img));
+                    showErrorMsg(getResources().getString(R.string.remove_book)+"《"+book.getTitle()+"》");
+                }else {
+                    List<LocalAndRecomendBook> list = new ArrayList<LocalAndRecomendBook>();
+                    list.add(book);
+                    EventBus.getDefault().post(list);
+                    setBtnUpdateStyle(getResources().getString(R.string.no_chase),
+                            R.color.common_h3,
+                            getResources().getDrawable(R.mipmap.book_detail_info_del_img));
+                    showErrorMsg(getResources().getString(R.string.add_book)+"《"+book.getTitle()+"》");
+                }
+                isLocal = !isLocal;
+                break;
+            case R.id.btn_start_read:
+                Intent intent = new Intent(this , ReaderActivity.class);
+                if(book.getIsLocal()){
+                    intent.putExtra(Constant.PATH , book.getPath());
+                } else {
+                    intent.putExtra(Constant.PATH , book.getBookId());
+                }
+                intent.putExtra(Constant.TITLE , book.getTitle());
+                intent.putExtra(Constant.LOCAL , book.getIsLocal());
+                startActivity(intent);
+                break;
         }
-        isOpen = !isOpen;
+
     }
 
+    /**
+     * 得到书籍详细信息，给页面控件赋值
+     * @param bookDetail
+     */
     @Override
     public void setBookDetail(BookDetail bookDetail) {
         if (bookDetail != null) {
@@ -104,6 +155,18 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
                     .format(DecodeFormat.PREFER_RGB_565)
                     .error(R.mipmap.cover_default)
                     .into(ivBookIcon);
+            bookId = bookDetail.get_id();
+            isBookExist();
+            if(book == null){
+                book = new LocalAndRecomendBook();
+                book.setBookId(bookDetail.get_id());
+                book.setCover(bookDetail.getCover());
+                book.setTitle(bookDetail.getTitle());
+                book.setIsTop(false);
+                book.setLastChapter(bookDetail.getLastChapter());
+                book.setHasUp(false);
+                book.setIsLocal(false);
+            }
             tvAuthor.setText(bookDetail.getAuthor());
             tvCat.setText("|  " + bookDetail.getCat());
             tvBookTitle.setText(bookDetail.getTitle());
@@ -145,6 +208,29 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
                 viewLine.setVisibility(View.GONE);
             }
         }
+    }
+
+    /**
+     * 查看这本书是否在本地，设置按钮样式
+     */
+    private void isBookExist() {
+        book = LARBManager.getBook(bookId);
+        if(book != null){
+            setBtnUpdateStyle(getResources().getString(R.string.no_chase),
+                    R.color.common_h3,
+                    getResources().getDrawable(R.mipmap.book_detail_info_del_img));
+            isLocal = true;
+        }else {
+            isLocal = false;
+        }
+
+    }
+
+    private void setBtnUpdateStyle(String text, int color, Drawable drawable){
+        btnUpdate.setText(text);
+        btnUpdate.setBackgroundResource(color);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        btnUpdate.setCompoundDrawables(drawable, null, null, null);
     }
 
     @Override
