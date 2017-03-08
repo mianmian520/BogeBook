@@ -57,8 +57,6 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     TextView tvLatelyUpdate;
     @Bind(R.id.btn_update)
     DrawableCenterButton btnUpdate;
-    @Bind(R.id.btn_start_read)
-    DrawableCenterButton btnStartRead;
     @Bind(R.id.tv_read_count)
     TextView tvReadCount;
     @Bind(R.id.tv_reader_retained)
@@ -70,10 +68,10 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
 
     private TagAdapter<String> mClickAdapter;
 
-    private String bookId;
-
     private LocalAndRecomendBook book;
     private boolean isLocal;
+
+    private String author;
 
     @Inject
     BookDetailPresenterImpl bookDetailPresenter;
@@ -99,7 +97,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
 
     private boolean isOpen = false;
 
-    @OnClick({R.id.tv_longIntro, R.id.btn_update, R.id.btn_start_read})
+    @OnClick({R.id.tv_longIntro, R.id.btn_update, R.id.btn_start_read ,R.id.tv_author})
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_longIntro:
@@ -111,36 +109,54 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
                 isOpen = !isOpen;
                 break;
             case R.id.btn_update:
-                if(isLocal){
-                    EventBus.getDefault().post(book);
-                    setBtnUpdateStyle(getResources().getString(R.string.update),
-                            R.color.red,
-                            getResources().getDrawable(R.mipmap.book_detail_info_add_img));
-                    showErrorMsg(getResources().getString(R.string.remove_book)+"《"+book.getTitle()+"》");
-                }else {
-                    List<LocalAndRecomendBook> list = new ArrayList<LocalAndRecomendBook>();
-                    list.add(book);
-                    EventBus.getDefault().post(list);
-                    setBtnUpdateStyle(getResources().getString(R.string.no_chase),
-                            R.color.common_h3,
-                            getResources().getDrawable(R.mipmap.book_detail_info_del_img));
-                    showErrorMsg(getResources().getString(R.string.add_book)+"《"+book.getTitle()+"》");
-                }
-                isLocal = !isLocal;
+                addAndDeleteLocal();
                 break;
             case R.id.btn_start_read:
-                Intent intent = new Intent(this , ReaderActivity.class);
-                if(book.getIsLocal()){
-                    intent.putExtra(Constant.PATH , book.getPath());
-                } else {
-                    intent.putExtra(Constant.PATH , book.getBookId());
-                }
-                intent.putExtra(Constant.TITLE , book.getTitle());
-                intent.putExtra(Constant.LOCAL , book.getIsLocal());
+                startRead();
+                break;
+            case R.id.tv_author:
+                Intent intent = new Intent(this, AuthorActivity.class);
+                intent.putExtra("author", author);
                 startActivity(intent);
                 break;
         }
+    }
 
+    /**
+     * 添加和移除     到本地
+     */
+    private void addAndDeleteLocal(){
+        if(isLocal){
+            EventBus.getDefault().post(book);
+            setBtnUpdateStyle(getResources().getString(R.string.update),
+                    R.color.red,
+                    getResources().getDrawable(R.mipmap.book_detail_info_add_img));
+            showErrorMsg(getResources().getString(R.string.remove_book)+"《"+book.getTitle()+"》");
+        }else {
+            List<LocalAndRecomendBook> list = new ArrayList<LocalAndRecomendBook>();
+            list.add(book);
+            EventBus.getDefault().post(list);
+            setBtnUpdateStyle(getResources().getString(R.string.no_chase),
+                    R.color.common_h3,
+                    getResources().getDrawable(R.mipmap.book_detail_info_del_img));
+            showErrorMsg(getResources().getString(R.string.add_book)+"《"+book.getTitle()+"》");
+        }
+        isLocal = !isLocal;
+    }
+
+    /**
+     * 开始阅读
+     */
+    private void startRead(){
+        Intent intent = new Intent(this , ReaderActivity.class);
+        if(book.getIsLocal()){
+            intent.putExtra(Constant.PATH , book.getPath());
+        } else {
+            intent.putExtra(Constant.PATH , book.getBookId());
+        }
+        intent.putExtra(Constant.TITLE , book.getTitle());
+        intent.putExtra(Constant.LOCAL , book.getIsLocal());
+        startActivity(intent);
     }
 
     /**
@@ -155,8 +171,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
                     .format(DecodeFormat.PREFER_RGB_565)
                     .error(R.mipmap.cover_default)
                     .into(ivBookIcon);
-            bookId = bookDetail.get_id();
-            isBookExist();
+            author = bookDetail.getAuthor();
+            isBookExist(bookDetail.get_id());
             if(book == null){
                 book = new LocalAndRecomendBook();
                 book.setBookId(bookDetail.get_id());
@@ -213,7 +229,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     /**
      * 查看这本书是否在本地，设置按钮样式
      */
-    private void isBookExist() {
+    private void isBookExist(String bookId) {
         book = LARBManager.getBook(bookId);
         if(book != null){
             setBtnUpdateStyle(getResources().getString(R.string.no_chase),

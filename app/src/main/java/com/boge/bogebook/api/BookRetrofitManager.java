@@ -9,6 +9,7 @@ import com.boge.bogebook.entity.BookLists;
 import com.boge.bogebook.entity.BookToc;
 import com.boge.bogebook.entity.BookUpdateInfo;
 import com.boge.bogebook.entity.BooksByCats;
+import com.boge.bogebook.entity.BooksByTag;
 import com.boge.bogebook.entity.CategoryList;
 import com.boge.bogebook.entity.CategoryListLv2;
 import com.boge.bogebook.entity.ChapterRead;
@@ -251,4 +252,13 @@ public class BookRetrofitManager {
         return service.searchBooks(query);
     }
 
+    /**
+     * 通过作者查询书名
+     *
+     * @param author
+     * @return
+     */
+    public Observable<BooksByTag> searchBooksByAuthor(String author){
+        return service.searchBooksByAuthor(author);
+    }
 }
