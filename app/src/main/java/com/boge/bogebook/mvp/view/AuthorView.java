@@ -17,6 +17,6 @@ public interface AuthorView extends BaseView {
      * 小说信息
      * @param bookInfos
      */
-    void setBooks(List<BookInfo> bookInfos);
+    void setBooks(List<BookInfo> bookInfos, boolean isTags);
 
 }

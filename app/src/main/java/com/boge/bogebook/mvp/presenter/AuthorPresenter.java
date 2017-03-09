@@ -16,4 +16,14 @@ public interface AuthorPresenter extends BasePresenter {
      */
     void loadAuthorToBook(String author);
 
+    /**
+     * 根据标签查询书籍
+     * @param tags
+     */
+    void loadTagToBook(String tags);
+
+    /**
+     * 加载更多
+     */
+    void loadBooks();
 }

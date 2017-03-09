@@ -261,4 +261,16 @@ public class BookRetrofitManager {
     public Observable<BooksByTag> searchBooksByAuthor(String author){
         return service.searchBooksByAuthor(author);
     }
+
+    /**
+     * 根据标签查询书籍
+     * @param tags   标签
+     * @param start  开始
+     * @param limit  限制
+     * @return
+     */
+    public Observable<ResponseBody> searchBookByTag(String tags, int start, int limit){
+        return service.searchBookByTag(tags, start, limit);
+    }
+
 }

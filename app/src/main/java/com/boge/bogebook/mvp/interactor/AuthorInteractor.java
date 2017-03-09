@@ -16,4 +16,6 @@ import rx.Subscription;
 public interface AuthorInteractor<T> {
 
     Subscription loadAuthorToBook(String author , RequestCallBack<List<BookInfo>> callBack);
+
+    Subscription loadTagToBook(String tags, int start, int limit, RequestCallBack<List<BookInfo>> callBack);
 }

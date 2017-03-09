@@ -92,6 +92,15 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
         bookDetailPresenter.attachView(this);
         bookDetailPresenter.loadBookDetail(getIntent().getStringExtra("bookId"));
         mClickAdapter = new TagAdapter<>(this);
+        mClickAdapter.setOnTagItemClick(new TagAdapter.OnTagItemClick() {
+            @Override
+            public void onItemClick(View view, int position) {
+                List<String> strings = mClickAdapter.getmDataList();
+                Intent intent = new Intent(BookDetailActivity.this, AuthorActivity.class);
+                intent.putExtra("tags", strings.get(position));
+                startActivity(intent);
+            }
+        });
         tvTag.setAdapter(mClickAdapter);
     }
 

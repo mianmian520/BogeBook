@@ -23,6 +23,11 @@ public class AuthorPresenterImpl extends BasePresenterImpl<AuthorView,List<BookI
 
     private AuthorInteractor<List<BookInfo>> authorInteractor;
 
+    private int start = 0;
+    private int limit = 50;
+    private String tags;
+    private boolean isTags = false;
+
     @Inject
     public AuthorPresenterImpl(AuthorInteractorImpl authorInteractor) {
         this.authorInteractor = authorInteractor;
@@ -30,13 +35,28 @@ public class AuthorPresenterImpl extends BasePresenterImpl<AuthorView,List<BookI
 
     @Override
     public void loadAuthorToBook(String author) {
+        isTags = false;
         authorInteractor.loadAuthorToBook(author, this);
+    }
+
+    @Override
+    public void loadTagToBook(String tags) {
+        isTags = true;
+        this.tags = tags;
+        authorInteractor.loadTagToBook(tags, start, limit, this);
+    }
+
+    @Override
+    public void loadBooks() {
+        isTags = true;
+        start += limit;
+        authorInteractor.loadTagToBook(tags, start, limit, this);
     }
 
     @Override
     public void success(List<BookInfo> data) {
         if(mView != null){
-            mView.setBooks(data);
+            mView.setBooks(data, isTags);
         }
     }
 

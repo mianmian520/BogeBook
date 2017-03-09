@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/common_gray_bg">
+
+    <ImageView
+        android:id="@+id/iv_book_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:padding="@dimen/item_margin"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:layout_toRightOf="@+id/iv_book_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/item_margin"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_book_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/middle_size"
+            android:singleLine="true"
+            />
+        <TextView
+            android:id="@+id/tv_shortIntro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_size"
+            android:singleLine="true"
+            />
+        <TextView
+            android:id="@+id/tv_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_size"
+            />
+    </LinearLayout>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/item_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/common_h3"
+        android:layout_marginBottom="2dp"/>
+</RelativeLayout>

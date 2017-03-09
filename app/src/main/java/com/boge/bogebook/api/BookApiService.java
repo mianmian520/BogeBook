@@ -222,6 +222,16 @@ public interface BookApiService {
     Observable<BooksByTag> searchBooksByAuthor(@Query("author") String author);
 
     /**
+     * 根据标签查询书籍
+     * @param tags   标签
+     * @param start  开始
+     * @param limit  限制
+     * @return
+     */
+    @GET("/book/by-tags")
+    Observable<ResponseBody> searchBookByTag(@Query("tags") String tags, @Query("start") int start, @Query("limit") int limit);
+
+    /**
      * 热门评论
      *
      * @param book  书籍id

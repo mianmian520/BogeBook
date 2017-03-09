@@ -60,6 +60,10 @@
             android:label="@string/title_activity_theme_book"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".mvp.ui.activity.BookListDetailActivity"
+            android:label="@string/title_activity_theme_book"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".mvp.ui.activity.AuthorActivity"
             android:label="@string/title_activity_author"
             android:theme="@style/AppTheme.NoActionBar"></activity>

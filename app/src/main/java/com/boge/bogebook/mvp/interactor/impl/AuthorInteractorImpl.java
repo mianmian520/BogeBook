@@ -8,11 +8,17 @@ import com.boge.bogebook.entity.support.BookInfo;
 import com.boge.bogebook.listener.RequestCallBack;
 import com.boge.bogebook.mvp.interactor.AuthorInteractor;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -60,8 +66,61 @@ public class AuthorInteractorImpl implements AuthorInteractor<List<BookInfo>> {
                 });
     }
 
+    @Override
+    public Subscription loadTagToBook(String tags, int start, int limit, final RequestCallBack<List<BookInfo>> callBack) {
+        return BookRetrofitManager.getInstance().searchBookByTag(tags, start, limit)
+                .map(new Func1<ResponseBody, List<BookInfo>>() {
+                    @Override
+                    public List<BookInfo> call(ResponseBody body) {
+                        return getBookInfos(body);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<BookInfo>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(BookApplication.getmContext().getResources().getString(R.string.net_error));
+                    }
+
+                    @Override
+                    public void onNext(List<BookInfo> bookInfos) {
+                        callBack.success(bookInfos);
+                    }
+                });
+    }
+
+    private List<BookInfo> getBookInfos(ResponseBody responseBody){
+        List<BookInfo> bookInfos = new ArrayList<BookInfo>();
+        try {
+            JSONObject jsonObject = new JSONObject(responseBody.string());
+            if(jsonObject.optBoolean("ok")){
+                JSONArray books = jsonObject.getJSONArray("books");
+                for(int i = 0; i < books.length(); i++){
+                    BookInfo bookInfo = new BookInfo();
+                    bookInfo.setTitle(books.optJSONObject(i).optString("title"));
+                    bookInfo.set_id(books.optJSONObject(i).optString("_id"));
+                    bookInfo.setCover(books.optJSONObject(i).optString("cover"));
+                    bookInfo.setShortIntro(books.optJSONObject(i).optString("shortIntro"));
+                    bookInfo.setCat(books.optJSONObject(i).optString("tags"));
+                    bookInfos.add(bookInfo);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return bookInfos;
+    }
+
     private List<BookInfo> getBookInfos(BooksByTag booksByTag){
-        List<BookInfo> bookInfos = new ArrayList<>();
+        List<BookInfo> bookInfos = new ArrayList<BookInfo>();
         if(booksByTag.isOk()){
             List<BooksByTag.BooksBean> books = booksByTag.getBooks();
             for (BooksByTag.BooksBean book : books){
