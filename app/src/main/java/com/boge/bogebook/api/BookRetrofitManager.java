@@ -13,6 +13,7 @@ import com.boge.bogebook.entity.BooksByTag;
 import com.boge.bogebook.entity.CategoryList;
 import com.boge.bogebook.entity.CategoryListLv2;
 import com.boge.bogebook.entity.ChapterRead;
+import com.boge.bogebook.entity.HotReview;
 import com.boge.bogebook.entity.HotWord;
 import com.boge.bogebook.entity.RankingList;
 import com.boge.bogebook.entity.Rankings;
@@ -271,6 +272,16 @@ public class BookRetrofitManager {
      */
     public Observable<ResponseBody> searchBookByTag(String tags, int start, int limit){
         return service.searchBookByTag(tags, start, limit);
+    }
+
+    /**
+     * 热门评论
+     *
+     * @param book  书籍id
+     * @return
+     */
+    public Observable<HotReview> getHotReview(String book){
+        return service.getHotReview(book);
     }
 
 }

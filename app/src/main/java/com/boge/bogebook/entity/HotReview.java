@@ -261,6 +261,18 @@ public class HotReview {
             public void setGender(String gender) {
                 this.gender = gender;
             }
+
+            @Override
+            public String toString() {
+                return "AuthorBean{" +
+                        "_id='" + _id + '\'' +
+                        ", avatar='" + avatar + '\'' +
+                        ", nickname='" + nickname + '\'' +
+                        ", type='" + type + '\'' +
+                        ", lv=" + lv +
+                        ", gender='" + gender + '\'' +
+                        '}';
+            }
         }
 
         public static class HelpfulBean {
@@ -291,6 +303,32 @@ public class HotReview {
             public void setYes(int yes) {
                 this.yes = yes;
             }
+
+            @Override
+            public String toString() {
+                return "HelpfulBean{" +
+                        "no=" + no +
+                        ", total=" + total +
+                        ", yes=" + yes +
+                        '}';
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "ReviewsBean{" +
+                    "_id='" + _id + '\'' +
+                    ", author=" + author +
+                    ", content='" + content + '\'' +
+                    ", rating=" + rating +
+                    ", title='" + title + '\'' +
+                    ", helpful=" + helpful +
+                    ", likeCount=" + likeCount +
+                    ", state='" + state + '\'' +
+                    ", updated='" + updated + '\'' +
+                    ", created='" + created + '\'' +
+                    ", commentCount=" + commentCount +
+                    '}';
         }
     }
 }

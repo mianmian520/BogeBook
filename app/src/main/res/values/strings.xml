@@ -67,4 +67,7 @@
     <string name="remove_book">已移除</string>
     <string name="add_book">已添加</string>
     <string name="title_activity_author">AuthorActivity</string>
+
+    <string name="hot_review">热门书评</string>
+    <string name="more">更多</string>
 </resources>

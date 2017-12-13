@@ -1,6 +1,7 @@
 package com.boge.bogebook.mvp.view;
 
 import com.boge.bogebook.entity.BookDetail;
+import com.boge.bogebook.entity.HotReview;
 import com.boge.bogebook.mvp.view.base.BaseView;
 
 /**
@@ -12,5 +13,7 @@ import com.boge.bogebook.mvp.view.base.BaseView;
 public interface BookDetailView extends BaseView {
 
     void setBookDetail(BookDetail bookDetail);
+
+    void setBookHotReview(HotReview hotReview);
 
 }

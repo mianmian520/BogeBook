@@ -3,6 +3,8 @@ package com.boge.bogebook.mvp.ui.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,13 +13,16 @@ import com.boge.bogebook.BookApplication;
 import com.boge.bogebook.R;
 import com.boge.bogebook.common.Constant;
 import com.boge.bogebook.entity.BookDetail;
+import com.boge.bogebook.entity.HotReview;
 import com.boge.bogebook.manager.dbmanager.LARBManager;
 import com.boge.bogebook.mvp.presenter.impl.BookDetailPresenterImpl;
+import com.boge.bogebook.mvp.presenter.impl.ReviewPresenterImpl;
 import com.boge.bogebook.mvp.ui.activity.base.BaseActivity;
 import com.boge.bogebook.mvp.ui.adapter.TagAdapter;
 import com.boge.bogebook.mvp.view.BookDetailView;
 import com.boge.bogebook.util.Tools;
 import com.boge.bogebook.view.DrawableCenterButton;
+import com.boge.bogebook.view.FullyLinearLayoutManager;
 import com.boge.bogebook.view.TagGroup;
 import com.boge.entity.LocalAndRecomendBook;
 import com.bumptech.glide.Glide;
@@ -65,6 +70,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     TextView tvDayUpdateCount;
     @Bind(R.id.view_line)
     View viewLine;
+    @Bind(R.id.rv_review)
+    RecyclerView rv_review;
 
     private TagAdapter<String> mClickAdapter;
 
@@ -75,6 +82,9 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
 
     @Inject
     BookDetailPresenterImpl bookDetailPresenter;
+
+    @Inject
+    ReviewPresenterImpl reviewPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -102,6 +112,15 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
             }
         });
         tvTag.setAdapter(mClickAdapter);
+
+        reviewPresenter.attachView(this);
+        reviewPresenter.loadBookHotReview(getIntent().getStringExtra("bookId"));
+        initRecycler();
+    }
+
+    private void initRecycler() {
+        rv_review.setLayoutManager(new FullyLinearLayoutManager(this));
+        rv_review.setHasFixedSize(true);
     }
 
     private boolean isOpen = false;
@@ -232,6 +251,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
                 tvTag.setVisibility(View.GONE);
                 viewLine.setVisibility(View.GONE);
             }
+        }
+    }
+
+    @Override
+    public void setBookHotReview(HotReview hotReview) {
+        if(hotReview != null){
+            Log.i("test", hotReview.toString());
         }
     }
 

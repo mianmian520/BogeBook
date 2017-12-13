@@ -227,6 +227,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:background="@color/common_gray_bg"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/item_margin"
+                    android:text="@string/hot_review"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/middle_size"/>
+                <TextView
+                    android:id="@+id/tv_more"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/item_margin1"
+                    android:textSize="@dimen/middle_size"
+                    android:textColor="@color/common_h3"
+                    android:text="@string/more"
+                    />
+                <RelativeLayout
+                    android:id="@+id/rv_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
